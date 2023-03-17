@@ -34,6 +34,7 @@ public class ReadKilometers {
         PDPage firstPage = (PDPage) allPages.get(0);
         stripper.extractRegions(firstPage);
 
+        //TODO: wykrywanie kilometra z ostatniej linii
 
         for (int i = 0; i < allPages.size(); i++) {
 
@@ -47,7 +48,6 @@ public class ReadKilometers {
 
             } else {
                 addingToList(stripper, RIGHT, kilometers);
-
             }
         }
         return kilometers;

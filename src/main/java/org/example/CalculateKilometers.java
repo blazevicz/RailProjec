@@ -15,7 +15,6 @@ public class CalculateKilometers {
 
     private Kilometers kilometers;
 
-    //TODO: wykrywanie kilometra z ostatniej linii
     public RoadStats calculateKilometers() {
         LinkedList<Line> lineList = createLinesAndAddToLineList();
 
