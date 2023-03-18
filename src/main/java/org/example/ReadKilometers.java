@@ -26,7 +26,7 @@ public class ReadKilometers {
 
         final Rectangle rectRightPage = new Rectangle(449, 45, 57, 518);
         final Rectangle rectLeftPage = new Rectangle(29, 43, 57, 530);
-
+//asdas
         stripper.addRegion(RIGHT, rectRightPage);
         stripper.addRegion(LEFT, rectLeftPage);
 
@@ -34,7 +34,7 @@ public class ReadKilometers {
         PDPage firstPage = (PDPage) allPages.get(0);
         stripper.extractRegions(firstPage);
 
-        //TODO: wykrywanie kilometra z ostatniej linii
+        //TODO: wykrywanie kilometra z ostatniej linii - dodaj nowy triangle na przechwyt ostatniego kilometra
 
         for (int i = 0; i < allPages.size(); i++) {
 

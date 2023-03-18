@@ -13,5 +13,4 @@ import java.util.LinkedList;
 public class RoadStats {
     private LinkedList<Line> lineList;
     private Double howManyKilometers;
-
 }

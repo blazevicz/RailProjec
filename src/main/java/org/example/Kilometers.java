@@ -3,6 +3,7 @@ package org.example;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
@@ -10,6 +11,7 @@ import java.util.*;
 @Getter
 @ToString
 @Setter
+@Slf4j
 public class Kilometers {
     private List<List<String>> allKilometers = new ArrayList<>();
     private Set<Integer> kilometersAfterConvert = new HashSet<>();
@@ -36,6 +38,7 @@ public class Kilometers {
     }
 
     void giveAllKilometers() throws ParseException {
+        //log.info(allKilometers.get(allKilometers.size()-2).toString());
         for (List<String> kilometer : allKilometers) {
             for (String s : kilometer) {
                 String replace = s.replace(",", ".");
