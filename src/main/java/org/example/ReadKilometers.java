@@ -24,6 +24,9 @@ public class ReadKilometers {
         PDFTextStripperByArea stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
 
+
+
+
         final Rectangle rectRightPage = new Rectangle(449, 45, 57, 518);
         final Rectangle rectLeftPage = new Rectangle(29, 43, 57, 530);
 //asdas
@@ -50,6 +53,7 @@ public class ReadKilometers {
                 addingToList(stripper, RIGHT, kilometers);
             }
         }
+        load.close();
         return kilometers;
     }
 
