@@ -29,7 +29,7 @@ public class ReadKilometers {
 
         final Rectangle rectRightPage = new Rectangle(449, 45, 57, 518);
         final Rectangle rectLeftPage = new Rectangle(29, 43, 57, 530);
-//asdas
+
         stripper.addRegion(RIGHT, rectRightPage);
         stripper.addRegion(LEFT, rectLeftPage);
 

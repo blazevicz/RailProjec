@@ -3,10 +3,8 @@ package org.example;
 import java.io.File;
 
 public class Files {
-    private  final File path;
 
-    public Files(File path) {
-        this.path = path;
+    private  Files() {
     }
 
     static  File myPatch() {

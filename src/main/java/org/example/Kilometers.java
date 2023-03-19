@@ -38,7 +38,6 @@ public class Kilometers {
     }
 
     void giveAllKilometers() throws ParseException {
-        //log.info(allKilometers.get(allKilometers.size()-2).toString());
         for (List<String> kilometer : allKilometers) {
             for (String s : kilometer) {
                 String replace = s.replace(",", ".");

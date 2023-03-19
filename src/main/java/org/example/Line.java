@@ -3,16 +3,16 @@ package org.example;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.LinkedList;
+import java.util.List;
 
 @Getter
 @Setter
 public class Line {
     private Integer lineNumber;
-    private LinkedList<Double> kilometers;
+    private List<Double> kilometers;
     private Double size;
 
-    public Line(Integer lineNumber, LinkedList<Double> kilometers) {
+    public Line(Integer lineNumber, List<Double> kilometers) {
         this.lineNumber = lineNumber;
         this.kilometers = kilometers;
     }
