@@ -1,16 +1,14 @@
-package org.example;
+package org.pl.deenes.Services;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
-@Getter
-@ToString
-@Setter
+@Data
+@Service
 @Slf4j
 public class Kilometers {
     private List<List<String>> allKilometers = new ArrayList<>();
@@ -30,14 +28,14 @@ public class Kilometers {
     }
 
 
-    void getAllRailwayLines() {
+    public void getAllRailwayLines() {
         for (List<String> kilometer : allKilometers) {
             List<String> collect = kilometer.stream().filter(Kilometers::isNumeric).toList();
             collect.forEach(a -> kilometersAfterConvert.add(Integer.valueOf(a)));
         }
     }
 
-    void giveAllKilometers() throws ParseException {
+    public void giveAllKilometers() throws ParseException {
         for (List<String> kilometer : allKilometers) {
             for (String s : kilometer) {
                 String replace = s.replace(",", ".");

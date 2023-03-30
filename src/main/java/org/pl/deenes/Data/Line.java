@@ -1,4 +1,4 @@
-package org.example;
+package org.pl.deenes.Data;
 
 import lombok.Getter;
 import lombok.Setter;

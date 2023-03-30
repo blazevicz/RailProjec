@@ -1,14 +1,10 @@
-package org.example;
+package org.pl.deenes.Data;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
 import java.util.LinkedList;
-@ToString
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 public class RoadStats {
     private LinkedList<Line> lineList;

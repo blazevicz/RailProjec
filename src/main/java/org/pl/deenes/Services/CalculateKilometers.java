@@ -1,7 +1,10 @@
-package org.example;
+package org.pl.deenes.Services;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
+import org.pl.deenes.Data.Line;
+import org.pl.deenes.Data.RoadStats;
+import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -11,6 +14,7 @@ import java.util.stream.Stream;
 
 @AllArgsConstructor
 @ToString
+@Service
 public class CalculateKilometers {
 
     private Kilometers kilometers;
