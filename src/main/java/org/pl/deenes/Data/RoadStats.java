@@ -1,12 +1,15 @@
 package org.pl.deenes.Data;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
+
 @Data
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Service
 public class RoadStats {
-    private LinkedList<Line> lineList;
+    private final LinkedList<Line> lineList;
     private Double howManyKilometers;
 }

@@ -1,7 +1,7 @@
 package org.pl.deenes.Services;
 
 import lombok.AllArgsConstructor;
-import lombok.ToString;
+import lombok.Data;
 import org.pl.deenes.Data.Line;
 import org.pl.deenes.Data.RoadStats;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @AllArgsConstructor
-@ToString
+@Data
 @Service
 public class CalculateKilometers {
 
@@ -25,7 +25,9 @@ public class CalculateKilometers {
         calculateKilometersForEachLine(lineList);
 
         lineList.removeAll(Collections.singleton(null));
-        return new RoadStats(lineList, lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
+        RoadStats roadStats = new RoadStats(lineList);
+        roadStats.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
+        return roadStats;
     }
 
     private LinkedList<Line> createLinesAndAddToLineList() {

@@ -1,7 +1,0 @@
-spring:
-  main:
-    banner-mode: "on"
-  output:
-    ansi:
-      enabled: ALWAYS
-

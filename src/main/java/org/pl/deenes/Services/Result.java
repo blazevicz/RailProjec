@@ -6,24 +6,27 @@ import org.pl.deenes.Data.Line;
 import org.pl.deenes.Data.RoadStats;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.text.ParseException;
 import java.util.Objects;
 
 @Slf4j
 @Service
 @AllArgsConstructor
 public class Result {
-    private Kilometers kilometers;
     private CalculateKilometers calculateKilometers;
-    //private RoadStats roadStats;
+    private ReadKilometers readKilometers;
 
+    public void voidTestingResultMethodForOneLine() throws IOException, ParseException {
+        readKilometers.setFile(Files.myPatch());
+        Kilometers reader = readKilometers.reader();
 
-    public void voidTestingResultMethodForOneLine() {
-        kilometers.getAllRailwayLines();
-        kilometers.getAllKilometers();
-
-        RoadStats roadStats = calculateKilometers.calculateKilometers();
-        log.info(("Dlugosc trasy " + roadStats.getHowManyKilometers()));
-        var list = new java.util.ArrayList<>(roadStats.getLineList().stream().map(Line::getSize).filter(Objects::nonNull).toList());
+        reader.getAllRailwayLines();
+        reader.giveAllKilometers();
+        calculateKilometers.setKilometers(reader);
+        RoadStats roadStats1 = calculateKilometers.calculateKilometers();
+        log.info(("Dlugosc trasy " + roadStats1.getHowManyKilometers()));
+        var list = new java.util.ArrayList<>(roadStats1.getLineList().stream().map(Line::getSize).filter(Objects::nonNull).toList());
 
         log.info(String.valueOf(list));
 

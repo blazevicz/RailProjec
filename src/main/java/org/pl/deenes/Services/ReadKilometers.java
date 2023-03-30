@@ -1,6 +1,7 @@
 package org.pl.deenes.Services;
 
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import org.pdfbox.pdmodel.PDDocument;
 import org.pdfbox.pdmodel.PDPage;
 import org.pdfbox.util.PDFTextStripperByArea;
@@ -10,18 +11,20 @@ import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+
 @Service
+@Setter
 @RequiredArgsConstructor
 public class ReadKilometers {
     private static final String RIGHT = "kilometerColumnRight";
     private static final String LEFT = "kilometerColumnLeft";
-    private  File file;
+    private File file;
 
 
 
     public Kilometers reader() throws IOException {
         Kilometers kilometers = new Kilometers();
-        PDDocument load = PDDocument.load(file);
+        PDDocument load = PDDocument.load(Files.myPatch());
         PDFTextStripperByArea stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
 
