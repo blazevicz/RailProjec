@@ -1,4 +1,4 @@
-package org.pl.deenes.Configuration;
+package org.pl.deenes.configuration;
 
 
 import org.pl.deenes.Main;

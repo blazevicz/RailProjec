@@ -2,8 +2,8 @@ package org.pl.deenes;
 
 
 import lombok.extern.slf4j.Slf4j;
-import org.pl.deenes.Configuration.SpringConfiguration;
-import org.pl.deenes.Services.Result;
+import org.pl.deenes.configuration.SpringConfiguration;
+import org.pl.deenes.services.Result;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.io.IOException;

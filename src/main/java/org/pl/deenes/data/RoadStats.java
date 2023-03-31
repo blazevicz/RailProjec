@@ -1,4 +1,4 @@
-package org.pl.deenes.Data;
+package org.pl.deenes.data;
 
 import lombok.Data;
 import lombok.RequiredArgsConstructor;

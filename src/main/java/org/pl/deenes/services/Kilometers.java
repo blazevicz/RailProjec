@@ -1,4 +1,4 @@
-package org.pl.deenes.Services;
+package org.pl.deenes.services;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
