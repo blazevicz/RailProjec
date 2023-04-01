@@ -1,6 +1,7 @@
 package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.data.Line;
 import org.pl.deenes.data.RoadStats;
 import org.springframework.stereotype.Service;
@@ -13,11 +14,13 @@ import java.util.stream.Stream;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class RoadStatsService {
-    public static Double lastKilometer;
+    public static Double lastKilometer = 0.0;
     private CalculateKilometers calculateKilometers;
 
     private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
+        log.info(lineList.toString());
         for (Line line : lineList) {
             List<Double> kilometers1 = line.getKilometers();
             if (kilometers1.size() < 2) {

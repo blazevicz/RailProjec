@@ -31,7 +31,6 @@ public class Result {
         RoadStats roadStats1 = roadStatsService.calculateKilometers();
         log.info(("Dlugosc trasy " + roadStats1.getHowManyKilometers()));
 
-        //roadStats1.getLineList().forEach(a-> System.out.println(a.toString()));
 
 
         Map<Integer, List<Line>> mapaLinii = roadStats1.getLineList().stream()

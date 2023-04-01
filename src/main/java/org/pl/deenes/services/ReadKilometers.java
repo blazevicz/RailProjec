@@ -3,9 +3,10 @@ package org.pl.deenes.services;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.pdfbox.pdmodel.PDDocument;
-import org.pdfbox.pdmodel.PDPage;
-import org.pdfbox.util.PDFTextStripperByArea;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageTree;
+import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
@@ -31,34 +32,24 @@ public class ReadKilometers {
 
     public Kilometers reader() throws IOException {
         Kilometers kilometers = new Kilometers();
-        PDDocument load = PDDocument.load(Files.myPatch());
+        PDDocument loadPDF = PDDocument.load(Files.myPatch());
         PDFTextStripperByArea stripper = new PDFTextStripperByArea();
         stripper.setSortByPosition(true);
 
-        regionConfiguration(stripper);
+        addRegionsConfiguration(stripper);
 
-        List<?> allPages = load.getDocumentCatalog().getAllPages();
-        PDPage firstPage = (PDPage) allPages.get(0);
-        stripper.extractRegions(firstPage);
+        PDPageTree pages = loadPDF.getDocumentCatalog().getPages();
+        int currentPage = 0;
 
-        for (int i = 0; i < allPages.size() - 1; i++) {
-            PDPage page = (PDPage) allPages.get(i);
+        for (PDPage page : pages) {
             stripper.extractRegions(page);
-
-            if (i != 0) {
-                addingToList(stripper, LEFT, kilometers);
-                addingToList(stripper, RIGHT, kilometers);
-            }
-            if (i == allPages.size() - 2) {
-                stripper.addRegion(LASTPAGE, new Rectangle(17, 11, 803, 575));
-                stripper.extractRegions((PDPage) allPages.get(allPages.size() - 1));
-                addingLastKilometer(stripper, kilometers);
-
-            } else {
-                addingToList(stripper, RIGHT, kilometers);
-            }
+            stripper.getTextForRegion(LEFT);
+            stripper.getTextForRegion(RIGHT);
+            addingToList(stripper, LEFT, kilometers);
+            addingToList(stripper, RIGHT, kilometers);
+            currentPage++;
         }
-        load.close();
+        loadPDF.close();
         return kilometers;
     }
 
@@ -96,7 +87,7 @@ public class ReadKilometers {
         return stripper.getTextForRegion(leftOrRight).split("\\s");
     }
 
-    private void regionConfiguration(PDFTextStripperByArea stripper) {
+    private void addRegionsConfiguration(PDFTextStripperByArea stripper) {
         stripper.addRegion(TITLE, new Rectangle(12, 20, 389, 553));
         stripper.addRegion(LEFT, new Rectangle(31, 45, 57, 518));
         stripper.addRegion(RIGHT, new Rectangle(449, 45, 57, 518));
