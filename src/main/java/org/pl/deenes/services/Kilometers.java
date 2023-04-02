@@ -1,6 +1,8 @@
 package org.pl.deenes.services;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -10,18 +12,17 @@ import java.util.*;
 @Data
 @Service
 @Slf4j
+@NoArgsConstructor
 public class Kilometers {
     private List<List<String>> allKilometers = new ArrayList<>();
     private Set<Integer> kilometersAfterConvert = new HashSet<>();
-    private List<Number> result = new LinkedList<>();
+    private List<Number> lineNumbers = new LinkedList<>();
 
-    private static boolean isNumeric(String strNum) {
-        if (strNum == null) {
-            return false;
-        }
+    public static boolean isNumeric(@NonNull String numberToCheck) {
         try {
-            Double.parseDouble(strNum);
+            Double.parseDouble(numberToCheck);
         } catch (NumberFormatException nfe) {
+            log.error(numberToCheck, nfe.toString());
             return false;
         }
         return true;
@@ -31,26 +32,39 @@ public class Kilometers {
     public void getAllRailwayLines() {
         for (List<String> kilometer : allKilometers) {
             List<String> collect = kilometer.stream().filter(Kilometers::isNumeric).toList();
-            collect.forEach(a -> kilometersAfterConvert.add(Integer.valueOf(a)));
+            collect.forEach(a -> {
+                try {
+                    kilometersAfterConvert.add(Integer.valueOf(a));
+                } catch (NumberFormatException e) {
+                    log.error("Error while parsing kilometers: {}", a, e);
+                }
+            });
         }
     }
 
-    public void giveAllKilometers() throws ParseException {
+    public void giveAllKilometers() {
         for (List<String> kilometer : allKilometers) {
             for (String s : kilometer) {
+                if (s == null) {
+                    continue;
+                }
                 String replace = s.replace(",", ".");
                 NumberFormat format = NumberFormat.getInstance(Locale.US);
 
-                Number number = null;
-                if (isNumeric(replace)) {
-                    number = format.parse(replace);
-                    if (replace.contains(".")) {
-                        double d = number.doubleValue();
-                        result.add(d);
-                    } else {
-                        int i = number.intValue();
-                        result.add(i);
+                try {
+                    Number number = null;
+                    if (isNumeric(replace)) {
+                        number = format.parse(replace);
+                        if (replace.contains(".")) {
+                            double d = number.doubleValue();
+                            lineNumbers.add(d);
+                        } else {
+                            int i = number.intValue();
+                            lineNumbers.add(i);
+                        }
                     }
+                } catch (ParseException e) {
+                    log.error("Error while parsing kilometers: {}", replace, e);
                 }
             }
         }

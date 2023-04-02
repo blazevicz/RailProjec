@@ -8,7 +8,8 @@ public enum Positions {
     LEFT("left"),
     RIGHT("right"),
     TITLE("title"),
-    LASTPAGE("lastPage");
+    ANALYSIS("analysis"),
+    BRUTTOANALYSIS("bruttoAnalysis");
 
     final String value;
 

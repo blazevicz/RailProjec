@@ -12,8 +12,7 @@ public class Train {
 
     private String companyName;
     private LocalDate datePlan;
-    private int distance;
+    private RoadStats roadStats;
     private List<Line> lineList;
     private Analyse analyse;
-
 }

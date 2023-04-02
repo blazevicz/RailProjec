@@ -1,5 +1,7 @@
 package org.pl.deenes.services;
 
+import lombok.Getter;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
@@ -7,6 +9,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
+import org.pl.deenes.configuration.LoadingPdfException;
 import org.pl.deenes.data.Positions;
 import org.springframework.stereotype.Service;
 
@@ -22,50 +25,55 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service
 @Setter
+@Getter
 @RequiredArgsConstructor
 public class ReadKilometers {
 
+    private final RoadStatsService roadStatsService;
     private File file;
+    private String textToAnalyse;
+    private String bruttoTextToAnalyse;
 
-    public Kilometers reader() throws IOException {
+    public Kilometers reader() {
         Kilometers kilometers = new Kilometers();
-        PDDocument loadPDF = PDDocument.load(Files.myPatch());
-        PDFTextStripperByArea stripper = new PDFTextStripperByArea();
-        stripper.setSortByPosition(true);
 
-        addRegionsConfiguration(stripper);
+        try (PDDocument loadPDF = PDDocument.load(Files.myPatch())) {
+            PDFTextStripperByArea stripper = new PDFTextStripperByArea();
+            stripper.setSortByPosition(true);
 
-        PDPageTree pages = loadPDF.getDocumentCatalog().getPages();
-        int currentPage = 0;
+            addRegionsConfiguration(stripper);
 
-        for (PDPage page : pages) {
-            stripper.extractRegions(page);
-            stripper.getTextForRegion(Positions.LEFT.name());
-            stripper.getTextForRegion(Positions.RIGHT.name());
-            addingToList(stripper, Positions.LEFT.name(), kilometers);
-            addingToList(stripper, Positions.RIGHT.name(), kilometers);
+            PDPageTree pages = loadPDF.getDocumentCatalog().getPages();
+            int currentPage = 0;
 
-            if (currentPage == pages.getCount() - 1) {
-                int lastPageNumber = pages.getCount();
-                stripper.setStartPage(lastPageNumber);
-                stripper.setEndPage(lastPageNumber);
-                String text = stripper.getTextForRegion(Positions.TITLE.name());
-                gettingLastKilometer(text);
-/*
-                System.out.println("TESTTTTTT");
-                System.out.println(lastPageNumber);
-                System.out.println(pages.getCount());
-                System.out.println(text);
-                System.out.println("TESTTTTTT");*/
+            for (PDPage page : pages) {
+                stripper.extractRegions(page);
+                if (currentPage == 0) {
+                    textToAnalyse = stripper.getTextForRegion(Positions.ANALYSIS.name());
+                    bruttoTextToAnalyse = stripper.getTextForRegion(Positions.BRUTTOANALYSIS.name());
+                }
+                stripper.getTextForRegion(Positions.LEFT.name());
+                stripper.getTextForRegion(Positions.RIGHT.name());
+                addingToList(stripper, Positions.LEFT.name(), kilometers);
+                addingToList(stripper, Positions.RIGHT.name(), kilometers);
 
+                if (currentPage == pages.getCount() - 1) {
+                    int lastPageNumber = pages.getCount();
+                    stripper.setStartPage(lastPageNumber);
+                    stripper.setEndPage(lastPageNumber);
+                    String text = stripper.getTextForRegion(Positions.TITLE.name());
+                    gettingLastKilometer(text);
+                }
+                currentPage++;
             }
-            currentPage++;
+        } catch (IOException e) {
+            log.error("Error reading PDF", e);
+            throw new LoadingPdfException(e);
         }
-        loadPDF.close();
         return kilometers;
     }
 
-    private void gettingLastKilometer(String text) {
+    private void gettingLastKilometer(@NonNull String text) {
         String[] split = text.split("\\s");
         List<String> decimalNumList = new ArrayList<>();
         for (String s : split) {
@@ -77,26 +85,29 @@ public class ReadKilometers {
             }
         }
 
-        List<Double> listaDouble = decimalNumList.stream()
+        List<Double> listDouble = decimalNumList.stream()
                 .filter(s -> s != null && s.matches("^\\d+\\.\\d+$"))
                 .map(Double::parseDouble).toList();
-        RoadStatsService.lastKilometer = listaDouble.get(listaDouble.size() - 1);
 
-        log.info("test" + listaDouble);
+        roadStatsService.setLastKilometer(listDouble.get(listDouble.size() - 1));
+
+        log.info("last kilometr " + listDouble);
     }
 
 
     private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, Kilometers kilometers) {
-        String[] kilometerColumnArr = getKilometerColumn(stripper, leftOrRight);
-        log.info(Arrays.stream(kilometerColumnArr).toList().toString());
-        kilometers.getAllKilometers().add(List.of(kilometerColumnArr));
+        List<String> kilometersFromColumn = getKilometerColumn(stripper, leftOrRight);
+        log.info(kilometersFromColumn.toString());
+        kilometers.getAllKilometers().add(kilometersFromColumn);
     }
 
-    private String[] getKilometerColumn(PDFTextStripperByArea stripper, String leftOrRight) {
-        return stripper.getTextForRegion(leftOrRight).split("\\s");
+    private List<String> getKilometerColumn(PDFTextStripperByArea stripper, String leftOrRight) {
+        return Arrays.stream(stripper.getTextForRegion(leftOrRight).split("\\s")).toList();
     }
 
     private void addRegionsConfiguration(PDFTextStripperByArea stripper) {
+        stripper.addRegion(Positions.BRUTTOANALYSIS.name(), new Rectangle(730, 41, 91, 548));
+        stripper.addRegion(Positions.ANALYSIS.name(), new Rectangle(444, 25, 376, 18));
         stripper.addRegion(Positions.TITLE.name(), new Rectangle(12, 20, 389, 553));
         stripper.addRegion(Positions.LEFT.name(), new Rectangle(31, 45, 57, 518));
         stripper.addRegion(Positions.RIGHT.name(), new Rectangle(449, 45, 57, 518));

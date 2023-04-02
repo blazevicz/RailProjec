@@ -2,6 +2,7 @@ package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.data.Line;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class CalculateKilometers {
         LinkedList<Line> lineList = new LinkedList<>();
         LinkedList<Double> allKilometersOnLine = new LinkedList<>();
 
-        for (Number number : this.kilometers.getResult()) {
+        for (Number number : this.kilometers.getLineNumbers()) {
             int railLineNumber = 0;
 
             if (number instanceof Integer integer) {
@@ -42,7 +43,8 @@ public class CalculateKilometers {
         return connectingDuplicatedLines(lineList);
     }
 
-    private LinkedList<Line> connectingDuplicatedLines(LinkedList<Line> lines) {
+    private LinkedList<Line> connectingDuplicatedLines(@NonNull LinkedList<Line> lines) {
+
         return new LinkedList<>(lines.stream()
                 .collect(Collectors.toMap(Line::getLineNumber,
                         line -> new Line(line.getLineNumber(), line.getKilometers()),

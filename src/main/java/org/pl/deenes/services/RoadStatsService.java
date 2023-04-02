@@ -1,6 +1,8 @@
 package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.data.Line;
 import org.pl.deenes.data.RoadStats;
@@ -15,8 +17,10 @@ import java.util.stream.Stream;
 @Service
 @AllArgsConstructor
 @Slf4j
+@Getter
+@Setter
 public class RoadStatsService {
-    public static Double lastKilometer = 0.0;
+    private Double lastKilometer;
     private CalculateKilometers calculateKilometers;
 
     private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
@@ -26,24 +30,25 @@ public class RoadStatsService {
             if (kilometers1.size() < 2) {
                 continue;
             }
-            List<Double> doubles = Stream.concat(
-                            Stream.of(kilometers1.get(0)),
-                            Stream.of(kilometers1.get(kilometers1.size() - 1)))
-                    .toList();
-            if (doubles.get(0) > doubles.get(1)) {
-                line.setSize(doubles.get(0) - doubles.get(1));
-            } else {
-                line.setSize(doubles.get(1) - doubles.get(0));
-            }
+            sumKilometersForEachLine(line, kilometers1);
         }
     }
 
-    public RoadStats calculateKilometers() {
+    private static void sumKilometersForEachLine(Line line, List<Double> kilometers1) {
+        List<Double> allKilometersInLine = Stream.concat(
+                        Stream.of(kilometers1.get(0)),
+                        Stream.of(kilometers1.get(kilometers1.size() - 1)))
+                .toList();
+        if (allKilometersInLine.get(0) > allKilometersInLine.get(1)) {
+            line.setSize(allKilometersInLine.get(0) - allKilometersInLine.get(1));
+        } else {
+            line.setSize(allKilometersInLine.get(1) - allKilometersInLine.get(0));
+        }
+    }
+
+    public RoadStats calculateKilometers(Double lastKilometer) {
         LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
-
         calculateKilometersForEachLine(lineList);
-
-        lineList.removeAll(Collections.singleton(null));
         RoadStats roadStats = new RoadStats(lineList);
         roadStats.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
         return roadStats;
