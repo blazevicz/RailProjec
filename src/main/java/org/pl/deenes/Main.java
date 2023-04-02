@@ -6,15 +6,12 @@ import org.pl.deenes.configuration.SpringConfiguration;
 import org.pl.deenes.services.Result;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.io.IOException;
-import java.text.ParseException;
-
 @Slf4j
 public class Main {
-    public static void main(String[] args) throws IOException, ParseException {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
         Result bean = applicationContext.getBean(Result.class);
-        bean.voidTestingResultMethodForOneLine();
+        bean.runningMethod();
 
     }
 }

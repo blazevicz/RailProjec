@@ -33,6 +33,7 @@ public class ReadKilometers {
     private File file;
     private String textToAnalyse;
     private String bruttoTextToAnalyse;
+    private String companyName;
 
     public Kilometers reader() {
         Kilometers kilometers = new Kilometers();
@@ -51,6 +52,7 @@ public class ReadKilometers {
                 if (currentPage == 0) {
                     textToAnalyse = stripper.getTextForRegion(Positions.ANALYSIS.name());
                     bruttoTextToAnalyse = stripper.getTextForRegion(Positions.BRUTTOANALYSIS.name());
+                    companyName = stripper.getTextForRegion(Positions.COMPANYNAME.name());
                 }
                 stripper.getTextForRegion(Positions.LEFT.name());
                 stripper.getTextForRegion(Positions.RIGHT.name());
@@ -106,6 +108,7 @@ public class ReadKilometers {
     }
 
     private void addRegionsConfiguration(PDFTextStripperByArea stripper) {
+        stripper.addRegion(Positions.COMPANYNAME.name(), new Rectangle(59, 125, 302, 302));
         stripper.addRegion(Positions.BRUTTOANALYSIS.name(), new Rectangle(730, 41, 91, 548));
         stripper.addRegion(Positions.ANALYSIS.name(), new Rectangle(444, 25, 376, 18));
         stripper.addRegion(Positions.TITLE.name(), new Rectangle(12, 20, 389, 553));
