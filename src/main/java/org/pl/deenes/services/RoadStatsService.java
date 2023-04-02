@@ -20,9 +20,9 @@ public class RoadStatsService {
     private CalculateKilometers calculateKilometers;
 
     private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
-        log.info(lineList.toString());
         for (Line line : lineList) {
             List<Double> kilometers1 = line.getKilometers();
+            Collections.sort(kilometers1);
             if (kilometers1.size() < 2) {
                 continue;
             }

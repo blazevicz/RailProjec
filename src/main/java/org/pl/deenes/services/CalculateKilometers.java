@@ -6,7 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.data.Line;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Data
@@ -21,10 +24,10 @@ public class CalculateKilometers {
         LinkedList<Double> allKilometersOnLine = new LinkedList<>();
 
         for (Number number : this.kilometers.getResult()) {
-            int a = 0;
-            if (number instanceof Integer integer) {
-                a = integer;
+            int railLineNumber = 0;
 
+            if (number instanceof Integer integer) {
+                railLineNumber = integer;
                 if (!allKilometersOnLine.isEmpty()) {
                     allKilometersOnLine = new LinkedList<>();
                 }
@@ -32,11 +35,24 @@ public class CalculateKilometers {
                 allKilometersOnLine.add((Double) number);
                 continue;
             }
-            lineList.add(new Line(a, allKilometersOnLine));
+            lineList.add(new Line(railLineNumber, allKilometersOnLine));
         }
+
         lineList.getLast().getKilometers().add(lastKilometer);
-        return lineList;
+        return connectingDuplicatedLines(lineList);
     }
 
+    private LinkedList<Line> connectingDuplicatedLines(LinkedList<Line> lines) {
+        return new LinkedList<>(lines.stream()
+                .collect(Collectors.toMap(Line::getLineNumber,
+                        line -> new Line(line.getLineNumber(), line.getKilometers()),
+                        (line1, line2) -> {
+                            List<Double> mergedKilometers = new ArrayList<>(line1.getKilometers());
+                            mergedKilometers.addAll(line2.getKilometers());
+                            return new Line(line1.getLineNumber(), mergedKilometers);
+                        }))
+                .values());
+
+    }
 
 }
