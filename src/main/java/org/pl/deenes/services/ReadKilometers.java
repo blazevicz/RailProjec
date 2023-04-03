@@ -69,7 +69,6 @@ public class ReadKilometers {
                 currentPage++;
             }
         } catch (IOException e) {
-            log.error("Error reading PDF", e);
             throw new LoadingPdfException(e);
         }
         return kilometers;
@@ -99,7 +98,6 @@ public class ReadKilometers {
 
     private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, Kilometers kilometers) {
         List<String> kilometersFromColumn = getKilometerColumn(stripper, leftOrRight);
-        log.info(kilometersFromColumn.toString());
         kilometers.getAllKilometers().add(kilometersFromColumn);
     }
 

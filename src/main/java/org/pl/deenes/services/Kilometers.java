@@ -22,7 +22,6 @@ public class Kilometers {
         try {
             Double.parseDouble(numberToCheck);
         } catch (NumberFormatException nfe) {
-            log.error(numberToCheck, nfe.toString());
             return false;
         }
         return true;
@@ -52,20 +51,24 @@ public class Kilometers {
                 NumberFormat format = NumberFormat.getInstance(Locale.US);
 
                 try {
-                    Number number = null;
-                    if (isNumeric(replace)) {
-                        number = format.parse(replace);
-                        if (replace.contains(".")) {
-                            double d = number.doubleValue();
-                            lineNumbers.add(d);
-                        } else {
-                            int i = number.intValue();
-                            lineNumbers.add(i);
-                        }
-                    }
+                    lineNumberOrKilometer(replace, format);
                 } catch (ParseException e) {
                     log.error("Error while parsing kilometers: {}", replace, e);
                 }
+            }
+        }
+    }
+
+    private void lineNumberOrKilometer(String replace, NumberFormat format) throws ParseException {
+        Number number;
+        if (isNumeric(replace)) {
+            number = format.parse(replace);
+            if (replace.contains(".")) {
+                double d = number.doubleValue();
+                lineNumbers.add(d);
+            } else {
+                int i = number.intValue();
+                lineNumbers.add(i);
             }
         }
     }

@@ -1,11 +1,13 @@
 package org.pl.deenes.services;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.data.Line;
 import org.pl.deenes.data.RoadStats;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -15,13 +17,21 @@ import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
-@AllArgsConstructor
 @Slf4j
 @Getter
 @Setter
+@NoArgsConstructor
+
 public class RoadStatsService {
     private Double lastKilometer;
+    @Autowired
+
     private CalculateKilometers calculateKilometers;
+
+    public RoadStatsService(@Qualifier("lastKilometer") Double lastKilometer, CalculateKilometers calculateKilometers) {
+        this.lastKilometer = lastKilometer;
+        this.calculateKilometers = calculateKilometers;
+    }
 
     private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
         for (Line line : lineList) {

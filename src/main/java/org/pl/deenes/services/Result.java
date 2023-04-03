@@ -14,7 +14,7 @@ public class Result {
 
     public void runningMethod() {
         Train train = trainService.trainCreate();
-        log.info(train.toString());
+        log.error(train.toString());
 
 
     }
