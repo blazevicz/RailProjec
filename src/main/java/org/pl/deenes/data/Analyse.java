@@ -2,11 +2,13 @@ package org.pl.deenes.data;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @AllArgsConstructor
 @Builder
 @ToString
+@EqualsAndHashCode
 public class Analyse {
 
     private int trainNumber;

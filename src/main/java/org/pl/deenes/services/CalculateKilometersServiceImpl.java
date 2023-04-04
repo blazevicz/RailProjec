@@ -16,15 +16,16 @@ import java.util.stream.Collectors;
 @Data
 @Slf4j
 @Service
-public class CalculateKilometers {
+public class CalculateKilometersServiceImpl implements CalculateKilometersService {
 
-    private Kilometers kilometers;
+    private KilometersServiceImpl kilometersServiceImpl;
 
-    LinkedList<Line> createLinesAndAddToLineList(Double lastKilometer) {
+    @Override
+    public LinkedList<Line> createLinesAndAddToLineList(Double lastKilometer) {
         LinkedList<Line> lineList = new LinkedList<>();
         LinkedList<Double> allKilometersOnLine = new LinkedList<>();
 
-        for (Number number : this.kilometers.getLineNumbers()) {
+        for (Number number : this.kilometersServiceImpl.getLineNumbers()) {
             int railLineNumber = 0;
 
             if (number instanceof Integer integer) {

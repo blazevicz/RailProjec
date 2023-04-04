@@ -27,16 +27,17 @@ import java.util.regex.Pattern;
 @Setter
 @Getter
 @RequiredArgsConstructor
-public class ReadKilometers {
+public class ReadKilometersServiceImpl implements ReadKilometersService {
 
-    private final RoadStatsService roadStatsService;
+    private final RoadStatsServiceImpl roadStatsServiceImpl;
     private File file;
     private String textToAnalyse;
     private String bruttoTextToAnalyse;
     private String companyName;
 
-    public Kilometers reader() {
-        Kilometers kilometers = new Kilometers();
+    @Override
+    public KilometersServiceImpl reader() {
+        KilometersServiceImpl kilometersServiceImpl = new KilometersServiceImpl();
 
         try (PDDocument loadPDF = PDDocument.load(Files.myPatch())) {
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();
@@ -56,8 +57,8 @@ public class ReadKilometers {
                 }
                 stripper.getTextForRegion(Positions.LEFT.name());
                 stripper.getTextForRegion(Positions.RIGHT.name());
-                addingToList(stripper, Positions.LEFT.name(), kilometers);
-                addingToList(stripper, Positions.RIGHT.name(), kilometers);
+                addingToList(stripper, Positions.LEFT.name(), kilometersServiceImpl);
+                addingToList(stripper, Positions.RIGHT.name(), kilometersServiceImpl);
 
                 if (currentPage == pages.getCount() - 1) {
                     int lastPageNumber = pages.getCount();
@@ -71,10 +72,10 @@ public class ReadKilometers {
         } catch (IOException e) {
             throw new LoadingPdfException(e);
         }
-        return kilometers;
+        return kilometersServiceImpl;
     }
 
-    private void gettingLastKilometer(@NonNull String text) {
+    public void gettingLastKilometer(@NonNull String text) {
         String[] split = text.split("\\s");
         List<String> decimalNumList = new ArrayList<>();
         for (String s : split) {
@@ -90,15 +91,15 @@ public class ReadKilometers {
                 .filter(s -> s != null && s.matches("^\\d+\\.\\d+$"))
                 .map(Double::parseDouble).toList();
 
-        roadStatsService.setLastKilometer(listDouble.get(listDouble.size() - 1));
+        roadStatsServiceImpl.setLastKilometer(listDouble.get(listDouble.size() - 1));
 
         log.info("last kilometr " + listDouble);
     }
 
 
-    private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, Kilometers kilometers) {
+    private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, KilometersServiceImpl kilometersServiceImpl) {
         List<String> kilometersFromColumn = getKilometerColumn(stripper, leftOrRight);
-        kilometers.getAllKilometers().add(kilometersFromColumn);
+        kilometersServiceImpl.getAllKilometers().add(kilometersFromColumn);
     }
 
     private List<String> getKilometerColumn(PDFTextStripperByArea stripper, String leftOrRight) {

@@ -8,12 +8,13 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @AllArgsConstructor
-public class Result {
+public class ResultServiceImpl implements ResultService {
 
-    private TrainService trainService;
+    private TrainService trainServiceImpl;
 
+    @Override
     public void runningMethod() {
-        Train train = trainService.trainCreate();
+        Train train = trainServiceImpl.trainCreate();
         log.error(train.toString());
 
 

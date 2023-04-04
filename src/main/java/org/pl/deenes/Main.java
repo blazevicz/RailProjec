@@ -2,7 +2,7 @@ package org.pl.deenes;
 
 
 import org.pl.deenes.configuration.SpringConfiguration;
-import org.pl.deenes.services.Result;
+import org.pl.deenes.services.ResultServiceImpl;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -19,7 +19,7 @@ public class Main {
         SpringApplication.run(Main.class, args);
 
         AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        Result bean = applicationContext.getBean(Result.class);
+        ResultServiceImpl bean = applicationContext.getBean(ResultServiceImpl.class);
         bean.runningMethod();
 
     }
