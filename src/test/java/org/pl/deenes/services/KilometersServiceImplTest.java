@@ -1,7 +1,8 @@
+package org.pl.deenes.services;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.pl.deenes.services.KilometersServiceImpl;
 
 import java.util.*;
 

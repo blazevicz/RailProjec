@@ -1,9 +1,6 @@
 package org.pl.deenes.data;
 
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @ToString
+@EqualsAndHashCode
 public class Line {
     private final Integer lineNumber;
     private final List<Double> kilometers;

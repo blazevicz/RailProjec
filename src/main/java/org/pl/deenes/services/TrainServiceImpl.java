@@ -16,20 +16,11 @@ import java.util.Optional;
 @ToString
 @AllArgsConstructor
 public class TrainServiceImpl implements TrainService {
+
     private ReadKilometersServiceImpl readKilometersServiceImpl;
     private RoadStatsServiceImpl roadStatsServiceImpl;
     private CalculateKilometersServiceImpl calculateKilometers;
     private AnalyseService analyseServiceImpl;
-
-    private static LocalDate extractingDate(List<String> split) {
-        Optional<String> day = split.stream().filter(a -> a.contains("dnia")).limit(1).findFirst();
-        if (day.isPresent()) {
-            String[] split1 = day.get().split(" ");
-            String[] split2 = split1[split1.length - 1].split("\\.");
-            return LocalDate.of(Integer.parseInt(split2[2]), Integer.parseInt(split2[1]), Integer.parseInt(split2[0]));
-        }
-        return null;
-    }
 
     @Override
     public Train trainCreate() {
@@ -54,5 +45,15 @@ public class TrainServiceImpl implements TrainService {
                 .lineList(roadStats.getLineList())
                 .build();
 
+    }
+
+    private static LocalDate extractingDate(List<String> split) {
+        Optional<String> day = split.stream().filter(a -> a.contains("dnia")).limit(1).findFirst();
+        if (day.isPresent()) {
+            String[] split1 = day.get().split(" ");
+            String[] split2 = split1[split1.length - 1].split("\\.");
+            return LocalDate.of(Integer.parseInt(split2[2]), Integer.parseInt(split2[1]), Integer.parseInt(split2[0]));
+        }
+        return null;
     }
 }

@@ -92,8 +92,6 @@ public class ReadKilometersServiceImpl implements ReadKilometersService {
                 .map(Double::parseDouble).toList();
 
         roadStatsServiceImpl.setLastKilometer(listDouble.get(listDouble.size() - 1));
-
-        log.info("last kilometr " + listDouble);
     }
 
 

@@ -1,5 +1,6 @@
 package org.pl.deenes.services;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,16 +22,25 @@ import java.util.stream.Stream;
 @Getter
 @Setter
 @NoArgsConstructor
+@EqualsAndHashCode
 
 public class RoadStatsServiceImpl implements RoadStatsService {
     private Double lastKilometer;
     @Autowired
-
     private CalculateKilometersService calculateKilometers;
 
     public RoadStatsServiceImpl(@Qualifier("lastKilometer") Double lastKilometer, CalculateKilometersServiceImpl calculateKilometers) {
         this.lastKilometer = lastKilometer;
         this.calculateKilometers = calculateKilometers;
+    }
+
+    @Override
+    public RoadStats calculateKilometers(Double lastKilometer) {
+        LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
+        calculateKilometersForEachLine(lineList);
+        RoadStats roadStats = new RoadStats(lineList);
+        roadStats.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
+        return roadStats;
     }
 
     private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
@@ -54,14 +64,5 @@ public class RoadStatsServiceImpl implements RoadStatsService {
         } else {
             line.setSize(allKilometersInLine.get(1) - allKilometersInLine.get(0));
         }
-    }
-
-    @Override
-    public RoadStats calculateKilometers(Double lastKilometer) {
-        LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
-        calculateKilometersForEachLine(lineList);
-        RoadStats roadStats = new RoadStats(lineList);
-        roadStats.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
-        return roadStats;
     }
 }

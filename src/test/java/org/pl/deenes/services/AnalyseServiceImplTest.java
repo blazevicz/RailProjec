@@ -1,3 +1,5 @@
+package org.pl.deenes.services;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -5,8 +7,6 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.pl.deenes.data.Analyse;
-import org.pl.deenes.services.AnalyseServiceImpl;
-import org.pl.deenes.services.ReadKilometersServiceImpl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
