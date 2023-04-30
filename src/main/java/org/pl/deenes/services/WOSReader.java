@@ -1,5 +1,6 @@
 package org.pl.deenes.services;
 
+import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -7,6 +8,8 @@ import org.apache.pdfbox.text.PDFTextStripper;
 import org.pl.deenes.data.LineEntry;
 import org.pl.deenes.repositories.LineEntryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -18,8 +21,11 @@ import java.util.List;
 @Service
 @Slf4j
 @AllArgsConstructor
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class WOSReader {
     private final LineEntryRepository lineEntryRepository;
+    private EntityManager entityManager;
+
     private final File source = Path.of("src/main/resources/IDDE4 Dodatek 2 IZ Sosnowiec z popr 6 od 21 IV 23.pdf").toFile();
 
     private static List<String> formatToOneLine(List<String> lines) {
@@ -65,7 +71,10 @@ public class WOSReader {
                         .railwayRegion(4)
                         .build();
 
-                addLineEntry(build);
+                //  addLineEntry(build);
+                lineEntryRepository.saveAndFlush(build);
+                entityManager.persist(build);
+                entityManager.flush();
 
                 System.out.println(build);
 

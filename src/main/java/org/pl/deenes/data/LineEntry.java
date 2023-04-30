@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString
 public class LineEntry {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
     private String startStation;
     private String endStation;
