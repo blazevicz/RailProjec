@@ -1,6 +1,5 @@
 package org.pl.deenes.services;
 
-import jakarta.persistence.EntityManager;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
@@ -23,10 +22,8 @@ import java.util.List;
 @AllArgsConstructor
 @Transactional(isolation = Isolation.READ_COMMITTED)
 public class WOSReader {
-    private final LineEntryRepository lineEntryRepository;
-    private EntityManager entityManager;
-
     private final File source = Path.of("src/main/resources/IDDE4 Dodatek 2 IZ Sosnowiec z popr 6 od 21 IV 23.pdf").toFile();
+    private LineEntryRepository lineEntryRepository;
 
     private static List<String> formatToOneLine(List<String> lines) {
         List<String> formattedLines = new ArrayList<>();
@@ -55,13 +52,15 @@ public class WOSReader {
             String regex = "\\s+(?=[\\d-])|(?<=[\\d-])\\s+";
             List<String> collect = strings.stream().skip(2).toList();
             System.out.println(collect);
+            lineEntryRepository.deleteAll();
+            lineEntryRepository.flush();
 
-
+            List<LineEntry> lineEntriesToSave = new ArrayList<>();
             for (String formattedLine : collect) {
                 String[] parts = formattedLine.split(regex);
                 List<String> collect1 = Arrays.stream(parts).filter(a -> !a.equals("-")).toList();
 
-                LineEntry build = LineEntry.builder()
+                LineEntry buildLineEntry = LineEntry.builder()
                         .lineNumber(Integer.valueOf(collect1.get(0)))
                         .startStation(collect1.get(1))
                         .endStation(collect1.get(2))
@@ -70,19 +69,9 @@ public class WOSReader {
                         .page(Integer.valueOf(collect1.get(5)))
                         .railwayRegion(4)
                         .build();
-
-                //  addLineEntry(build);
-                lineEntryRepository.saveAndFlush(build);
-                entityManager.persist(build);
-                entityManager.flush();
-
-                System.out.println(build);
-
+                lineEntriesToSave.add(buildLineEntry);
             }
+            lineEntryRepository.saveAll(lineEntriesToSave);
         }
-    }
-
-    public LineEntry addLineEntry(LineEntry lineEntry) {
-        return lineEntryRepository.save(lineEntry);
     }
 }
