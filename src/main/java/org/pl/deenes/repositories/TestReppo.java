@@ -7,12 +7,4 @@ import org.springframework.stereotype.Repository;
 @AllArgsConstructor
 public class TestReppo {
 
-/*    @PersistenceContext
-    private LineEntryRepository lineEntryRepository;
-    public LineEntry addData(final LineEntry lineEntry) {
-        lineEntryRepository.save(lineEntry);
-        return lineEntry;
-    }*/
-
-
 }

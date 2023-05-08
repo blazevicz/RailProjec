@@ -13,7 +13,7 @@ import java.io.File;
 @Configuration
 @ComponentScan(basePackageClasses = Main.class)
 @AutoConfiguration
-@Import(JpaCfg.class)
+@Import(PersistenceJPAConfiguration.class)
 public class SpringConfiguration {
 
     @Bean

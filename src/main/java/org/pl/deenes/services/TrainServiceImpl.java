@@ -3,6 +3,7 @@ package org.pl.deenes.services;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import org.pl.deenes.data.Analyse;
+import org.pl.deenes.data.Files;
 import org.pl.deenes.data.RoadStats;
 import org.pl.deenes.data.Train;
 import org.springframework.stereotype.Service;

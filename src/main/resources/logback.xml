@@ -10,6 +10,9 @@
     <logger name="org.apache.pdfbox" level="ERROR"/>
     <logger name="org.springframework.jdbc" level="DEBUG"/>
     <logger name="org.springframework.transaction" level="DEBUG"/>
+    <logger name="org.hibernate.engine.jdbc.batch.internal.BatchingBatch" level="DEBUG"/>
+    <logger name="org.hibernate.engine.internal.StatisticalLoggingSessionEventListener" level="info"/>
+
 
     <root level="info">
         <appender-ref ref="STDOUT"/>
