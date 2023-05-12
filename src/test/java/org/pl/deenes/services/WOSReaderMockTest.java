@@ -19,7 +19,6 @@ class WOSReaderMockTest {
     void testSavingToDB() {
         lineEntryRepository.save(LineEntry.builder().build());
         int size = lineEntryRepository.findAll().size();
-
         Assertions.assertEquals(1, size);
 
     }
