@@ -30,4 +30,7 @@ public class LineEntry {
     private Integer page;
     @Column(name = "railway_region")
     private Integer railwayRegion;
+    @Column(name = "wos_update_ver")
+    private String wosUpdateVersion;
+
 }

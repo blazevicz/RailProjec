@@ -13,6 +13,6 @@ public interface WebScapperRepo extends JpaRepository<ZLK, Integer> {
 
 
     @Modifying
-    @Query("update ZLK z set z.actualWOS = :actualWOS, z.actualWOSlink = :actualWOSlink where z.zlkRegionNumber = :zlkRegionNumber")
+    @Query("update ZLK z set z.actualWOS = :actualWOS, z.actualWOSlink = :actualWOSlink where z.zlkRegionNumber = :zlkRegionNumber and z.actualWOS != :actualWOS")
     void updateByZlkRegionNumber(@Param("zlkRegionNumber") Integer zlkRegionNumber, @Param("actualWOS") String actualWOS, @Param("actualWOSlink") String actualWOSlink);
 }

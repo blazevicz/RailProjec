@@ -2,6 +2,7 @@ package org.pl.deenes.data;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 @Entity
 @Getter
@@ -11,6 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "zlk")
 @EqualsAndHashCode
+@DynamicUpdate
 public class ZLK {
 
     @Id

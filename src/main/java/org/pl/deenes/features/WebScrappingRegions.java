@@ -23,10 +23,12 @@ public class WebScrappingRegions {
     private static final String REPO_LINK = "https://www.lotoskolej.pl/repository/";
     private static final String DOMAIN = "https://www.lotoskolej.pl/";
     private static final HashSet<String> links = new HashSet<>();
+    private static final Map<String, String> result = new HashMap<>();
+
 
     private WebScapperRepo webScapperRepo;
 
-    private static @NonNull String getNewestWosFromRegion(@NonNull Set<String> pageLinks) {
+    public static @NonNull String getNewestWosFromRegion(@NonNull Set<String> pageLinks) {
         Integer findBiggestLinkValue = pageLinks.stream()
                 .filter(a -> a.contains("repository"))
                 .map(WebScrappingRegions::getNumberFromURL)
@@ -36,7 +38,7 @@ public class WebScrappingRegions {
         return REPO_LINK.concat(findBiggestLinkValue.toString());
     }
 
-    private static @NonNull Map<String, String> getAllRegions() {
+    public static @NonNull Map<String, String> getAllRegions() {
         links.clear();
         Set<String> links = getPageLinks(ALL_REGIONS_LINK);
         Map<String, String> regionsMap = new HashMap<>();
@@ -53,12 +55,12 @@ public class WebScrappingRegions {
         return regionsMap;
     }
 
-    private static @NonNull Integer getNumberFromURL(@NonNull String url) {
+    public static @NonNull Integer getNumberFromURL(@NonNull String url) {
         String replace = url.replace(REPO_LINK, "").replace("/", "");
         return Integer.valueOf(replace);
     }
 
-    private static @NonNull Set<String> getPageLinks(String url) {
+    public static @NonNull Set<String> getPageLinks(String url) {
         Set<String> linksMy = new HashSet<>();
         try {
             Document document = Jsoup.connect(url).get();
@@ -81,7 +83,6 @@ public class WebScrappingRegions {
 
     @Transactional
     public void runner() {
-        Map<String, String> result = new HashMap<>();
         Map<String, String> mapWithAllRegionsLinks = getAllRegions();
 
         for (var region : mapWithAllRegionsLinks.entrySet()) {
@@ -89,7 +90,7 @@ public class WebScrappingRegions {
             String newestWosFromRegion1 = getNewestWosFromRegion(pageLinks1);
             result.put(region.getKey(), newestWosFromRegion1);
         }
-        
+
         for (Map.Entry<String, String> stringStringEntry : result.entrySet()) {
             webScapperRepo.updateByZlkRegionNumber(
                     Integer.valueOf(stringStringEntry.getKey()),
