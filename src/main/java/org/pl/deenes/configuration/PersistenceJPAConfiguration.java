@@ -1,3 +1,4 @@
+/*
 package org.pl.deenes.configuration;
 
 import jakarta.persistence.EntityManagerFactory;
@@ -25,10 +26,10 @@ import javax.sql.DataSource;
 import java.util.Objects;
 import java.util.Properties;
 
-@Configuration
-@AllArgsConstructor
 @EnableJpaRepositories(basePackageClasses = LineEntryRepository.class)
-@PropertySource({"classpath:database.properties"})
+@PropertySource({"classpath:temp2Cfg"})
+@AllArgsConstructor
+@Configuration
 @EnableTransactionManagement
 public class PersistenceJPAConfiguration {
     private final Environment environment;
@@ -95,4 +96,4 @@ public class PersistenceJPAConfiguration {
         return new Flyway(configuration);
 
     }
-}
+}*/
