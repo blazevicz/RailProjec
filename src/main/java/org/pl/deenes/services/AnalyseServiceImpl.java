@@ -2,7 +2,8 @@ package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pl.deenes.data.Analyse;
+import org.pl.deenes.model.Analyse;
+import org.pl.deenes.model.LocomotiveType;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -26,7 +27,7 @@ public class AnalyseServiceImpl implements AnalyseService {
         String[] relationAtoB = split[1].split("-");
 
         return Analyse.builder()
-                .locomotiveType(string.get(11))
+                .locomotiveType(LocomotiveType.valueOf(string.get(11)))
                 .trainMaxWeight(Integer.parseInt(string.get(12)))
                 .trainMaxSpeed(Integer.parseInt(string.get(13)))
                 .brakePercent(Integer.parseInt(string.get(14)))

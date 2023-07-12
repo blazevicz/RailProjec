@@ -2,10 +2,10 @@ package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
 import lombok.ToString;
-import org.pl.deenes.data.Analyse;
-import org.pl.deenes.data.Files;
-import org.pl.deenes.data.RoadStats;
-import org.pl.deenes.data.Train;
+import org.pl.deenes.model.Analyse;
+import org.pl.deenes.model.Files;
+import org.pl.deenes.model.Train;
+import org.pl.deenes.model.TrainStats;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,15 +35,15 @@ public class TrainServiceImpl implements TrainService {
         var split = Arrays.stream(companyName.split("\n")).toList();
         LocalDate localDate = extractingDate(split);
 
-        RoadStats roadStats = roadStatsServiceImpl.calculateKilometers(roadStatsServiceImpl.getLastKilometer());
+        TrainStats trainStats = roadStatsServiceImpl.calculateKilometers(roadStatsServiceImpl.getLastKilometer());
         Analyse analyse = analyseServiceImpl.creatingTrainAnalyse();
 
         return Train.builder()
                 .companyName(split.get(2))
                 .datePlan(localDate)
-                .roadStats(roadStats.getHowManyKilometers())
+                .roadStats(trainStats.getHowManyKilometers())
                 .analyse(analyse)
-                .lineList(roadStats.getLineList())
+                .lineList(trainStats.getLineList())
                 .build();
 
     }

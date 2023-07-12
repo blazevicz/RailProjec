@@ -1,6 +1,6 @@
 package org.pl.deenes.services;
 
-import org.pl.deenes.data.Line;
+import org.pl.deenes.model.Line;
 
 import java.util.LinkedList;
 

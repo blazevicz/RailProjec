@@ -1,7 +1,7 @@
 package org.pl.deenes.services;
 
-import org.pl.deenes.data.RoadStats;
+import org.pl.deenes.model.TrainStats;
 
 public interface RoadStatsService {
-    RoadStats calculateKilometers(Double lastKilometer);
+    TrainStats calculateKilometers(Double lastKilometer);
 }

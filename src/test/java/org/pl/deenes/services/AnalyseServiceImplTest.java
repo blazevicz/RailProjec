@@ -6,7 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pl.deenes.data.Analyse;
+import org.pl.deenes.model.Analyse;
+import org.pl.deenes.model.LocomotiveType;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -59,7 +60,7 @@ class AnalyseServiceImplTest {
         Mockito.when(readKilometersServiceImpl.getBruttoTextToAnalyse()).thenReturn(grossTextToAnalyse);
 
         Analyse expectedAnalyse = Analyse.builder()
-                .locomotiveType("ET22")
+                .locomotiveType(LocomotiveType.valueOf("ET22"))
                 .trainMaxWeight(1979)
                 .trainMaxSpeed(80)
                 .brakePercent(48)

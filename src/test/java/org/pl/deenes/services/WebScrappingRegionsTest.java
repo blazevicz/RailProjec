@@ -10,8 +10,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pl.deenes.features.WebScrappingRegions;
-import org.pl.deenes.repositories.WebScapperRepo;
+import org.pl.deenes.infrastructure.repositories.WebScapperRepo;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.io.IOException;

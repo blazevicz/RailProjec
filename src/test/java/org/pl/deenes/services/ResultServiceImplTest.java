@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.pl.deenes.data.Train;
+import org.pl.deenes.model.Train;
 import org.slf4j.Logger;
 
 import static org.mockito.Mockito.when;

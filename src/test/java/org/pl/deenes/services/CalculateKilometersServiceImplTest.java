@@ -8,7 +8,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pl.deenes.data.Line;
+import org.pl.deenes.model.Line;
 
 import java.util.LinkedList;
 import java.util.List;

@@ -2,7 +2,7 @@ package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.pl.deenes.data.Train;
+import org.pl.deenes.model.Train;
 import org.springframework.stereotype.Service;
 
 @Slf4j
