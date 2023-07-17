@@ -3,8 +3,6 @@ package org.pl.deenes.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.LinkedList;
-
 @Entity
 @Builder
 @Getter
@@ -21,11 +19,16 @@ public class TrainStatsEntity {
 
     @Column(name = "distance")
     private Double howManyKilometers;
+    @Column(name = "first_kilometer")
+    private Double firstKilometer;
+    @Column(name = "last_kilometer")
+    private Double lastKilometer;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "roadStats")
-    private LinkedList<LineEntity> lineList;
+/*    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trainStatsEntity")
+    //bylo linked list
+    private List<LineEntity> lineList;*/
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "trainStatsEntity")
     @JoinColumn(name = "train_analyse_id")
     private AnalyseEntity analyse;
 }

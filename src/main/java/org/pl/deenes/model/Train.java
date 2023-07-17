@@ -1,20 +1,27 @@
 package org.pl.deenes.model;
 
-import lombok.Builder;
-import lombok.Value;
+import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
+@With
 @Value
 @Builder
+@ToString(exclude = {"driver", "line"})
+@EqualsAndHashCode(of = "trainId")
+
 public class Train {
 
+    Integer trainId;
+    Integer trainKwr;
     String companyName;
     LocalDate datePlan;
     Double roadStats;
     Analyse analyse;
-    List<Line> lineList;
-    List<Driver> driver;
+    Set<Line> line;
+    Driver driver;
 
 }
+
+

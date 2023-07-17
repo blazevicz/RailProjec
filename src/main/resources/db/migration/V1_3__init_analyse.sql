@@ -1,10 +1,10 @@
 CREATE TABLE train_analyse
 (
     train_analyse_id SERIAL PRIMARY KEY,
-    train_number     SMALLINT    NOT NULL,
-    train_kwr        SMALLINT    NOT NULL UNIQUE,
-    train_max_weight SMALLINT    NOT NULL,
-    train_max_length SMALLINT    NOT NULL,
+    train_number     INTEGER     NOT NULL,
+    train_kwr        INTEGER     NOT NULL,
+    train_max_weight INTEGER     NOT NULL,
+    train_max_length INTEGER     NOT NULL,
     start_station    VARCHAR(60) NOT NULL,
     end_station      VARCHAR(60) NOT NULL,
     train_type       VARCHAR(15) NOT NULL,

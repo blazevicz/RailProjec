@@ -11,10 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
@@ -23,23 +21,14 @@ import java.util.stream.Stream;
 @Setter
 @NoArgsConstructor
 @EqualsAndHashCode
-public class RoadStatsServiceImpl implements RoadStatsService {
+public class TrainStatsServiceImpl implements TrainStatsService {
     private Double lastKilometer;
     @Autowired
     private CalculateKilometersService calculateKilometers;
 
-    public RoadStatsServiceImpl(@Qualifier("lastKilometer") Double lastKilometer, CalculateKilometersServiceImpl calculateKilometers) {
+    public TrainStatsServiceImpl(@Qualifier("lastKilometer") Double lastKilometer, CalculateKilometersServiceImpl calculateKilometers) {
         this.lastKilometer = lastKilometer;
         this.calculateKilometers = calculateKilometers;
-    }
-
-    @Override
-    public TrainStats calculateKilometers(Double lastKilometer) {
-        LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
-        calculateKilometersForEachLine(lineList);
-        TrainStats trainStats = new TrainStats(lineList);
-        trainStats.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
-        return trainStats;
     }
 
     private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
@@ -63,5 +52,29 @@ public class RoadStatsServiceImpl implements RoadStatsService {
         } else {
             line.setSize(allKilometersInLine.get(1) - allKilometersInLine.get(0));
         }
+    }
+
+    @Override
+    public TrainStats calculateKilometers(Double lastKilometer) {
+        LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
+        calculateKilometersForEachLine(lineList);
+        mapWithLineNumberAndFirstLastKilometr(lineList);
+        // TrainStats trainStats = new TrainStats(lineList);
+        var trainStatsBuilder = TrainStats.builder().lineList(lineList).build();
+        //TrainStats trainStats = new TrainStats(mapWithLineNumberAndFirstLastKilometr(lineList));
+        trainStatsBuilder.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
+        return trainStatsBuilder;
+    }
+
+    public Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometr(LinkedList<Line> lineList) {
+        return lineList.stream()
+                .collect(Collectors.toMap(
+                        Line::getLineNumber,
+                        line -> {
+                            Optional<Double> max = line.getKilometers().stream().max(Double::compareTo);
+                            Optional<Double> min = line.getKilometers().stream().min(Double::compareTo);
+                            return Arrays.asList(min.orElse(0.0), max.orElse(0.0));
+                        }
+                ));
     }
 }

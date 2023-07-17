@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-class KilometersServiceImplTest {
+class TimetableDetailsTest {
     private List<List<String>> allKilometers;
-    private KilometersServiceImpl kilometersServiceImpl;
+    private TimetableDetails timetableDetails;
 
     @BeforeEach
     public void setUp() {
@@ -26,18 +26,18 @@ class KilometersServiceImplTest {
         allKilometers.add(kilometersList1);
         allKilometers.add(kilometersList2);
 
-        kilometersServiceImpl = new KilometersServiceImpl();
+        timetableDetails = new TimetableDetails();
     }
 
     @Test
     void testGiveAllKilometers() {
-        kilometersServiceImpl.setAllKilometers(List.of(
+        timetableDetails.setAllKilometers(List.of(
                 List.of("1", "2.5", "3.75", "5.1"),
                 List.of("2", "3", "4.5", "6.9", "8.7", "10")
         ));
-        kilometersServiceImpl.giveAllKilometers();
+        timetableDetails.giveAllKilometers();
         List<Number> expectedLineNumbers = List.of(1, 2.5, 3.75, 5.1, 2, 3, 4.5, 6.9, 8.7, 10);
-        assertEquals(expectedLineNumbers, kilometersServiceImpl.getLineNumbers());
+        assertEquals(expectedLineNumbers, timetableDetails.getLineNumbers());
     }
 
 
@@ -48,8 +48,8 @@ class KilometersServiceImplTest {
         String notNumericString = "1234a";
 
         // when
-        boolean isNumeric1 = KilometersServiceImpl.isNumeric(numericString);
-        boolean isNumeric2 = KilometersServiceImpl.isNumeric(notNumericString);
+        boolean isNumeric1 = TimetableDetails.isNumeric(numericString);
+        boolean isNumeric2 = TimetableDetails.isNumeric(notNumericString);
 
         // then
         assertTrue(isNumeric1);
@@ -58,25 +58,25 @@ class KilometersServiceImplTest {
 
     @Test
     void testGetAllRailwayLines() {
-        kilometersServiceImpl.setAllKilometers(List.of(
+        timetableDetails.setAllKilometers(List.of(
                 List.of("1", "2.5", "3.75", "5.1"),
                 List.of("2", "3", "4.5", "6.9", "8.7", "10")
         ));
-        kilometersServiceImpl.getAllRailwayLines();
+        timetableDetails.getAllRailwayLines();
         Set<Integer> expectedKilometersAfterConvert = Set.of(1, 2, 3, 10);
-        assertEquals(expectedKilometersAfterConvert, kilometersServiceImpl.getKilometersAfterConvert());
+        assertEquals(expectedKilometersAfterConvert, timetableDetails.getKilometersAfterConvert());
     }
 
     @Test
     void testGiveAllKilometersParseException() {
-        KilometersServiceImpl kilometersServiceImpl = new KilometersServiceImpl();
-        kilometersServiceImpl.setAllKilometers(List.of(
+        TimetableDetails timetableDetails = new TimetableDetails();
+        timetableDetails.setAllKilometers(List.of(
                 List.of("1", "2.5", "3.75", "5.1"),
                 List.of("invalid", "3", "4.5", "6.9", "8.7", "10")
         ));
-        kilometersServiceImpl.giveAllKilometers();
+        timetableDetails.giveAllKilometers();
         List<Number> expectedLineNumbers = List.of(1, 2.5, 3.75, 5.1, 3, 4.5, 6.9, 8.7, 10);
-        assertEquals(expectedLineNumbers, kilometersServiceImpl.getLineNumbers());
+        assertEquals(expectedLineNumbers, timetableDetails.getLineNumbers());
     }
 
     @Test
@@ -86,12 +86,12 @@ class KilometersServiceImplTest {
         allKilometers.add(Arrays.asList("2", null, "13.2", "18.5"));
         allKilometers.add(Arrays.asList("6.1", "12", null, "23.4"));
 
-        KilometersServiceImpl kilometersServiceImpl = new KilometersServiceImpl();
-        kilometersServiceImpl.setAllKilometers(allKilometers);
+        TimetableDetails timetableDetails = new TimetableDetails();
+        timetableDetails.setAllKilometers(allKilometers);
 
         // when
-        kilometersServiceImpl.giveAllKilometers();
-        List<Number> result = kilometersServiceImpl.getLineNumbers();
+        timetableDetails.giveAllKilometers();
+        List<Number> result = timetableDetails.getLineNumbers();
 
         // then
         List<Number> expected = Arrays.asList(2, 13.2, 18.5, 6.1, 12, 23.4);
@@ -105,12 +105,12 @@ class KilometersServiceImplTest {
         allKilometers.add(Arrays.asList("2", "5.7", "abc", "18.5"));
         allKilometers.add(Arrays.asList("6.1", "12", "19.8", "xyz"));
 
-        KilometersServiceImpl kilometersServiceImpl = new KilometersServiceImpl();
-        kilometersServiceImpl.setAllKilometers(allKilometers);
+        TimetableDetails timetableDetails = new TimetableDetails();
+        timetableDetails.setAllKilometers(allKilometers);
 
         // when
-        kilometersServiceImpl.giveAllKilometers();
-        List<Number> result = kilometersServiceImpl.getLineNumbers();
+        timetableDetails.giveAllKilometers();
+        List<Number> result = timetableDetails.getLineNumbers();
 
         // then
         List<Number> expected = Arrays.asList(2, 5.7, 18.5, 6.1, 12, 19.8);
@@ -120,11 +120,11 @@ class KilometersServiceImplTest {
     @Test
     void testGiveAllKilometersHandlesEmptyList() {
         // given
-        KilometersServiceImpl kilometersServiceImpl = new KilometersServiceImpl();
-        kilometersServiceImpl.setAllKilometers(Collections.emptyList());
+        TimetableDetails timetableDetails = new TimetableDetails();
+        timetableDetails.setAllKilometers(Collections.emptyList());
 
         // when
-        kilometersServiceImpl.giveAllKilometers();
-        assertTrue(kilometersServiceImpl.getLineNumbers().isEmpty());
+        timetableDetails.giveAllKilometers();
+        assertTrue(timetableDetails.getLineNumbers().isEmpty());
     }
 }

@@ -2,7 +2,7 @@ package org.pl.deenes.model;
 
 import org.pl.deenes.infrastructure.entity.LineEntity;
 
-import java.util.List;
+import java.util.Set;
 
 public record Driver(
         Integer id,
@@ -10,9 +10,9 @@ public record Driver(
         String surname,
         Integer pesel,
 
-        List<LocomotiveType> locomotiveAuthorization,
-        List<LineEntity> lineAuthorization,
-        List<Train> trains
+        Set<LocomotiveType> locomotiveAuthorization,
+        Set<LineEntity> lineAuthorization,
+        Set<Train> trains
 ) {
 
 }

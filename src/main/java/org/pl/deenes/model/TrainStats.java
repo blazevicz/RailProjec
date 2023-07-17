@@ -1,16 +1,24 @@
 package org.pl.deenes.model;
 
+import lombok.Builder;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.Setter;
+import lombok.With;
 
-import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @Data
-@RequiredArgsConstructor
-@Service
+@Builder
+@With
+@Setter
 public class TrainStats {
-    private final LinkedList<Line> lineList;
+    //bylo linked list
+    private final List<Line> lineList;
     private Double howManyKilometers;
+    private Analyse analyse;
+    private Double firstKilometer;
+    private Double lastKilometer;
+    private Map<Integer, List<Double>> lineWithFirstLastKm;
 
 }

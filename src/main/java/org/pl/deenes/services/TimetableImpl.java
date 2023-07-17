@@ -28,17 +28,17 @@ import java.util.regex.Pattern;
 @Setter
 @Getter
 @RequiredArgsConstructor
-public class ReadKilometersServiceImpl implements ReadKilometersService {
+public class TimetableImpl implements Timetable {
 
-    private final RoadStatsServiceImpl roadStatsServiceImpl;
+    private final TrainStatsServiceImpl trainStatsServiceImpl;
     private File file;
     private String textToAnalyse;
     private String bruttoTextToAnalyse;
     private String companyName;
 
     @Override
-    public KilometersServiceImpl reader() {
-        KilometersServiceImpl kilometersServiceImpl = new KilometersServiceImpl();
+    public TimetableDetails read() {
+        TimetableDetails timetableDetails = new TimetableDetails();
 
         try (PDDocument loadPDF = PDDocument.load(Files.myPatch())) {
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();
@@ -58,8 +58,8 @@ public class ReadKilometersServiceImpl implements ReadKilometersService {
                 }
                 stripper.getTextForRegion(Positions.LEFT.name());
                 stripper.getTextForRegion(Positions.RIGHT.name());
-                addingToList(stripper, Positions.LEFT.name(), kilometersServiceImpl);
-                addingToList(stripper, Positions.RIGHT.name(), kilometersServiceImpl);
+                addingToList(stripper, Positions.LEFT.name(), timetableDetails);
+                addingToList(stripper, Positions.RIGHT.name(), timetableDetails);
 
                 if (currentPage == pages.getCount() - 1) {
                     int lastPageNumber = pages.getCount();
@@ -71,9 +71,10 @@ public class ReadKilometersServiceImpl implements ReadKilometersService {
                 currentPage++;
             }
         } catch (IOException e) {
+            log.error("pdf not loading", e);
             throw new LoadingPdfException(e);
         }
-        return kilometersServiceImpl;
+        return timetableDetails;
     }
 
     public void gettingLastKilometer(@NonNull String text) {
@@ -92,13 +93,13 @@ public class ReadKilometersServiceImpl implements ReadKilometersService {
                 .filter(s -> s != null && s.matches("^\\d+\\.\\d+$"))
                 .map(Double::parseDouble).toList();
 
-        roadStatsServiceImpl.setLastKilometer(listDouble.get(listDouble.size() - 1));
+        trainStatsServiceImpl.setLastKilometer(listDouble.get(listDouble.size() - 1));
     }
 
 
-    private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, KilometersServiceImpl kilometersServiceImpl) {
+    private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, TimetableDetails timetableDetails) {
         List<String> kilometersFromColumn = getKilometerColumn(stripper, leftOrRight);
-        kilometersServiceImpl.getAllKilometers().add(kilometersFromColumn);
+        timetableDetails.getAllKilometers().add(kilometersFromColumn);
     }
 
     private List<String> getKilometerColumn(PDFTextStripperByArea stripper, String leftOrRight) {

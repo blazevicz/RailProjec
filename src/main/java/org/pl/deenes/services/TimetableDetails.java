@@ -13,7 +13,7 @@ import java.util.*;
 @Service
 @Slf4j
 @NoArgsConstructor
-public class KilometersServiceImpl implements KilometersService {
+public class TimetableDetails implements KilometersService {
     private List<List<String>> allKilometers = new ArrayList<>();
     private Set<Integer> kilometersAfterConvert = new HashSet<>();
     private List<Number> lineNumbers = new LinkedList<>();
@@ -31,7 +31,7 @@ public class KilometersServiceImpl implements KilometersService {
     @Override
     public void getAllRailwayLines() {
         for (List<String> kilometer : allKilometers) {
-            List<String> collect = kilometer.stream().filter(KilometersServiceImpl::isNumeric).toList();
+            List<String> collect = kilometer.stream().filter(TimetableDetails::isNumeric).toList();
             collect.forEach(a -> {
                 try {
                     kilometersAfterConvert.add(Integer.valueOf(a));

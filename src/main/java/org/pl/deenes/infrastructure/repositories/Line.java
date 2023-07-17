@@ -8,19 +8,20 @@ import org.pl.deenes.model.LineDetails;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @Repository
 @AllArgsConstructor
-public class LineRepository implements LineRepositoryDAO {
+public class Line implements LineDAO {
     private final LineDetailsMapper lineDetailsMapper;
-    private final LineEntryRepository lineEntryRepository;
+    private final LineDetailsRepository lineDetailsRepository;
 
 
     @Override
     public void saveALl(List<LineDetails> lineDetails) {
-        List<LineDetailsEntity> collect = lineDetails.stream().map(lineDetailsMapper::mapToEntity).collect(Collectors.toList());
-        lineEntryRepository.saveAll(collect);
+        List<LineDetailsEntity> collect = lineDetails.stream().map(lineDetailsMapper::mapToEntity).collect(toList());
+        lineDetailsRepository.saveAll(collect);
 
     }
 }

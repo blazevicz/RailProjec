@@ -2,6 +2,6 @@ package org.pl.deenes.services;
 
 import org.pl.deenes.model.TrainStats;
 
-public interface RoadStatsService {
+public interface TrainStatsService {
     TrainStats calculateKilometers(Double lastKilometer);
 }

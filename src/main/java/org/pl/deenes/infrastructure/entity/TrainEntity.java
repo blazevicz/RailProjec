@@ -22,6 +22,9 @@ public class TrainEntity {
     @Column(name = "company_name")
     private String companyName;
 
+    @Column(name = "train_kwr")
+    private Integer trainKwr;
+
     @Column(name = "date_plan")
     private LocalDate datePlan;
 
@@ -32,12 +35,10 @@ public class TrainEntity {
     @JoinColumn(name = "driver_id")
     private DriverEntity driver;
 
-    @OneToMany
-    private Set<LineEntity> lineEntities;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "train", cascade = CascadeType.ALL)
+    private Set<LineEntity> line;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "train_analyse_id")
     private AnalyseEntity analyse;
-
-
 }

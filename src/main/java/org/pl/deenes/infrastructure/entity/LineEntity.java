@@ -3,6 +3,7 @@ package org.pl.deenes.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -22,6 +23,16 @@ public class LineEntity {
     @Column(name = "size")
     private Double size;
 
+    @Column(name = "relation_from")
+    private String relationFrom;
+    @Column(name = "relation_to")
+    private String relationTo;
+
+    @ElementCollection
+    @CollectionTable(name = "line_kilometers", joinColumns = @JoinColumn(name = "line_id"))
+    @Column(name = "kilometers")
+    private List<Double> kilometers;
+
     @OneToOne
     @JoinColumn(name = "line_details_id")
     private LineDetailsEntity lineEntry;
@@ -31,6 +42,10 @@ public class LineEntity {
 
     @ManyToOne
     @JoinColumn(name = "train_id")
-    private TrainStatsEntity roadStats;
+    private TrainEntity train;
+
+    @ManyToOne
+    @JoinColumn(name = "train_stats_id")
+    private TrainStatsEntity trainStats;
 
 }

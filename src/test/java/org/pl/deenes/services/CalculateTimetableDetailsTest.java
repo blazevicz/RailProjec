@@ -17,10 +17,10 @@ import java.util.stream.Stream;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(MockitoExtension.class)
-class CalculateKilometersServiceImplTest {
+class CalculateTimetableDetailsTest {
     private final List<Number> lineNumbers = List.of(0.0, 5, 10.0, 15.5, 20, 25.5, 30.0, 35.5, 40, 45.5, 50.0, 55.5);
     @Mock
-    private KilometersServiceImpl kilometersService;
+    private TimetableDetails kilometersService;
 
     @InjectMocks
     private CalculateKilometersServiceImpl calculateKilometersService;

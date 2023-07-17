@@ -3,10 +3,13 @@ package org.pl.deenes.services;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.model.Analyse;
+import org.pl.deenes.model.Line;
 import org.pl.deenes.model.LocomotiveType;
+import org.pl.deenes.model.TrainStats;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 @Slf4j
@@ -14,10 +17,11 @@ import java.util.List;
 @AllArgsConstructor
 public class AnalyseServiceImpl implements AnalyseService {
 
-    private ReadKilometersServiceImpl readKilometersServiceImpl;
+    private TimetableImpl readKilometersServiceImpl;
+    private TrainStatsServiceImpl trainStatsService;
 
     @Override
-    public Analyse creatingTrainAnalyse() {
+    public Analyse creatingTrainAnalyse(TrainStats trainStats) {
         String textForRegion = readKilometersServiceImpl.getTextToAnalyse();
         String grossTextToAnalyse = readKilometersServiceImpl.getBruttoTextToAnalyse();
         var string = Arrays.stream(grossTextToAnalyse.split("\\s")).toList();
@@ -37,6 +41,10 @@ public class AnalyseServiceImpl implements AnalyseService {
                 .trainKwr(Integer.parseInt(splitTrainDetailsForAnalyse.get(2).replace("(", "").replace(")", "")))
                 .startStation(relationAtoB[0].trim())
                 .endStation(relationAtoB[1].trim().replaceFirst(".$", "").trim())
+                .trainStats(TrainStats.builder()
+                        .lineList(trainStats.getLineList())
+                        .lineWithFirstLastKm(trainStatsService.mapWithLineNumberAndFirstLastKilometr((LinkedList<Line>) trainStats.getLineList()))
+                        .build())
                 .build();
     }
 

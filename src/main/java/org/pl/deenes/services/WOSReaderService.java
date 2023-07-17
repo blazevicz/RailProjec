@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.pl.deenes.infrastructure.entity.RegionEntity;
-import org.pl.deenes.infrastructure.repositories.LineEntryRepository;
-import org.pl.deenes.infrastructure.repositories.LineRepository;
+import org.pl.deenes.infrastructure.repositories.Line;
+import org.pl.deenes.infrastructure.repositories.LineDetailsRepository;
 import org.pl.deenes.infrastructure.repositories.ZLKRepo;
 import org.pl.deenes.model.LineDetails;
 import org.springframework.stereotype.Service;
@@ -28,9 +28,9 @@ import java.util.stream.Collectors;
 @Transactional
 public class WOSReaderService {
     private final File source = Path.of("src/main/resources/IDDE4 Dodatek 2 IZ Sosnowiec z popr 6 od 21 IV 23.pdf").toFile();
-    private LineEntryRepository lineEntryRepository;
+    private LineDetailsRepository lineDetailsRepository;
     private ZLKRepo zlkRepo;
-    private LineRepository lineRepository;
+    private Line lineRepository;
 
     private static void creatingLineEntrierAndAddToList(String regex, List<String> collect, List<LineDetails> lineEntriesToSave) {
         for (String formattedLine : collect) {

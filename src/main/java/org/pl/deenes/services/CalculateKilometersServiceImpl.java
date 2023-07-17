@@ -18,14 +18,14 @@ import java.util.stream.Collectors;
 @Service
 public class CalculateKilometersServiceImpl implements CalculateKilometersService {
 
-    private KilometersServiceImpl kilometersServiceImpl;
+    private TimetableDetails timetableDetails;
 
     @Override
     public LinkedList<Line> createLinesAndAddToLineList(Double lastKilometer) {
         LinkedList<Line> lineList = new LinkedList<>();
         LinkedList<Double> allKilometersOnLine = new LinkedList<>();
 
-        for (Number number : this.kilometersServiceImpl.getLineNumbers()) {
+        for (Number number : this.timetableDetails.getLineNumbers()) {
             int railLineNumber = 0;
 
             if (number instanceof Integer integer) {

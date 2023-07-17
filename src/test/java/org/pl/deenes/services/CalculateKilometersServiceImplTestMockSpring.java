@@ -11,19 +11,19 @@ import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 import java.util.List;
 
 @SpringJUnitConfig(classes = SpringConfiguration.class)
-class CalculateKilometersServiceImplSpringTest {
+class CalculateTimetableDetailsSpringTest {
 
     @Autowired
-    private KilometersServiceImpl kilometersServiceImpl;
+    private TimetableDetails timetableDetails;
 
     @BeforeEach
     public void setUp() {
-        Assertions.assertNotNull(kilometersServiceImpl);
+        Assertions.assertNotNull(timetableDetails);
     }
 
     @Test
     void createLinesAndAddToLineList() {
-        Mockito.when(kilometersServiceImpl.getLineNumbers()).thenReturn(List.of(11, 1.1, 2.2, 1, 333, 555));
+        Mockito.when(timetableDetails.getLineNumbers()).thenReturn(List.of(11, 1.1, 2.2, 1, 333, 555));
 
         createLinesAndAddToLineList();
 
