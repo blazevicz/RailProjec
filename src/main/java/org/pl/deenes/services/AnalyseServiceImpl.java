@@ -6,11 +6,10 @@ import org.pl.deenes.model.Analyse;
 import org.pl.deenes.model.Line;
 import org.pl.deenes.model.LocomotiveType;
 import org.pl.deenes.model.TrainStats;
+import org.pl.deenes.services.interfaces.AnalyseService;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -30,6 +29,10 @@ public class AnalyseServiceImpl implements AnalyseService {
         String[] split = textForRegion.trim().split("Relacja");
         String[] relationAtoB = split[1].split("-");
 
+
+        Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometr = trainStatsService.mapWithLineNumberAndFirstLastKilometr((LinkedList<Line>) trainStats.getLineList());
+        List<TrainStats> trainStatsList = trainStatsCreator(mapWithLineNumberAndFirstLastKilometr);
+
         return Analyse.builder()
                 .locomotiveType(LocomotiveType.valueOf(string.get(11)))
                 .trainMaxWeight(Integer.parseInt(string.get(12)))
@@ -41,11 +44,25 @@ public class AnalyseServiceImpl implements AnalyseService {
                 .trainKwr(Integer.parseInt(splitTrainDetailsForAnalyse.get(2).replace("(", "").replace(")", "")))
                 .startStation(relationAtoB[0].trim())
                 .endStation(relationAtoB[1].trim().replaceFirst(".$", "").trim())
-                .trainStats(TrainStats.builder()
-                        .lineList(trainStats.getLineList())
-                        .lineWithFirstLastKm(trainStatsService.mapWithLineNumberAndFirstLastKilometr((LinkedList<Line>) trainStats.getLineList()))
-                        .build())
+                .trainStats(trainStatsList)
+                //.lineList(trainStats.getLineList())
+                // .lineWithFirstLastKm(trainStatsService.mapWithLineNumberAndFirstLastKilometr((LinkedList<Line>) trainStats.getLineList()))
                 .build();
     }
 
+    private List<TrainStats> trainStatsCreator(Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometr) {
+        List<TrainStats> trainStatsList = new ArrayList<>();
+
+        for (Map.Entry<Integer, List<Double>> integerListEntry : mapWithLineNumberAndFirstLastKilometr.entrySet()) {
+            TrainStats build = TrainStats.builder()
+                    .line(new Line(integerListEntry.getKey(), integerListEntry.getValue()))
+                    .firstKilometer(integerListEntry.getValue().get(0))
+                    .lastKilometer(integerListEntry.getValue().get(integerListEntry.getValue().size() - 1))
+                    .build();
+            trainStatsList.add(build);
+        }
+
+        return trainStatsList;
+    }
 }
+

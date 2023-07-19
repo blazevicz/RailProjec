@@ -5,6 +5,8 @@ import lombok.EqualsAndHashCode;
 import lombok.Value;
 import lombok.With;
 
+import java.util.List;
+
 @With
 @Value
 @Builder
@@ -20,7 +22,7 @@ public class Analyse {
     LocomotiveType locomotiveType;
     Integer trainMaxSpeed;
     Integer brakePercent;
-    TrainStats trainStats;
+    List<TrainStats> trainStats;
     Train train;
     Integer trainNumber;
 

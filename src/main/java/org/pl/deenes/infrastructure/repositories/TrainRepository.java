@@ -3,9 +3,9 @@ package org.pl.deenes.infrastructure.repositories;
 import lombok.AllArgsConstructor;
 import org.pl.deenes.infrastructure.entity.TrainEntity;
 import org.pl.deenes.infrastructure.mapper.TrainMapper;
+import org.pl.deenes.infrastructure.repositories.dao.TrainDAO;
 import org.pl.deenes.infrastructure.repositories.jpa.TrainJpaRepository;
 import org.pl.deenes.model.Train;
-import org.pl.deenes.services.dao.TrainDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

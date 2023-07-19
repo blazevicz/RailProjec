@@ -9,13 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class DriverDTO {
+public class DispatcherDTO {
 
     Integer id;
     String name;
     String surname;
-    Integer pesel;
-/*    Set<LocomotiveType> locomotiveAuthorization;
-    Set<Line> lineAuthorization;
-    Set<Train> trains;*/
+    String phoneNumber;
 }

@@ -1,4 +1,4 @@
-package org.pl.deenes.services.dao;
+package org.pl.deenes.infrastructure.repositories.dao;
 
 import org.pl.deenes.model.Train;
 

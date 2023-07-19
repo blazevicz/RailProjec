@@ -1,4 +1,4 @@
-package org.pl.deenes.infrastructure.repositories;
+package org.pl.deenes.infrastructure.repositories.dao;
 
 import org.pl.deenes.model.Driver;
 

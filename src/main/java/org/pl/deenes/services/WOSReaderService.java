@@ -4,9 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
-import org.pl.deenes.infrastructure.entity.RegionEntity;
-import org.pl.deenes.infrastructure.repositories.Line;
 import org.pl.deenes.infrastructure.repositories.LineDetailsRepository;
+import org.pl.deenes.infrastructure.repositories.LineRepository;
 import org.pl.deenes.infrastructure.repositories.ZLKRepo;
 import org.pl.deenes.model.LineDetails;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class WOSReaderService {
     private final File source = Path.of("src/main/resources/IDDE4 Dodatek 2 IZ Sosnowiec z popr 6 od 21 IV 23.pdf").toFile();
     private LineDetailsRepository lineDetailsRepository;
     private ZLKRepo zlkRepo;
-    private Line lineRepository;
+    private LineRepository lineRepository;
 
     private static void creatingLineEntrierAndAddToList(String regex, List<String> collect, List<LineDetails> lineEntriesToSave) {
         for (String formattedLine : collect) {
@@ -82,8 +81,8 @@ public class WOSReaderService {
     @Transactional
     public void loadWosPDF() throws IOException {
 
-        List<RegionEntity> all = zlkRepo.findAll();
-        String actualWOSlink = all.get(0).getActualWOSlink();
+        // List<RegionEntity> all = zlkRepo.findAll();
+        //String actualWOSlink = all.get(0).getActualWOSlink();
         URL pdfUrl = new URL(
                 "https://drive.google.com/u/0/uc?id=1r_YqFDkm-FL2ES_qrwW2zY-8OZX4dM3Z&export=download");
 

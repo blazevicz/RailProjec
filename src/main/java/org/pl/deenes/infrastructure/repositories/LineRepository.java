@@ -4,6 +4,7 @@ package org.pl.deenes.infrastructure.repositories;
 import lombok.AllArgsConstructor;
 import org.pl.deenes.infrastructure.entity.LineDetailsEntity;
 import org.pl.deenes.infrastructure.mapper.LineDetailsMapper;
+import org.pl.deenes.infrastructure.repositories.dao.LineDAO;
 import org.pl.deenes.model.LineDetails;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ import static java.util.stream.Collectors.toList;
 
 @Repository
 @AllArgsConstructor
-public class Line implements LineDAO {
+public class LineRepository implements LineDAO {
     private final LineDetailsMapper lineDetailsMapper;
     private final LineDetailsRepository lineDetailsRepository;
 

@@ -37,15 +37,18 @@ public class LineEntity {
     @JoinColumn(name = "line_details_id")
     private LineDetailsEntity lineEntry;
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "line")
+    private TrainStatsEntity trainStats;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "line")
     private Set<RegionEntity> zlk;
 
     @ManyToOne
     @JoinColumn(name = "train_id")
     private TrainEntity train;
-
+/*
     @ManyToOne
     @JoinColumn(name = "train_stats_id")
-    private TrainStatsEntity trainStats;
+    private TrainStatsEntity trainStats;*/
 
 }

@@ -1,4 +1,4 @@
-package org.pl.deenes.services.dao;
+package org.pl.deenes.infrastructure.repositories.dao;
 
 import org.pl.deenes.model.Analyse;
 import org.pl.deenes.model.Train;
@@ -6,8 +6,6 @@ import org.pl.deenes.model.Train;
 public interface AnalyseDAO {
 
     Analyse save(Analyse analyse);
-
-
     Train find(Integer trainKwr);
 
 }

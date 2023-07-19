@@ -15,7 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ContextConfiguration(classes = {
         TrainMapperImpl.class
 })
-class TrainDTOMapperImplTest {
+class TrainEntityMapperImplTest {
     @Autowired
     private TrainMapper trainEntityMapper;
 

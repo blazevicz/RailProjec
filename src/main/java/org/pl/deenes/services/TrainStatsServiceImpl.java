@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.model.Line;
 import org.pl.deenes.model.TrainStats;
+import org.pl.deenes.services.interfaces.CalculateKilometersService;
+import org.pl.deenes.services.interfaces.TrainStatsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;

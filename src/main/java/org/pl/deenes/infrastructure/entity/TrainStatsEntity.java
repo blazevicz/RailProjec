@@ -24,11 +24,12 @@ public class TrainStatsEntity {
     @Column(name = "last_kilometer")
     private Double lastKilometer;
 
-/*    @OneToMany(fetch = FetchType.LAZY, mappedBy = "trainStatsEntity")
-    //bylo linked list
-    private List<LineEntity> lineList;*/
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "line_id")
+    private LineEntity line;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "trainStatsEntity")
+    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "train_analyse_id")
     private AnalyseEntity analyse;
+
 }

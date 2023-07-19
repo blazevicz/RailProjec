@@ -3,6 +3,8 @@ package org.pl.deenes.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Builder
 @Getter
@@ -47,9 +49,8 @@ public class AnalyseEntity {
     @Column(name = "brake_percent")
     private int brakePercent;
 
-    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "train_stats_id")
-    private TrainStatsEntity trainStatsEntity;
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trainStatsId")
+    private List<TrainStatsEntity> trainStats;
 
     @OneToOne(fetch = FetchType.EAGER, mappedBy = "analyse")
     @JoinColumn(name = "train_id")

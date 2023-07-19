@@ -8,4 +8,7 @@ import org.pl.deenes.model.Train;
 public interface TrainDTOMapper {
 
     TrainDTO mapToDTO(Train train);
+
+    Train mapFromDTO(TrainDTO trainDTO);
+
 }

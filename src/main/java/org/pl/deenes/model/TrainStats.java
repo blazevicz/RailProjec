@@ -17,6 +17,7 @@ public class TrainStats {
     private final List<Line> lineList;
     private Double howManyKilometers;
     private Analyse analyse;
+    private Line line;
     private Double firstKilometer;
     private Double lastKilometer;
     private Map<Integer, List<Double>> lineWithFirstLastKm;

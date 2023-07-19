@@ -6,6 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.pl.deenes.model.Train;
+import org.pl.deenes.services.interfaces.TrainService;
 import org.slf4j.Logger;
 
 import static org.mockito.Mockito.when;

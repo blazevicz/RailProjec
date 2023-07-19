@@ -5,7 +5,6 @@ import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.model.Driver;
 
 @Mapper(componentModel = "spring")
-
 public interface DriverDTOMapper {
 
     DriverDTO mapToDTO(Driver driver);

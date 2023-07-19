@@ -26,7 +26,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
             ConstraintViolationException.class, HttpStatus.BAD_REQUEST,
             DataIntegrityViolationException.class, HttpStatus.BAD_REQUEST,
             EntityNotFoundException.class, HttpStatus.NOT_FOUND,
-            TrainNotFound.class, HttpStatus.NOT_FOUND
+            NotFound.class, HttpStatus.NOT_FOUND
     );
 
     @Override

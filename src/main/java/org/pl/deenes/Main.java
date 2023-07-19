@@ -2,6 +2,7 @@ package org.pl.deenes;
 
 
 import org.pl.deenes.services.ResultServiceImpl;
+import org.pl.deenes.services.WOSReaderService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -19,12 +20,24 @@ public class Main {
 
         ResultServiceImpl bean = run.getBean(ResultServiceImpl.class);
         bean.runningMethod();
-
+//TODO: enum w db
 /*
-        AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);
-        WOSReaderService bean1 = applicationContext.getBean(WOSReaderService.class);
-        bean1.loadWosPDF();
+        SQLInsert oneInsert = sqlInserts()
+                .tableName("emp")
+                .column("id", intSeq().increment(10))
+                .column("first_name", names().first(), TEXT_BACKSLASH)
+                .column("last_name", names().last(), TEXT_BACKSLASH)
+                .column("username", users(), TEXT_BACKSLASH)
+                .column("email", emails(), TEXT_BACKSLASH)
+                .column("description", markovs().size(32).type(LOREM_IPSUM), TEXT_BACKSLASH)
+                .column("created", localDates().thisYear().display(BASIC_ISO_DATE), TEXT_BACKSLASH)
+                .get();
+
+        System.out.println(oneInsert);
 */
+
+        WOSReaderService bean1 = run.getBean(WOSReaderService.class);
+        bean1.loadWosPDF();
 
 
      /*   AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);

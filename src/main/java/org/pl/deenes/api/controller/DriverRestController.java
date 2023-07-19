@@ -33,7 +33,7 @@ public class DriverRestController {
                 .orElseThrow();
     }
 
-    @PutMapping(value = "/add")
+    @PostMapping(value = "/add")
     public DriverDTO addDriver(@RequestBody DriverDTO driverDTO) {
         Driver save = driverRepository.save(driverDTOMapper.mapFromDTO(driverDTO));
         return driverDTOMapper.mapToDTO(save);

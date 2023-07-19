@@ -3,7 +3,7 @@ package org.pl.deenes.api.controller;
 
 import lombok.AllArgsConstructor;
 import org.pl.deenes.api.controller.dto.TrainDTO;
-import org.pl.deenes.api.controller.exception.TrainNotFound;
+import org.pl.deenes.api.controller.exception.NotFound;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Train;
@@ -24,11 +24,11 @@ public class TrainRestController {
     @GetMapping(value = "/{trainKwr}")
     public TrainDTO trainInfo(@PathVariable Integer trainKwr) {
 
-        Train train = trainRepository.find(trainKwr).orElseThrow(() -> new TrainNotFound("Train kwr: %s not found".formatted(trainKwr)));
+        Train train = trainRepository.find(trainKwr).orElseThrow(() -> new NotFound("Train kwr: %s not found".formatted(trainKwr)));
         return trainDTOMapper.mapToDTO(train);
     }
 
-    @DeleteMapping(value = "/{trainKwr}/delete")
+    @DeleteMapping(value = "/delete/{trainKwr}")
     public void deleteTrain(@PathVariable Integer trainKwr) {
         trainRepository.delete(trainKwr);
     }

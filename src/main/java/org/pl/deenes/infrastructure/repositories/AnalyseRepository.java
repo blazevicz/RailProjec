@@ -5,10 +5,10 @@ import org.pl.deenes.infrastructure.entity.AnalyseEntity;
 import org.pl.deenes.infrastructure.entity.TrainEntity;
 import org.pl.deenes.infrastructure.mapper.AnalyseMapper;
 import org.pl.deenes.infrastructure.mapper.TrainMapper;
+import org.pl.deenes.infrastructure.repositories.dao.AnalyseDAO;
 import org.pl.deenes.infrastructure.repositories.jpa.AnalyseJpaRepository;
 import org.pl.deenes.model.Analyse;
 import org.pl.deenes.model.Train;
-import org.pl.deenes.services.dao.AnalyseDAO;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

@@ -2,9 +2,6 @@ package org.pl.deenes.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.pl.deenes.model.LocomotiveType;
-
-import java.util.Set;
 
 @Entity
 @Builder
@@ -12,7 +9,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(of = {"name", "surname", "phoneNumber"})
+@ToString(of = {"name", "surname", "pesel"})
 @Table(name = "driver")
 public class DriverEntity {
 
@@ -20,17 +17,20 @@ public class DriverEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "driver_id")
     private Integer driverId;
+
     @Column(name = "name")
     private String name;
     @Column(name = "surname")
-    private String surname;
-    @Column(name = "phone_number")
-    private String phoneNumber;
 
-    @Column(name = "locomotive")
+    private String surname;
+
+    @Column(name = "pesel")
+    private Integer pesel;
+
+/*    @Column(name = "locomotive")
     private Set<LocomotiveType> locomotiveAuthorization;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private Set<LineEntity> lineEntityAuthorization;
+    private Set<LineEntity> lineEntityAuthorization;*/
 
 }

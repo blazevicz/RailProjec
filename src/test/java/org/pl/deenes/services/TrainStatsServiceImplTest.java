@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.pl.deenes.model.Line;
 import org.pl.deenes.model.TrainStats;
+import org.pl.deenes.services.interfaces.TrainStatsService;
 
 import java.util.LinkedList;
 import java.util.List;

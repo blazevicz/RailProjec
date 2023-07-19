@@ -3,6 +3,7 @@ package org.pl.deenes.infrastructure.repositories;
 import lombok.AllArgsConstructor;
 import org.pl.deenes.infrastructure.entity.DriverEntity;
 import org.pl.deenes.infrastructure.mapper.DriverMapper;
+import org.pl.deenes.infrastructure.repositories.dao.DriverDAO;
 import org.pl.deenes.infrastructure.repositories.jpa.DriverJpaRepository;
 import org.pl.deenes.model.Driver;
 import org.springframework.stereotype.Repository;

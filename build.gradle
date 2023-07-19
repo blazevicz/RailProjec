@@ -36,6 +36,7 @@ dependencies {
     implementation 'org.apache.pdfbox:pdfbox:2.0.27'
 
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    implementation 'net.andreinc:mockneat:0.4.8'
     annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
     annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
     testAnnotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
@@ -58,6 +59,11 @@ dependencies {
 
     testImplementation 'org.springframework:spring-test:6.0.7'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    implementation "org.openapitools:jackson-databind-nullable"
+    implementation "javax.annotation:javax.annotation-api"
+    implementation "io.swagger:swagger-annotations"
+
 
 }
 
