@@ -34,8 +34,8 @@ public class LineDetailsEntity {
     private Integer page;
     @Column(name = "railway_region")
     private Integer railwayRegion;
-    @Column(name = "wos_update_ver")
-    private String wosUpdateVersion;
+/*    @Column(name = "wos_update_ver")
+    private String wosUpdateVersion;*/
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "line")
     private Set<TerrainProfileEntity> profile;

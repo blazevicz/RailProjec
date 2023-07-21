@@ -1,6 +1,7 @@
 package org.pl.deenes;
 
 
+import org.pl.deenes.services.OsmApiServiceImpl;
 import org.pl.deenes.services.ResultServiceImpl;
 import org.pl.deenes.services.WOSReaderService;
 import org.springframework.boot.SpringApplication;
@@ -19,7 +20,10 @@ public class Main {
         ConfigurableApplicationContext run = SpringApplication.run(Main.class, args);
 
         ResultServiceImpl bean = run.getBean(ResultServiceImpl.class);
-        bean.runningMethod();
+        // bean.runningMethod();
+
+        OsmApiServiceImpl bean2 = run.getBean(OsmApiServiceImpl.class);
+        bean2.checkApi();
 //TODO: enum w db
 /*
         SQLInsert oneInsert = sqlInserts()
@@ -37,7 +41,7 @@ public class Main {
 */
 
         WOSReaderService bean1 = run.getBean(WOSReaderService.class);
-        bean1.loadWosPDF();
+        //bean1.loadWosPDF();
 
 
      /*   AnnotationConfigApplicationContext applicationContext = new AnnotationConfigApplicationContext(SpringConfiguration.class);

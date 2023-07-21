@@ -8,3 +8,6 @@ DROP TABLE IF EXISTS train_stats cascade;
 DROP TABLE IF EXISTS region cascade;
 DROP TABLE IF EXISTS line_details cascade;
 DROP TABLE IF EXISTS line cascade;
+
+
+create schema public

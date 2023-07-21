@@ -1,7 +1,7 @@
 CREATE TABLE train
 (
     train_id         SERIAL PRIMARY KEY,
-    train_kwr        INTEGER,
+    train_kwr        INTEGER unique,
     company_name     VARCHAR(64),
     date_plan        date,
     road_stats       decimal,

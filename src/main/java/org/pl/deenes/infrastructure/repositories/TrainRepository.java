@@ -8,6 +8,7 @@ import org.pl.deenes.infrastructure.repositories.jpa.TrainJpaRepository;
 import org.pl.deenes.model.Train;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -32,6 +33,12 @@ public class TrainRepository implements TrainDAO {
     public void delete(Integer trainKwr) {
         var byTrainKwr = trainJpaRepository.findByTrainKwr(trainKwr).orElseThrow();
         trainJpaRepository.delete(byTrainKwr);
+    }
+
+    @Override
+    public List<Train> findAll() {
+        List<TrainEntity> all = trainJpaRepository.findAll();
+        return all.stream().map(trainMapper::mapFromEntity).toList();
     }
 
 
