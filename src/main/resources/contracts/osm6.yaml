@@ -415,7 +415,8 @@ components:
                 - relation
               example: node
             id:
-              $ref: '#/components/schemas/Way'
+              type: number
+              format: int64
             timestamp:
               type: string
               format: date-time

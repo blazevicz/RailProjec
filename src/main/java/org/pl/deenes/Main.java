@@ -1,30 +1,39 @@
 package org.pl.deenes;
 
 
+import org.pl.deenes.model.Train;
 import org.pl.deenes.services.OsmApiServiceImpl;
-import org.pl.deenes.services.ResultServiceImpl;
+import org.pl.deenes.services.TrainServiceImpl;
 import org.pl.deenes.services.WOSReaderService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 
-import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
 @SpringBootApplication
 public class Main {
-    public static void main(String[] args) throws IOException {
+
+    public static void main(String[] args) {
         Logger.getLogger("org.apache.pdfbox").setLevel(Level.SEVERE);
         ConfigurableApplicationContext run = SpringApplication.run(Main.class, args);
 
-        ResultServiceImpl bean = run.getBean(ResultServiceImpl.class);
-        // bean.runningMethod();
+        TrainServiceImpl bean = run.getBean(TrainServiceImpl.class);
+        Train train = bean.trainCreate();
+        System.out.println(train);
+
+
+        Train train1 = bean.saveTrain(train);
+        //   Train train2 = bean.findTrain(666401);
+        //  System.out.println(train2);
+        // System.out.println(train2.getAnalyse().getTrainStats().size() );
+
 
         OsmApiServiceImpl bean2 = run.getBean(OsmApiServiceImpl.class);
-        bean2.checkApi();
-//TODO: enum w db
+        // List<OSMResultNode> nodes =
+        //  bean2.findNodes(OsmApiServiceImpl.BBOX, OsmApiServiceImpl.QUERY);
 /*
         SQLInsert oneInsert = sqlInserts()
                 .tableName("emp")

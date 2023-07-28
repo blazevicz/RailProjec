@@ -11,6 +11,6 @@ CREATE TABLE train_analyse
     locomotive_type  VARCHAR(15) NOT NULL,
     train_max_speed  SMALLINT    NOT NULL,
     brake_percent    SMALLINT    NOT NULL,
-    train_id         INT,
-    train_stats_id   INT
+    train_stats_id INT,
+    train_id       INT
 );

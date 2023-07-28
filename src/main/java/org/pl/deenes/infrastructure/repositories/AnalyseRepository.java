@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.pl.deenes.infrastructure.entity.AnalyseEntity;
 import org.pl.deenes.infrastructure.entity.TrainEntity;
 import org.pl.deenes.infrastructure.mapper.AnalyseMapper;
+import org.pl.deenes.infrastructure.mapper.CycleAvoidingMappingContext;
 import org.pl.deenes.infrastructure.mapper.TrainMapper;
 import org.pl.deenes.infrastructure.repositories.dao.AnalyseDAO;
 import org.pl.deenes.infrastructure.repositories.jpa.AnalyseJpaRepository;
@@ -24,7 +25,7 @@ public class AnalyseRepository implements AnalyseDAO {
     public Analyse save(Analyse analyse) {
         AnalyseEntity analyseEntity = analyseMapper.mapToEntity(analyse);
         AnalyseEntity savedAnalyse = analyseJpaRepository.save(analyseEntity);
-        return analyseMapper.mapFromEntity(savedAnalyse);
+        return analyseMapper.mapFromEntity(savedAnalyse, new CycleAvoidingMappingContext());
 
     }
 
@@ -32,6 +33,6 @@ public class AnalyseRepository implements AnalyseDAO {
     public Train find(Integer trainKwr) {
         Optional<AnalyseEntity> byTrainKwr = analyseJpaRepository.findByTrainKwr(trainKwr);
         TrainEntity trainEntity = byTrainKwr.orElseThrow().getTrainEntity();
-        return trainMapper.mapFromEntity(trainEntity);
+        return trainMapper.mapFromEntity(trainEntity, new CycleAvoidingMappingContext());
     }
 }

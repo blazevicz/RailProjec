@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.jetbrains.annotations.Contract;
 import org.pl.deenes.model.Line;
 import org.pl.deenes.services.interfaces.CalculateKilometersService;
 import org.springframework.stereotype.Service;
@@ -45,7 +46,8 @@ public class CalculateKilometersServiceImpl implements CalculateKilometersServic
         return connectingDuplicatedLines(lineList);
     }
 
-    private LinkedList<Line> connectingDuplicatedLines(@NonNull LinkedList<Line> lines) {
+    @Contract("_ -> new")
+    private @NonNull LinkedList<Line> connectingDuplicatedLines(@NonNull LinkedList<Line> lines) {
 
         return new LinkedList<>(lines.stream()
                 .collect(Collectors.toMap(Line::getLineNumber,

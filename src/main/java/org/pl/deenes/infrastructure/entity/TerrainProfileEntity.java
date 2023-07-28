@@ -19,9 +19,9 @@ public class TerrainProfileEntity {
     double slope;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "terrain_profile_id")
     private Integer id;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "line_details_id")
-    private LineDetailsEntity line;
+    @JoinColumn(name = "line_id")
+    private LineEntity line;
 }

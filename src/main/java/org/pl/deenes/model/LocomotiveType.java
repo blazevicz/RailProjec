@@ -1,7 +1,7 @@
 package org.pl.deenes.model;
 
 public enum LocomotiveType {
-
+    //@Enumerated(EnumType.STRING).
     ET22,
     ET41,
     ET42,

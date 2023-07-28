@@ -49,11 +49,13 @@ public class AnalyseEntity {
     @Column(name = "brake_percent")
     private int brakePercent;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, mappedBy = "trainStatsId")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "analyse")
+    //  @JoinColumn(name = "train_stats_id")
     private List<TrainStatsEntity> trainStats;
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "analyse")
-    @JoinColumn(name = "train_id")
+    //@OneToOne(fetch = FetchType.EAGER, mappedBy = "analyse")
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "analyse")
+    //@JoinColumn(name = "train_id")
     private TrainEntity trainEntity;
 
 }

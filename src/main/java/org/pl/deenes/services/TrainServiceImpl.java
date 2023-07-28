@@ -1,23 +1,31 @@
 package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.pl.deenes.infrastructure.repositories.LineRepository;
 import org.pl.deenes.infrastructure.repositories.dao.AnalyseDAO;
 import org.pl.deenes.infrastructure.repositories.dao.TrainDAO;
-import org.pl.deenes.model.*;
+import org.pl.deenes.model.Analyse;
+import org.pl.deenes.model.Files;
+import org.pl.deenes.model.Train;
+import org.pl.deenes.model.TrainStats;
 import org.pl.deenes.services.interfaces.AnalyseService;
 import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @ToString
 @AllArgsConstructor
 @Slf4j
+@Transactional
 public class TrainServiceImpl implements TrainService {
 
     private final TimetableImpl readKilometersServiceImpl;
@@ -26,8 +34,9 @@ public class TrainServiceImpl implements TrainService {
     private final AnalyseService analyseServiceImpl;
     private final TrainDAO trainDAO;
     private final AnalyseDAO analyseDAO;
+    private final LineRepository lineRepository;
 
-    private static Optional<LocalDate> extractingDate(List<String> split) {
+    private static Optional<LocalDate> extractingDate(@NonNull List<String> split) {
         Optional<String> day = split.stream().filter(a -> a.contains("dnia")).limit(1).findFirst();
         if (day.isPresent()) {
             String[] split1 = day.get().split(" ");
@@ -52,7 +61,6 @@ public class TrainServiceImpl implements TrainService {
 
         TrainStats trainStats = trainStatsServiceImpl.calculateKilometers(trainStatsServiceImpl.getLastKilometer());
         Analyse analyse = analyseServiceImpl.creatingTrainAnalyse(trainStats);
-        Set<Line> collect = new HashSet<>(trainStats.getLineList());
 
         return Train.builder()
                 .companyName(split.get(2))
@@ -60,8 +68,18 @@ public class TrainServiceImpl implements TrainService {
                 .datePlan(localDate)
                 .roadStats(trainStats.getHowManyKilometers())
                 .analyse(analyse)
-                .line(collect)
                 .build();
+    }
+
+    @Transactional
+    public Train saveTrain(Train train) {
+        return trainDAO.save(train);
+    }
+
+    @Transactional
+    public Train findTrain(Integer kwr) {
+        Optional<Train> train = trainDAO.find(kwr);
+        return train.orElseThrow();
 
     }
 }

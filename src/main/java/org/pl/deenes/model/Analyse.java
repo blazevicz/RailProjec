@@ -1,18 +1,19 @@
 package org.pl.deenes.model;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
-import lombok.With;
+import lombok.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
-@With
-@Value
+@Data
 @Builder
+@With
+@Setter
+@Getter
 @EqualsAndHashCode(of = "trainKwr")
 public class Analyse {
 
+    Integer trainAnalyseId;
     Integer trainKwr;
     Integer trainMaxWeight;
     Integer trainMaxLength;
@@ -23,7 +24,17 @@ public class Analyse {
     Integer trainMaxSpeed;
     Integer brakePercent;
     List<TrainStats> trainStats;
-    Train train;
     Integer trainNumber;
+    Train trainEntity;
+    //  Train train;
+
+
+    public void addStat(TrainStats stat) {
+        stat.setAnalyse(this);
+        if (trainStats == null) {
+            trainStats = new ArrayList<>();
+        }
+        trainStats.add(stat);
+    }
 
 }

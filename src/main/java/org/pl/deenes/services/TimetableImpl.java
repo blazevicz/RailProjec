@@ -42,6 +42,7 @@ public class TimetableImpl implements Timetable {
         TimetableDetails timetableDetails = new TimetableDetails();
 
         try (PDDocument loadPDF = PDDocument.load(Files.myPatch())) {
+
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();
             stripper.setSortByPosition(true);
 
@@ -98,16 +99,16 @@ public class TimetableImpl implements Timetable {
     }
 
 
-    private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, TimetableDetails timetableDetails) {
+    private void addingToList(PDFTextStripperByArea stripper, String leftOrRight, @NonNull TimetableDetails timetableDetails) {
         List<String> kilometersFromColumn = getKilometerColumn(stripper, leftOrRight);
         timetableDetails.getAllKilometers().add(kilometersFromColumn);
     }
 
-    private List<String> getKilometerColumn(PDFTextStripperByArea stripper, String leftOrRight) {
+    private List<String> getKilometerColumn(@NonNull PDFTextStripperByArea stripper, String leftOrRight) {
         return Arrays.stream(stripper.getTextForRegion(leftOrRight).split("\\s")).toList();
     }
 
-    private void addRegionsConfiguration(PDFTextStripperByArea stripper) {
+    private void addRegionsConfiguration(@NonNull PDFTextStripperByArea stripper) {
         stripper.addRegion(Positions.COMPANYNAME.name(), new Rectangle(59, 125, 302, 302));
         stripper.addRegion(Positions.BRUTTOANALYSIS.name(), new Rectangle(730, 41, 91, 548));
         stripper.addRegion(Positions.ANALYSIS.name(), new Rectangle(444, 25, 376, 18));

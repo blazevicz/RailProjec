@@ -1,10 +1,7 @@
 package org.pl.deenes.model;
 
 import lombok.*;
-import org.pl.deenes.infrastructure.entity.LineDetailsEntity;
-import org.pl.deenes.infrastructure.entity.RegionEntity;
-import org.pl.deenes.infrastructure.entity.TrainEntity;
-import org.pl.deenes.infrastructure.entity.TrainStatsEntity;
+import org.pl.deenes.infrastructure.entity.TerrainProfileEntity;
 
 import java.util.List;
 import java.util.Set;
@@ -15,16 +12,15 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 public class Line {
+    private Integer lineId;
     private final Integer lineNumber;
     private final List<Double> kilometers;
     private Double size;
-    private LineDetailsEntity lineEntry;
-    private Set<RegionEntity> zlk;
-    private TrainEntity train;
-    private TrainStatsEntity trainStats;
-
+    private LineDetails lineEntry;
+    private Set<Region> zlk;
     private String relationFrom;
     private String relationTo;
+    private Set<TerrainProfileEntity> profile;
 
 
 }

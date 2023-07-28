@@ -7,8 +7,6 @@ import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import java.util.Set;
-
 @Entity
 @Builder
 @NoArgsConstructor
@@ -37,8 +35,8 @@ public class LineDetailsEntity {
 /*    @Column(name = "wos_update_ver")
     private String wosUpdateVersion;*/
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "line")
-    private Set<TerrainProfileEntity> profile;
+    /*@OneToMany(fetch = FetchType.LAZY, mappedBy = "line")
+    private Set<TerrainProfileEntity> profile;*/
 
     //link do listy linii
 

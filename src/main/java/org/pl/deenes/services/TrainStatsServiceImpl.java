@@ -1,9 +1,7 @@
 package org.pl.deenes.services;
 
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.transaction.Transactional;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.model.Line;
 import org.pl.deenes.model.TrainStats;
@@ -33,7 +31,7 @@ public class TrainStatsServiceImpl implements TrainStatsService {
         this.calculateKilometers = calculateKilometers;
     }
 
-    private static void calculateKilometersForEachLine(LinkedList<Line> lineList) {
+    private static void calculateKilometersForEachLine(@NonNull LinkedList<Line> lineList) {
         for (Line line : lineList) {
             List<Double> kilometers1 = line.getKilometers();
             Collections.sort(kilometers1);
@@ -44,7 +42,7 @@ public class TrainStatsServiceImpl implements TrainStatsService {
         }
     }
 
-    private static void sumKilometersForEachLine(Line line, List<Double> kilometers1) {
+    private static void sumKilometersForEachLine(Line line, @NonNull List<Double> kilometers1) {
         List<Double> allKilometersInLine = Stream.concat(
                         Stream.of(kilometers1.get(0)),
                         Stream.of(kilometers1.get(kilometers1.size() - 1)))
@@ -57,18 +55,17 @@ public class TrainStatsServiceImpl implements TrainStatsService {
     }
 
     @Override
+    @Transactional
     public TrainStats calculateKilometers(Double lastKilometer) {
         LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
         calculateKilometersForEachLine(lineList);
-        mapWithLineNumberAndFirstLastKilometr(lineList);
-        // TrainStats trainStats = new TrainStats(lineList);
+        mapWithLineNumberAndFirstLastKilometer(lineList);
         var trainStatsBuilder = TrainStats.builder().lineList(lineList).build();
-        //TrainStats trainStats = new TrainStats(mapWithLineNumberAndFirstLastKilometr(lineList));
         trainStatsBuilder.setHowManyKilometers(lineList.stream().map(Line::getSize).filter(Objects::nonNull).reduce(Double::sum).orElse(0.0));
         return trainStatsBuilder;
     }
 
-    public Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometr(LinkedList<Line> lineList) {
+    public Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer(@NonNull List<Line> lineList) {
         return lineList.stream()
                 .collect(Collectors.toMap(
                         Line::getLineNumber,

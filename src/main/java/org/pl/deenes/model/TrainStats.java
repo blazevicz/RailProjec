@@ -1,25 +1,27 @@
 package org.pl.deenes.model;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Setter;
-import lombok.With;
+import lombok.*;
 
-import java.util.List;
-import java.util.Map;
+import java.util.LinkedList;
 
 @Data
 @Builder
 @With
 @Setter
+@Getter
+@ToString(of = {"trainStatsId", "howManyKilometers", "lineNumber"})
 public class TrainStats {
-    //bylo linked list
-    private final List<Line> lineList;
+    private final LinkedList<Line> lineList;
+    private Integer trainStatsId;
     private Double howManyKilometers;
-    private Analyse analyse;
-    private Line line;
+    // private Analyse analyse;
+    // private Line line;
+    private Integer lineNumber;
     private Double firstKilometer;
     private Double lastKilometer;
-    private Map<Integer, List<Double>> lineWithFirstLastKm;
+    private Train train;
+    private Analyse analyse;
+    //private Map<Integer, List<Double>> lineWithFirstLastKm;
+    //private Train train;
 
 }

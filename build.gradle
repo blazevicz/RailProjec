@@ -28,7 +28,6 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     // implementation 'org.springframework.boot:spring-boot-starter-security'
-// https://mvnrepository.com/artifact/io.netty/netty-resolver-dns-native-macos
     runtimeOnly 'io.netty:netty-all:4.1.95.Final'
 
     implementation 'org.postgresql:postgresql:42.6.0'
@@ -65,6 +64,8 @@ dependencies {
     implementation "org.openapitools:jackson-databind-nullable"
     implementation "javax.annotation:javax.annotation-api"
     implementation "io.swagger:swagger-annotations"
+// https://mvnrepository.com/artifact/de.westnordost/osmapi-overpass
+    implementation 'de.westnordost:osmapi-overpass:2.0'
 
 
 }
@@ -75,7 +76,8 @@ openApiGenerate {
     configOptions = [
             serializableModel   : "false",
             dateLibrary         : "java8",
-            serializationLibrary: "jackson"
+            serializationLibrary: "jackson",
+            openApiNullable     : "true"
     ]
     outputDir = "$buildDir/generated-sources/openapi".toString()
     inputSpec = "$rootDir/src/main/resources/contracts/osm6.yaml".toString()

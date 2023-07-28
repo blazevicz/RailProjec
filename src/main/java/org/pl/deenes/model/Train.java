@@ -1,14 +1,15 @@
 package org.pl.deenes.model;
 
 import lombok.*;
+import org.pl.deenes.infrastructure.entity.TrainStatsEntity;
 
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @With
 @Value
 @Builder
-@ToString(exclude = {"driver", "line"})
+@ToString(exclude = {"driver"})
 @EqualsAndHashCode(of = "trainId")
 
 public class Train {
@@ -19,9 +20,10 @@ public class Train {
     LocalDate datePlan;
     Double roadStats;
     Analyse analyse;
-    Set<Line> line;
+    // TrainStats trainStats;
     Driver driver;
-
+    List<TrainStatsEntity> trainStats;
+    //  Set<Line> line;
 }
 
 

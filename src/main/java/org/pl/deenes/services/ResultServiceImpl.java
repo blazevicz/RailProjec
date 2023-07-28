@@ -21,10 +21,7 @@ public class ResultServiceImpl implements ResultService {
     @Transactional
     public void runningMethod() {
         Train train = trainServiceImpl.trainCreate();
-        Train train1 = saveTrain(train);
-        // log.warn(train1.getAnalyse().toString());
-        //log.warn(train.getAnalyse().getTrainStats().toString());
-        // log.warn(String.valueOf(train1.getAnalyse().getTrainStats().size()));
+
 
     }
 
