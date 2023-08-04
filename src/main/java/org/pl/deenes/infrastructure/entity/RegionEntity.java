@@ -10,9 +10,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "region")
-@EqualsAndHashCode
+@EqualsAndHashCode(of = "actualWOS")
 public class RegionEntity {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "region_id")
@@ -24,7 +23,4 @@ public class RegionEntity {
     @Column(name = "wos_link")
     private String actualWOSlink;
 
-    @ManyToOne
-    @JoinColumn(name = "line_id")
-    private LineEntity line;
 }

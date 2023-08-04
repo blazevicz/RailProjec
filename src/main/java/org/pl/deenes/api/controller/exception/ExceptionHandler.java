@@ -47,7 +47,7 @@ public class ExceptionHandler extends ResponseEntityExceptionHandler {
         return doHandle(exception, getHttpStatusFromException(exception.getClass()));
     }
 
-    private ResponseEntity<Object> doHandle(final Exception exception, final HttpStatus status) {
+    private @lombok.NonNull ResponseEntity<Object> doHandle(final Exception exception, final HttpStatus status) {
         final String errorId = UUID.randomUUID().toString();
         log.error("Exception: ID={}, HttpStatus={}", errorId, status, exception);
 

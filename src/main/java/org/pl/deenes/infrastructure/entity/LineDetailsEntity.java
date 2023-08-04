@@ -2,16 +2,15 @@ package org.pl.deenes.infrastructure.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@Getter
+@Setter
 @Table(name = "line_details")
 public class LineDetailsEntity {
     @Id
@@ -32,13 +31,5 @@ public class LineDetailsEntity {
     private Integer page;
     @Column(name = "railway_region")
     private Integer railwayRegion;
-/*    @Column(name = "wos_update_ver")
-    private String wosUpdateVersion;*/
-
-    /*@OneToMany(fetch = FetchType.LAZY, mappedBy = "line")
-    private Set<TerrainProfileEntity> profile;*/
-
-    //link do listy linii
-
 
 }

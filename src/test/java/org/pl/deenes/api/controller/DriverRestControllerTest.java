@@ -6,6 +6,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
+import org.pl.deenes.api.controller.rest.DriverRestController;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.model.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,19 +42,19 @@ class DriverRestControllerTest {
     @Test
     void allDrivers() throws Exception {
         Driver driver1 = Driver.builder()
-                .id(1)
+                .driverId(1)
                 .name("Test1")
                 .pesel(123456789)
                 .build();
         Driver driver2 = Driver.builder()
-                .id(2)
+                .driverId(2)
                 .name("Test2")
                 .pesel(8888888)
                 .build();
         List<Driver> driverList = List.of(driver1, driver2);
 
         DriverDTO driverDTO1 = DriverDTO.builder()
-                .id(1)
+                .driverId(1)
                 .name("Test1")
                 .pesel(123456789)
                 .build();

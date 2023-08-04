@@ -25,7 +25,7 @@ class DriverMapperTest {
                 .build();
         var driver = driverMapper.mapFromEntity(test);
 
-        Assertions.assertEquals("Test", driver.name());
+        Assertions.assertEquals("Test", driver.getName());
     }
 
     @Test

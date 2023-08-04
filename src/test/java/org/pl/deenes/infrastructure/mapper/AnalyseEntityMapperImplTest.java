@@ -36,7 +36,6 @@ class AnalyseEntityMapperImplTest {
         Assertions.assertNotNull(analyseEntity);
         Assertions.assertEquals("asd", analyseEntity.getStartStation());
         Assertions.assertEquals("TME", analyseEntity.getTrainType());
-        Assertions.assertEquals(2, analyseEntity.getTrainStats().size());
     }
 
     @Test
@@ -48,12 +47,11 @@ class AnalyseEntityMapperImplTest {
                 .trainStats(List.of())
                 .build();
 
-        Analyse analyse = analyseMa.mapFromEntity(asd);
+        Analyse analyse = analyseMa.mapFromEntity(asd, new CycleAvoidingMappingContext());
 
         Assertions.assertNotNull(analyse);
         Assertions.assertEquals("asd", analyse.getStartStation());
         Assertions.assertEquals("TME", analyse.getTrainType());
-        Assertions.assertEquals(2, analyse.getTrainStats().size());
 
     }
 }

@@ -31,9 +31,9 @@ public class TrainStatsServiceImpl implements TrainStatsService {
         this.calculateKilometers = calculateKilometers;
     }
 
-    private static void calculateKilometersForEachLine(@NonNull LinkedList<Line> lineList) {
+    void calculateKilometersForEachLine(@NonNull List<Line> lineList) {
         for (Line line : lineList) {
-            List<Double> kilometers1 = line.getKilometers();
+            List<Double> kilometers1 = new ArrayList<>(line.getKilometers());
             Collections.sort(kilometers1);
             if (kilometers1.size() < 2) {
                 continue;

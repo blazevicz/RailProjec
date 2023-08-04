@@ -11,7 +11,6 @@ import java.util.List;
 @Builder
 @ToString(exclude = {"driver"})
 @EqualsAndHashCode(of = "trainId")
-
 public class Train {
 
     Integer trainId;
@@ -20,10 +19,8 @@ public class Train {
     LocalDate datePlan;
     Double roadStats;
     Analyse analyse;
-    // TrainStats trainStats;
     Driver driver;
     List<TrainStatsEntity> trainStats;
-    //  Set<Line> line;
 }
 
 

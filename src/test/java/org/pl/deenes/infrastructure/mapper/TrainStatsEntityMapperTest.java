@@ -42,7 +42,7 @@ class TrainStatsEntityMapperTest {
                 .lastKilometer(2.2)
                 .build();
 
-        TrainStats trainStats = trainStatsMapper.mapFromEntity(trainStatsBuilder);
+        TrainStats trainStats = trainStatsMapper.mapFromEntity(trainStatsBuilder, new CycleAvoidingMappingContext());
         Assertions.assertNotNull(trainStats);
         Assertions.assertEquals(1.1, trainStatsBuilder.getFirstKilometer());
         Assertions.assertEquals(2.2, trainStatsBuilder.getLastKilometer());

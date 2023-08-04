@@ -20,7 +20,7 @@ public class ResultServiceImpl implements ResultService {
     @Override
     @Transactional
     public void runningMethod() {
-        Train train = trainServiceImpl.trainCreate();
+        trainServiceImpl.trainCreate();
 
 
     }

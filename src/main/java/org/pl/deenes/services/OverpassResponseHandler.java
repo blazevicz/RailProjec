@@ -37,8 +37,6 @@ public class OverpassResponseHandler implements MapDataHandler {
 
     @Override
     public void handle(BoundingBox bounds) {
-        // throw new OperationNotSupported("Bounds is not supported");
-
     }
 
 

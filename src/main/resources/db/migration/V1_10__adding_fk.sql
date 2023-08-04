@@ -17,8 +17,7 @@ ALTER TABLE line
     ADD CONSTRAINT fk_line FOREIGN KEY (line_details_id) REFERENCES line_details (line_details_id),
     ADD CONSTRAINT fk_region FOREIGN KEY (region_id) REFERENCES region (region_id);
 
-ALTER TABLE line_details
-    ADD CONSTRAINT fk_terrain_profile FOREIGN KEY (terrain_profile_id) REFERENCES terrain_profile (terrain_profile_id);
+
 
 ALTER TABLE train_analyse
     ADD CONSTRAINT fk_train_analyse_stats

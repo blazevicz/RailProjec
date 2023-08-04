@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
+
 @Data
 @Service
 @Slf4j
@@ -29,17 +30,12 @@ public class TimetableDetails implements KilometersService {
     }
 
 
-    @Override
-    public void getAllRailwayLines() {
-        for (List<String> kilometer : allKilometers) {
-            List<String> collect = kilometer.stream().filter(TimetableDetails::isNumeric).toList();
-            collect.forEach(a -> {
-                try {
-                    kilometersAfterConvert.add(Integer.valueOf(a));
-                } catch (NumberFormatException e) {
-                    log.error("Error while parsing kilometers: {}", a, e);
-                }
-            });
+    private static boolean isInteger(String str) {
+        try {
+            Integer.parseInt(str);
+            return true;
+        } catch (NumberFormatException e) {
+            return false;
         }
     }
 
@@ -75,4 +71,19 @@ public class TimetableDetails implements KilometersService {
             }
         }
     }
+
+    @Override
+    public void getAllRailwayLines() {
+        for (List<String> kilometer : allKilometers) {
+            List<String> collect = kilometer.stream().filter(TimetableDetails::isInteger).toList();
+            collect.forEach(a -> {
+                try {
+                    kilometersAfterConvert.add(Integer.valueOf(a));
+                } catch (NumberFormatException e) {
+                    log.error("Error while parsing kilometers: {}", a, e);
+                }
+            });
+        }
+    }
+
 }

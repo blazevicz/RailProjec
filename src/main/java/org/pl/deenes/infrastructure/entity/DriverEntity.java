@@ -9,6 +9,7 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @ToString(of = {"name", "surname", "pesel"})
 @Table(name = "driver")
 public class DriverEntity {
@@ -27,10 +28,6 @@ public class DriverEntity {
     @Column(name = "pesel")
     private Integer pesel;
 
-/*    @Column(name = "locomotive")
-    private Set<LocomotiveType> locomotiveAuthorization;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    private Set<LineEntity> lineEntityAuthorization;*/
 
 }

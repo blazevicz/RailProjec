@@ -1,0 +1,8 @@
+api:
+  osm:
+    url: http://localhost:1234
+
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: validate

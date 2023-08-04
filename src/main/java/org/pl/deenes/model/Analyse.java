@@ -26,8 +26,6 @@ public class Analyse {
     List<TrainStats> trainStats;
     Integer trainNumber;
     Train trainEntity;
-    //  Train train;
-
 
     public void addStat(TrainStats stat) {
         stat.setAnalyse(this);

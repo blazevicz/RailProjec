@@ -1,5 +1,6 @@
 package org.pl.deenes.services;
 
+import lombok.NonNull;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -25,7 +26,7 @@ class CalculateTimetableDetailsTest {
     @InjectMocks
     private CalculateKilometersServiceImpl calculateKilometersService;
 
-    static Stream<Arguments> testCreateLinesAndAddToLineList() {
+    static @NonNull Stream<Arguments> testCreateLinesAndAddToLineList() {
         return Stream.of(
                 Arguments.of(List.of(0.0, 5, 10.0, 15.5, 20, 25.5, 30.0, 35.5, 40, 45.5, 50.0, 55.5)),
                 Arguments.of(List.of(5, 10.0, 15.5, 20, 25.5, 30.0, 35.5, 40, 45.5, 50.0, 55.5)));

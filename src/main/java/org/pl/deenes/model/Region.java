@@ -1,16 +1,15 @@
 package org.pl.deenes.model;
 
-import lombok.Builder;
-import lombok.Value;
-import org.pl.deenes.infrastructure.entity.LineEntity;
+import lombok.*;
 
-@Value
 @Builder
+@Setter
+@ToString
+@Getter
+@EqualsAndHashCode(of = "actualWOS")
 public class Region {
-
-    Integer id;
-    Integer zlkRegionNumber;
-    String actualWOS;
-    String actualWOSlink;
-    LineEntity line;
+    private Integer regionId;
+    private Integer zlkRegionNumber;
+    private String actualWOS;
+    private String actualWOSlink;
 }

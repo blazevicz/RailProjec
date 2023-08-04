@@ -2,6 +2,7 @@ package org.pl.deenes.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.NaturalId;
 
 import java.util.List;
 
@@ -11,6 +12,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "trainKwr")
 @Table(name = "train_analyse")
 public class AnalyseEntity {
 
@@ -23,6 +25,7 @@ public class AnalyseEntity {
     private int trainNumber;
 
     @Column(name = "train_kwr")
+    @NaturalId
     private int trainKwr;
 
     @Column(name = "train_max_weight")
@@ -49,13 +52,8 @@ public class AnalyseEntity {
     @Column(name = "brake_percent")
     private int brakePercent;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "analyse")
-    //  @JoinColumn(name = "train_stats_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "analyse", orphanRemoval = true)
     private List<TrainStatsEntity> trainStats;
 
-    //@OneToOne(fetch = FetchType.EAGER, mappedBy = "analyse")
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "analyse")
-    //@JoinColumn(name = "train_id")
-    private TrainEntity trainEntity;
 
 }

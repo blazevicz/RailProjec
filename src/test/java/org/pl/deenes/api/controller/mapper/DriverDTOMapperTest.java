@@ -37,6 +37,6 @@ class DriverDTOMapperTest {
                 .build();
 
         Driver driver = driverDTOMapper.mapFromDTO(test);
-        Assertions.assertEquals("Test", driver.name());
+        Assertions.assertEquals("Test", driver.getName());
     }
 }

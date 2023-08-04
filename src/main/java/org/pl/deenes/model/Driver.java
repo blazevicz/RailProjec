@@ -1,20 +1,25 @@
 package org.pl.deenes.model;
 
 import lombok.Builder;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.pl.deenes.infrastructure.entity.LineEntity;
 
 import java.util.Set;
 
+@Data
 @Builder
-public record Driver(
-        Integer id,
-        String name,
-        String surname,
-        Integer pesel,
+@EqualsAndHashCode
+public class Driver {
 
-        Set<LocomotiveType> locomotiveAuthorization,
-        Set<LineEntity> lineAuthorization,
-        Set<Train> trains
-) {
+    private Integer driverId;
+    private String name;
+    private String surname;
+    private Integer pesel;
+
+    private Set<LocomotiveType> locomotiveAuthorization;
+    private Set<LineEntity> lineAuthorization;
+    private Set<Train> trains;
+
 
 }

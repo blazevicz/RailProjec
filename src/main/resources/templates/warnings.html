@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link crossorigin="anonymous"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+          integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+          rel="stylesheet">
+    <title>Train Driver helper</title>
+</head>
+
+<body>
+<div class="container">
+    <h1>Train Driver helper!</h1>
+</div>
+<br>
+<br>
+
+<h2>Train details:</h2>
+<div>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>region</th>
+            <th>actual WOS</th>
+            <th>WOS link</th>
+            <th>line</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="warning : ${warningsList}">
+            <td th:text="${warning.zlkRegionNumber}"></td>
+            <td th:text="${warning.actualWOS}"></td>
+            <td th:text="${warning.actualWOSlink}"></td>
+            <td th:text="${warning.line}"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="container">
+    <div class="row mt-2">
+        <div class="col-md-2 d-flex justify-content-end">
+            <a class="btn btn-warning" role="button" th:href="@{/}">org.pl.deenes.Main Page</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

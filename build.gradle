@@ -3,6 +3,7 @@ plugins {
     id 'org.springframework.boot' version '3.0.5'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.openapi.generator" version "6.5.0"
+    id 'jacoco'
 
 }
 
@@ -61,16 +62,32 @@ dependencies {
     testImplementation 'org.springframework:spring-test:6.0.7'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+    testImplementation 'org.testcontainers:junit-jupiter'
+    testImplementation 'org.testcontainers:postgresql'
+
     implementation "org.openapitools:jackson-databind-nullable"
     implementation "javax.annotation:javax.annotation-api"
     implementation "io.swagger:swagger-annotations"
-// https://mvnrepository.com/artifact/de.westnordost/osmapi-overpass
     implementation 'de.westnordost:osmapi-overpass:2.0'
+    implementation 'org.jacoco:org.jacoco.core:0.8.10'
 
 
 }
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+    }
+}
 
 openApiGenerate {
+    globalProperties.set(
+            [
+                    additionalModelTypeAnnotations: "@lombok.Getter"
+
+            ]
+
+    )
+
     generatorName = "java"
     library = "webclient"
     configOptions = [
@@ -97,5 +114,19 @@ test {
     testLogging {
         events "passed", "skipped", "failed"
     }
+    finalizedBy jacocoTestReport
+}
+jacocoTestReport {
+    dependsOn test
 }
 apply plugin: 'org.openapi.generator'
+jacoco {
+    toolVersion = "0.8.9"
+}
+jacocoTestReport {
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}

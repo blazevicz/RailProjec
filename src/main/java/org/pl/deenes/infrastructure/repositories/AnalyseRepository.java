@@ -1,8 +1,8 @@
 package org.pl.deenes.infrastructure.repositories;
 
 import lombok.AllArgsConstructor;
+import org.pl.deenes.configuration.MethodNotImplementedException;
 import org.pl.deenes.infrastructure.entity.AnalyseEntity;
-import org.pl.deenes.infrastructure.entity.TrainEntity;
 import org.pl.deenes.infrastructure.mapper.AnalyseMapper;
 import org.pl.deenes.infrastructure.mapper.CycleAvoidingMappingContext;
 import org.pl.deenes.infrastructure.mapper.TrainMapper;
@@ -12,7 +12,7 @@ import org.pl.deenes.model.Analyse;
 import org.pl.deenes.model.Train;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import java.util.List;
 
 @Repository
 @AllArgsConstructor
@@ -31,8 +31,14 @@ public class AnalyseRepository implements AnalyseDAO {
 
     @Override
     public Train find(Integer trainKwr) {
-        Optional<AnalyseEntity> byTrainKwr = analyseJpaRepository.findByTrainKwr(trainKwr);
-        TrainEntity trainEntity = byTrainKwr.orElseThrow().getTrainEntity();
-        return trainMapper.mapFromEntity(trainEntity, new CycleAvoidingMappingContext());
+        throw new MethodNotImplementedException("method not implemented");
     }
+
+    @Override
+    public List<Analyse> findAllByTrainKwr(Integer trainKwr) {
+        List<AnalyseEntity> allByTrainKwr = analyseJpaRepository.findAllByTrainKwr(trainKwr);
+        return allByTrainKwr.stream().map(a -> analyseMapper.mapFromEntity(a, new CycleAvoidingMappingContext())).toList();
+    }
+
+
 }

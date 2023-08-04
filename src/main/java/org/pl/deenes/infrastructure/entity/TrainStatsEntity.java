@@ -10,6 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "train_stats")
+@EqualsAndHashCode
 public class TrainStatsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,14 +22,9 @@ public class TrainStatsEntity {
     private Double lastKilometer;
     @Column(name = "line_number")
     private Integer lineNumber;
-/*    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "line_id")
-    private LineEntity line;*/
 
-    // @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "train_analyse_id")
-    //@JoinColumn(name = "train_kwr")
     private AnalyseEntity analyse;
 
 

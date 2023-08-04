@@ -1,6 +1,7 @@
 package org.pl.deenes.api.controller.view;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.dto.TrainDTO;
 import org.pl.deenes.api.controller.exception.NotFound;
@@ -28,7 +29,7 @@ public class TrainController {
 
 
     @GetMapping(value = "/trains")
-    public String trainsPage(Model model) {
+    public String trainsPage(@NonNull Model model) {
         List<Train> all = trainRepository.findAll();
         List<TrainDTO> trainsList = all.stream().map(trainMapper::mapToDTO).toList();
 
@@ -40,7 +41,7 @@ public class TrainController {
     }
 
     @GetMapping(value = "/trains/{trainKwr}")
-    public String trainDetails(@PathVariable Integer trainKwr, Model model) {
+    public String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
         var train = trainRepository.find(trainKwr)
                 .orElseThrow(() -> new NotFound("Train trainKwr: %s not found".formatted(trainKwr)));
 

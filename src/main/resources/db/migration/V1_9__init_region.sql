@@ -1,7 +1,7 @@
 CREATE TABLE region
 (
     region_id SERIAL PRIMARY KEY,
-    region    INTEGER,
+    region INTEGER unique,
     wos       VARCHAR(16),
     wos_link  VARCHAR(128),
     line_id   INT,

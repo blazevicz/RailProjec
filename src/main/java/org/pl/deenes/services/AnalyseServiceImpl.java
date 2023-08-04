@@ -3,7 +3,6 @@ package org.pl.deenes.services;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
-import org.pl.deenes.infrastructure.repositories.dao.LineDAO;
 import org.pl.deenes.model.Analyse;
 import org.pl.deenes.model.LocomotiveType;
 import org.pl.deenes.model.TrainStats;
@@ -11,10 +10,7 @@ import org.pl.deenes.services.interfaces.AnalyseService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -23,10 +19,9 @@ import java.util.Map;
 
 public class AnalyseServiceImpl implements AnalyseService {
 
+    private final Map<TrainStats, TrainStats> trainStatsCache = new HashMap<>();
     private TimetableImpl readKilometersServiceImpl;
     private TrainStatsServiceImpl trainStatsService;
-    private LineDAO lineDAO;
-
 
     @Override
     @Transactional
@@ -55,8 +50,10 @@ public class AnalyseServiceImpl implements AnalyseService {
                 .trainKwr(Integer.parseInt(splitTrainDetailsForAnalyse.get(2).replace("(", "").replace(")", "")))
                 .startStation(relationAtoB[0].trim())
                 .endStation(relationAtoB[1].trim().replaceFirst(".$", "").trim())
-                //.trainStats(trainStatsList)
                 .build();
+
+        trainStatsCache.putIfAbsent(trainStats, trainStats);
+
 
         trainStatsList.forEach(build::addStat);
 
@@ -68,9 +65,7 @@ public class AnalyseServiceImpl implements AnalyseService {
         List<TrainStats> trainStatsList = new LinkedList<>();
 
         for (Map.Entry<Integer, List<Double>> integerListEntry : mapWithLineNumberAndFirstLastKilometer.entrySet()) {
-            //Line line = lineDAO.findLine(integerListEntry.getKey());
             TrainStats build = TrainStats.builder()
-                    //.line(line)
                     .lineNumber(integerListEntry.getKey())
                     .firstKilometer(integerListEntry.getValue().get(0))
                     .lastKilometer(integerListEntry.getValue().get(integerListEntry.getValue().size() - 1))

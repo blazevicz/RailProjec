@@ -2,6 +2,7 @@ package org.pl.deenes.infrastructure.repositories;
 
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.pl.deenes.infrastructure.entity.LineDetailsEntity;
 import org.pl.deenes.infrastructure.entity.LineEntity;
 import org.pl.deenes.infrastructure.mapper.LineDetailsMapper;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
 
 @Repository
 @AllArgsConstructor
@@ -25,8 +25,8 @@ public class LineRepository implements LineDAO {
     private final LineJpaRepository lineJpaRepository;
 
     @Override
-    public void saveALl(List<LineDetails> lineDetails) {
-        List<LineDetailsEntity> collect = lineDetails.stream().map(lineDetailsMapper::mapToEntity).collect(toList());
+    public void saveALl(@NonNull List<LineDetails> lineDetails) {
+        List<LineDetailsEntity> collect = lineDetails.stream().map(lineDetailsMapper::mapToEntity).toList();
         lineDetailsRepository.saveAll(collect);
     }
 

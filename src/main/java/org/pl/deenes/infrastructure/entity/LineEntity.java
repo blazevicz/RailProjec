@@ -3,13 +3,12 @@ package org.pl.deenes.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
-
 @Entity
 @Builder
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 @AllArgsConstructor
 @Table(name = "line")
 public class LineEntity {
@@ -26,10 +25,5 @@ public class LineEntity {
     @OneToOne
     @JoinColumn(name = "line_details_id")
     private LineDetailsEntity lineEntry;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "line", cascade = CascadeType.ALL)
-    private Set<RegionEntity> zlk;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "line", cascade = CascadeType.ALL)
-    private Set<TerrainProfileEntity> profile;
- /*   @OneToOne(mappedBy = "line", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private TrainStatsEntity trainStats;*/
+
 }

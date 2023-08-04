@@ -1,17 +1,12 @@
 package org.pl.deenes.configuration;
 
 
-import org.pl.deenes.Main;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.File;
 
 @Configuration
-@ComponentScan(basePackageClasses = Main.class)
-//@AutoConfiguration
-//@Import(PersistenceJPAConfiguration.class)
 public class SpringConfiguration {
 
     @Bean

@@ -38,19 +38,13 @@
             </thead>
             <tbody>
             <tr th:each="train : ${existingTrains}">
-                <td th:text="${train.trainKwr}"></td>
-                <td th:text="${train.companyName}"></td>
-                <td th:text="${train.datePlan}"></td>
-                <td th:text="${train.roadStats}"></td>
-                <td>
-                    <select th:if="${train.driver == null}">
-                        <option disabled selected value="">Add Driver</option>
-                        <option th:each="driver : ${existingDrivers}" th:text="${driver.surname}"
-                                th:value="${driver.surname}"></option>
-                    </select>
-                    <span th:text="${train.driver.surname}" th:unless="${train.driver == null}"></span>
-                </td>
-                <td><a class="btn btn-info" role="button" th:href="@{'/trains/' + ${train.trainKwr}}">details</a></td>
+                <td th:text="${train != null ? train.trainKwr : ''}"></td>
+                <td th:text="${train != null ? train.companyName : ''}"></td>
+                <td th:text="${train != null ? train.datePlan : ''}"></td>
+                <td th:text="${train != null ? train.roadStats : ''}"></td>
+
+                <td><a class="btn btn-info" role="button"
+                       th:href="@{'/trains/' + ${train != null ? train.trainKwr : ''}}">details</a></td>
             </tr>
             </tbody>
         </table>
@@ -77,9 +71,9 @@
             </thead>
             <tbody>
             <tr th:each="driver : ${existingDrivers}">
-                <td th:text="${driver.name}"></td>
-                <td th:text="${driver.surname}"></td>
-                <td th:text="${driver.pesel}"></td>
+                <td th:text="${driver != null ? driver.name : ''}"></td>
+                <td th:text="${driver != null ? driver.surname : ''}"></td>
+                <td th:text="${driver != null ? driver.pesel : ''}"></td>
             </tr>
             </tbody>
         </table>

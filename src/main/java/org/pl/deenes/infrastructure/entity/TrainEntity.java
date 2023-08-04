@@ -11,6 +11,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = "trainKwr")
 @Table(name = "train")
 public class TrainEntity {
     @Id
@@ -34,13 +35,9 @@ public class TrainEntity {
     @JoinColumn(name = "driver_id")
     private DriverEntity driver;
 
-    // @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "train_analyse_id")
     private AnalyseEntity analyse;
 
-    /*    @OneToOne(fetch = FetchType.EAGER, mappedBy = "train", cascade = CascadeType.ALL)
-        private TrainStatsEntity trainStats;*/
-  /*  @OneToMany(mappedBy = "train", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private Set<TrainStatsEntity> trainStats;*/
+
 }

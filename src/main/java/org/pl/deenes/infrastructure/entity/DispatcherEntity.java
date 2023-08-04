@@ -9,6 +9,8 @@ import lombok.*;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode
 @Table(name = "dispatcher")
 public class DispatcherEntity {
 

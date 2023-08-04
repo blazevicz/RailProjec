@@ -4,7 +4,7 @@ import java.io.File;
 
 public class Files {
 
-    private  Files() {
+    private Files() {
     }
 
     public static File myPatch() {

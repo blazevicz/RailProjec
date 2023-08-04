@@ -6,6 +6,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.pl.deenes.model.LocomotiveType;
 
+/**
+ *
+ */
 @Data
 @Builder
 @NoArgsConstructor

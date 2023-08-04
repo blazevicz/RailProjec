@@ -1,6 +1,7 @@
 package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -31,7 +32,7 @@ public class WOSReaderService {
     private ZLKRepo zlkRepo;
     private LineRepository lineRepository;
 
-    private static void creatingLineEntrierAndAddToList(String regex, List<String> collect, List<LineDetails> lineEntriesToSave) {
+    private static void creatingLineEntrierAndAddToList(String regex, @NonNull List<String> collect, List<LineDetails> lineEntriesToSave) {
         for (String formattedLine : collect) {
             String[] parts = formattedLine.split(regex);
             List<String> collect1 = Arrays.stream(parts).filter(a -> !a.equals("-")).toList();
@@ -47,7 +48,7 @@ public class WOSReaderService {
         }
     }
 
-    private static LineDetails buildingLineEntryObject(List<String> collect1) {
+    private static LineDetails buildingLineEntryObject(@NonNull List<String> collect1) {
 
         LineDetails buildLineDetails;
         buildLineDetails = LineDetails.builder()
@@ -81,8 +82,6 @@ public class WOSReaderService {
     @Transactional
     public void loadWosPDF() throws IOException {
 
-        // List<RegionEntity> all = zlkRepo.findAll();
-        //String actualWOSlink = all.get(0).getActualWOSlink();
         URL pdfUrl = new URL(
                 "https://drive.google.com/u/0/uc?id=1r_YqFDkm-FL2ES_qrwW2zY-8OZX4dM3Z&export=download");
 
@@ -101,7 +100,6 @@ public class WOSReaderService {
             List<LineDetails> lineEntriesToSave = new ArrayList<>();
             creatingLineEntrierAndAddToList(regex, collect, lineEntriesToSave);
             lineRepository.saveALl(lineEntriesToSave);
-            //lineEntryRepository.saveAll(lineEntriesToSave);
         }
     }
 
@@ -120,7 +118,7 @@ public class WOSReaderService {
                             .skip(76)
                             .filter(a -> !a.contains("1 2 3 4 5 6 7 8 9 10") && a.length() > 2)
                             .filter(str -> !(str.trim().matches("\\d{3}") && str.trim().length() == 3))
-                            .collect(Collectors.toList());
+                            .toList();
 
 
             Map<String, List<String>> map = collect.stream()
@@ -137,11 +135,6 @@ public class WOSReaderService {
                                 return collect.subList(startIndex, endIndex);
                             }
                     ));
-
-            map.entrySet().forEach(a -> System.out.println(a.getKey() + " " + a.getValue()));
-            //map.entrySet().forEach(a-> System.out.println(a.getValue().size()));
-
-
         }
     }
 }

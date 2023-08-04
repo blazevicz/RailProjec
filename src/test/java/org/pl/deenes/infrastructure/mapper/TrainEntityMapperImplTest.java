@@ -43,7 +43,7 @@ class TrainEntityMapperImplTest {
                 .analyse(AnalyseEntity.builder().trainKwr(123).build())
                 .build();
 
-        Train train = trainEntityMapper.mapFromEntity(trainEntity);
+        Train train = trainEntityMapper.mapFromEntity(trainEntity, new CycleAvoidingMappingContext());
 
         Assertions.assertNotNull(train);
         Assertions.assertEquals("TEST", train.getCompanyName());
