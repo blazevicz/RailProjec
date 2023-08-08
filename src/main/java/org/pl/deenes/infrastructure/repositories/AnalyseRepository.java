@@ -37,7 +37,8 @@ public class AnalyseRepository implements AnalyseDAO {
     @Override
     public List<Analyse> findAllByTrainKwr(Integer trainKwr) {
         List<AnalyseEntity> allByTrainKwr = analyseJpaRepository.findAllByTrainKwr(trainKwr);
-        return allByTrainKwr.stream().map(a -> analyseMapper.mapFromEntity(a, new CycleAvoidingMappingContext())).toList();
+        return allByTrainKwr.stream()
+                .map(a -> analyseMapper.mapFromEntity(a, new CycleAvoidingMappingContext())).toList();
     }
 
 

@@ -168,6 +168,9 @@ components:
       type: http
       scheme: basic
   schemas:
+    WayRef:
+      type: number
+      example: int64
     APICapabilities:
       type: object
       properties:
@@ -341,12 +344,12 @@ components:
                 type: object
                 properties:
                   ref:
-                    $ref: '#/components/schemas/Way'
+                    $ref: '#/components/schemas/WayRef'
                   role:
                     type: string
                     example: part
           required:
-            - members
+            - ref
     User:
       type: object
       properties:

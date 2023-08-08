@@ -63,7 +63,7 @@ public class WOSReaderService {
         return buildLineDetails;
     }
 
-    private static List<String> formatToOneLine(List<String> lines) {
+    static List<String> formatToOneLine(List<String> lines) {
         List<String> formattedLines = new ArrayList<>();
         for (String line : lines) {
             if (!line.isEmpty() && !line.matches("\\d+ .*")) {
@@ -81,15 +81,13 @@ public class WOSReaderService {
 
     @Transactional
     public void loadWosPDF() throws IOException {
-
         URL pdfUrl = new URL(
                 "https://drive.google.com/u/0/uc?id=1r_YqFDkm-FL2ES_qrwW2zY-8OZX4dM3Z&export=download");
 
-
         try (PDDocument loadPDF = PDDocument.load(pdfUrl.openStream())) {
             PDFTextStripper stripper = new PDFTextStripper();
-            stripper.setStartPage(3);
-            stripper.setEndPage(9);
+            stripper.setStartPage(13);
+            stripper.setEndPage(19);
 
             String text = stripper.getText(loadPDF);
             List<String> lines = Arrays.stream(text.split("\n")).toList();
@@ -99,13 +97,41 @@ public class WOSReaderService {
 
             List<LineDetails> lineEntriesToSave = new ArrayList<>();
             creatingLineEntrierAndAddToList(regex, collect, lineEntriesToSave);
+
             lineRepository.saveALl(lineEntriesToSave);
         }
     }
 
+    @Transactional
+    public void loadWarningsFromPDF() throws IOException {
+        Map<Integer, String> lineNumberWith;
+        String pageNumbersLine = "1 2 3 4 5 6 7 8 9";
+        String regex = "\\bLinia nr \\d+ :\\s+([A-ZĄĆĘŁŃÓŚŹŻ0-9\\s-]+)\\s*-\\s*([A-ZĄĆĘŁŃÓŚŹŻ0-9\\s-]+)\\b\n";
+
+
+        try (PDDocument loadPDF = PDDocument.load(Path.of("src/main/resources/IDDE4 Dodatek 2 IZ Sosnowiec z popr 6 od 21 IV 23.pdf").toFile())) {
+            PDFTextStripper stripper = new PDFTextStripper();
+            stripper.setStartPage(11);
+            stripper.setEndPage(19);
+            String text = stripper.getText(loadPDF);
+            String[] liniaNrS = text.split("Linia nr ");
+            List<String> lines = Arrays.stream(text.split("\n")).toList();
+            List<String> listWithStringLineByLine = formatToOneLine(lines);
+            List<String> linesAfterRemovePageNumbers = removeAllBefore(pageNumbersLine, listWithStringLineByLine);
+
+            //linesAfterRemovePageNumbers.stream().forEach(System.out::println);
+            List<String> list = Arrays.stream(liniaNrS).toList();
+            System.out.println(list.get(2));
+
+        }
+    }
+
+    private List<String> removeAllBefore(String pageNumbersLine, @NonNull List<String> listWithStringLineByLine) {
+        return listWithStringLineByLine.stream().skip(19).filter(a -> !a.contains(pageNumbersLine)).toList();
+    }
+
+
     public void loadRailwayProfileFromPDF() throws IOException {
-
-
         try (PDDocument loadPDF = PDDocument.load(new File("src/main/resources/IDDE4 Dodatek 1 IZ Sosnowiec z popr 14.pdf"))) {
             PDFTextStripper stripper = new PDFTextStripper();
             stripper.setStartPage(256);

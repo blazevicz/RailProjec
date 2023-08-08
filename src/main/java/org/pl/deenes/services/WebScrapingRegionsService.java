@@ -70,9 +70,8 @@ public class WebScrapingRegionsService {
             for (Element page : linksOnPage) {
                 String link = page.attr("abs:href");
                 if (link.contains(DOMAIN) && (!links.contains(link))) {
-                        linksMy.add(link);
-                        links.add(link);
-
+                    linksMy.add(link);
+                    links.add(link);
                 }
             }
         } catch (IOException e) {
@@ -81,7 +80,7 @@ public class WebScrapingRegionsService {
         return linksMy;
     }
 
-    private static Region getRegion(Map.Entry<String, String> stringStringEntry) {
+    private static Region getRegion(Map.@NonNull Entry<String, String> stringStringEntry) {
         return Region.builder()
                 .zlkRegionNumber(Integer.valueOf(stringStringEntry.getKey()))
                 .actualWOS(String.valueOf(getNumberFromURL(stringStringEntry.getValue())))
@@ -94,6 +93,7 @@ public class WebScrapingRegionsService {
         Map<String, String> mapWithAllRegionsLinks = getAllRegions();
 
         for (var region : mapWithAllRegionsLinks.entrySet()) {
+
             Set<String> pageLinks1 = getPageLinks(region.getValue());
             String newestWosFromRegion1 = getNewestWosFromRegion(pageLinks1);
             result.put(region.getKey(), newestWosFromRegion1);
