@@ -5,7 +5,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.model.Driver;
+import org.pl.deenes.services.ResultServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +18,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class DriverRepositoryIT extends IntegrationReposIT {
 
     private final DriverRepository driverRepository;
+    @MockBean
+    private ResultServiceImpl resultService;
 
     @Test
     void shouldRemoveDriver() {

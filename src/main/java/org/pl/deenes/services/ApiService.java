@@ -1,30 +1,78 @@
 package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
+import org.pl.deenes.infrastructure.mapper.NodeMapper;
+import org.pl.deenes.infrastructure.repositories.LocalizationRepository;
+import org.pl.deenes.model.Localization;
 import org.pl.deenes.osm.infrastructure.MapApi;
 import org.pl.deenes.osm.model.GetMapDataByBoundingBox200Response;
+import org.pl.deenes.osm.model.GetMapDataByBoundingBox200ResponseElementsInner;
+import org.pl.deenes.osm.model.Way;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @AllArgsConstructor
 public class ApiService {
 
     private final MapApi mapApi;
+    private final NodeMapper nodeMapper;
+    private final LocalizationRepository localizationRepository;
 
-    public void test() {
+    @NonNull
+    private static List<Way> filterStationBuildingsAndRailLines(@NonNull List<Way> locationByBbox) {
+        return locationByBbox.stream().filter(
+                        map -> {
+                            assert map.getTags() != null;
+                            return map.getTags().containsKey("ref")
+                                    && map.getTags().containsKey("railway")
+                                    || map.getTags().containsKey("building")
+                                    && map.getTags().get("building").equals("train_station");
+                        })
+                .toList();
+    }
+
+    public List<Way> findStationAndGetPosition(String stationName) {
+        Localization localization = localizationRepository.findByStation(stationName);
+        String bbox = convertLocalizationToBbox(localization.latitude(), localization.longitude());
+        List<Way> locationByBbox = findLocationByBbox(bbox);
+        return filterStationBuildingsAndRailLines(locationByBbox);
+    }
+
+    public List<Way> findLocationByBbox(String bbox) {
+
+        List<Way> nodeList = new ArrayList<>();
 
         Mono<GetMapDataByBoundingBox200Response> mapDataByBoundingBox =
-                mapApi.getMapDataByBoundingBox("13.377639198,52.5162399276,13.3778497142,52.5163460219");
+                mapApi.getMapDataByBoundingBox(bbox);
 
-        mapDataByBoundingBox.subscribe(
-                response -> {
-                    System.out.println(response);
-                },
-                error -> {
-                    System.out.println(error);
-                }
-        );
+        List<GetMapDataByBoundingBox200ResponseElementsInner> elements = mapDataByBoundingBox.map(GetMapDataByBoundingBox200Response::getElements).block();
+        assert elements != null;
+        for (GetMapDataByBoundingBox200ResponseElementsInner element : elements) {
+            if (element.getType().equals(GetMapDataByBoundingBox200ResponseElementsInner.TypeEnum.WAY)) {
+                Way way = nodeMapper.mapFromEntityToWay(element);
+                nodeList.add(way);
+            }
+        }
+        return nodeList;
+    }
 
+    private @NonNull String convertLocalizationToBbox(Double latitude, Double longitude) {
+        double bboxAcorner = latitude * 0.99999;
+        double bboxBcorner = longitude * 0.99999;
+        double bboxCcorner = latitude * 1.00001;
+        double bboxDcorner = longitude * 1.00001;
+
+        return bboxBcorner +
+                "," +
+                bboxAcorner +
+                "," +
+                bboxDcorner +
+                "," +
+                bboxCcorner;
     }
 }

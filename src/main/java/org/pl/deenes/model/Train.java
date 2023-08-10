@@ -1,14 +1,16 @@
 package org.pl.deenes.model;
 
 import lombok.*;
-import org.pl.deenes.infrastructure.entity.TrainStatsEntity;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @With
-@Value
+@Data
 @Builder
+@Setter
+@Getter
 @ToString(exclude = {"driver"})
 @EqualsAndHashCode(of = "trainId")
 public class Train {
@@ -20,7 +22,23 @@ public class Train {
     Double roadStats;
     Analyse analyse;
     Driver driver;
-    List<TrainStatsEntity> trainStats;
-}
+    Integer trainMaxWeight;
+    Integer trainMaxLength;
+    String startStation;
+    String endStation;
+    String trainType;
+    LocomotiveType locomotiveType;
+    Integer trainMaxSpeed;
+    Integer brakePercent;
+    List<TrainStats> trainStats;
+    Integer trainNumber;
 
+    public void addStat(@NonNull TrainStats stat) {
+        stat.setTrain(this);
+        if (trainStats == null) {
+            trainStats = new ArrayList<>();
+        }
+        trainStats.add(stat);
+    }
+}
 

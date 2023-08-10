@@ -36,8 +36,14 @@
             <td th:text="${train.datePlan}"></td>
             <td th:text="${train.roadStats}"></td>
             <td th:text="${train.driver}"></td>
+            <a class="btn btn-info" role="button"
+               th:href="@{'/trains/' + ${train != null ? train.trainKwr + '/profile': ''}}">map</a>
         </tr>
+        <div class="container">
+            <div class="row mt-2">
 
+            </div>
+        </div>
     </table>
     <br>
     <br>
@@ -47,58 +53,52 @@
 
         <tr th:each="train : ${existingTrains}">
             <th scope="row">Train number:</th>
-            <td th:text="${train.analyse.trainNumber}"></td>
+            <td th:text="${train.trainNumber}"></td>
         </tr>
         <tr th:each="train : ${existingTrains}">
             <th scope="row">MAX weight:</th>
-            <td th:text="${train.analyse.trainMaxWeight}"></td>
+            <td th:text="${train.trainMaxWeight}"></td>
 
         </tr>
         <tr th:each="train : ${existingTrains}">
             <th scope="row">MAX length:</th>
-            <td th:text="${train.analyse.trainMaxLength}"></td>
+            <td th:text="${train.trainMaxLength}"></td>
 
         </tr>
         <tr th:each="train : ${existingTrains}">
             <th scope="row">MAX speed:</th>
-            <td th:text="${train.analyse.trainMaxSpeed}"></td>
+            <td th:text="${train.trainMaxSpeed}"></td>
 
         </tr>
         <tr th:each="train : ${existingTrains}">
             <th scope="row">Start station:</th>
-            <td th:text="${train.analyse.startStation}"></td>
+            <td th:text="${train.startStation}"></td>
         </tr>
         <tr th:each="train : ${existingTrains}">
             <th scope="row">Last station:</th>
-            <td th:text="${train.analyse.endStation}"></td>
+            <td th:text="${train.endStation}"></td>
 
         </tr>
         <tr th:each="train : ${existingTrains}">
             <th scope="row">Locomotive Type:</th>
-            <td th:text="${train.analyse.locomotiveType}"></td>
+            <td th:text="${train.locomotiveType}"></td>
 
         </tr>
 
         <tr th:each="train : ${existingTrains}">
             <th scope="row">Brake %:</th>
-            <td th:text="${train.analyse.brakePercent}"></td>
+            <td th:text="${train.brakePercent}"></td>
         </tr>
 
 
         <br>
-        <div class="container">
-            <div class="row mt-2">
-                <div class="col-md-2">
-                    <a class="btn btn-info" role="button" th:href="@{/map_profile.html}">Map & profile</a>
-                </div>
-            </div>
-        </div>
+
         <br>
         <br>
         <div class="container">
             <div class="row mt-2">
                 <div class="col-md-2 d-flex justify-content-end">
-                    <a class="btn btn-warning" role="button" th:href="@{/}">org.pl.deenes.Main Page</a>
+                    <a class="btn btn-warning" role="button" th:href="@{/}">Main Page</a>
                 </div>
             </div>
         </div>

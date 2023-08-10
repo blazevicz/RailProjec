@@ -42,10 +42,8 @@ class AnalyseServiceImplTest {
         when(trainStatsService.mapWithLineNumberAndFirstLastKilometer(any())).thenReturn(Map.of(1, List.of(10.0, 50.0)));
 
 
-        // Call the method to test
         Analyse result = analyseService.creatingTrainAnalyse(trainStats);
 
-        // Assertions
         assertEquals(LocomotiveType.ET22, result.getLocomotiveType());
         assertEquals(100, result.getTrainMaxWeight());
         assertEquals(120, result.getTrainMaxSpeed());
@@ -60,13 +58,10 @@ class AnalyseServiceImplTest {
 
     @Test
     void testTrainStatsCreator() {
-        // Mocking data for test
         Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer = Map.of(1, List.of(10.0, 50.0));
 
-        // Call the method to test
         List<TrainStats> trainStatsList = analyseService.trainStatsCreator(mapWithLineNumberAndFirstLastKilometer);
 
-        // Assertions
         assertEquals(1, trainStatsList.size());
 
         TrainStats trainStats = trainStatsList.get(0);

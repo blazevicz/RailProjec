@@ -10,7 +10,6 @@ import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.pl.deenes.configuration.LoadingPdfException;
-import org.pl.deenes.model.Files;
 import org.pl.deenes.model.Positions;
 import org.pl.deenes.services.interfaces.Timetable;
 import org.springframework.stereotype.Service;
@@ -18,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +38,10 @@ public class TimetableImpl implements Timetable {
     private String companyName;
 
     @Override
-    public TimetableDetails read() {
+    public TimetableDetails read(String link) {
         TimetableDetails timetableDetails = new TimetableDetails();
 
-        try (PDDocument loadPDF = PDDocument.load(Files.myPatch())) {
+        try (PDDocument loadPDF = PDDocument.load(Path.of(link).toFile())) {
 
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();
             stripper.setSortByPosition(true);

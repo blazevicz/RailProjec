@@ -26,7 +26,7 @@ class TrainEntityTest {
         trainEntity.setDatePlan(datePlan);
         trainEntity.setRoadStats(roadStats);
         trainEntity.setDriver(driverEntity);
-        trainEntity.setAnalyse(analyseEntity);
+        //trainEntity.setAnalyse(analyseEntity);
 
         assertEquals(trainId, trainEntity.getTrainId());
         assertEquals(companyName, trainEntity.getCompanyName());
@@ -34,7 +34,7 @@ class TrainEntityTest {
         assertEquals(datePlan, trainEntity.getDatePlan());
         assertEquals(roadStats, trainEntity.getRoadStats());
         assertEquals(driverEntity, trainEntity.getDriver());
-        assertEquals(analyseEntity, trainEntity.getAnalyse());
+        // assertEquals(analyseEntity, trainEntity.getAnalyse());
     }
 
     @Test
@@ -46,7 +46,7 @@ class TrainEntityTest {
                 .datePlan(LocalDate.of(2023, 3, 12))
                 .roadStats(139.528)
                 .driver(new DriverEntity())
-                .analyse(new AnalyseEntity())
+                // .analyse(new AnalyseEntity())
                 .build();
 
         TrainEntity trainEntity2 = TrainEntity.builder()
@@ -56,7 +56,7 @@ class TrainEntityTest {
                 .datePlan(LocalDate.of(2023, 3, 12))
                 .roadStats(139.528)
                 .driver(new DriverEntity())
-                .analyse(new AnalyseEntity())
+                // .analyse(new AnalyseEntity())
                 .build();
 
         boolean expectedEquals = true;

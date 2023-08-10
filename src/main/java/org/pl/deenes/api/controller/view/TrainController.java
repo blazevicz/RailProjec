@@ -11,10 +11,13 @@ import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Driver;
 import org.pl.deenes.model.Train;
+import org.pl.deenes.services.ResultServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -26,6 +29,7 @@ public class TrainController {
     private final TrainDTOMapper trainMapper;
     private final TrainRepository trainRepository;
     private final DriverRepository driverRepository;
+    private final ResultServiceImpl resultService;
 
 
     @GetMapping(value = "/trains")
@@ -37,7 +41,19 @@ public class TrainController {
         List<Driver> allDrivers = driverRepository.findAllDrivers();
         List<DriverDTO> driversList = allDrivers.stream().map(driverMapper::mapToDTO).toList();
         model.addAttribute("existingDrivers", driversList);
+        model.addAttribute("pdfFiles", List.of(
+                "RJ_SKRJ_666401_464028_9.pdf",
+                "RJ_SKRJ_956925_644010_1.pdf"
+        ));
         return "train";
+    }
+
+    @PostMapping("/trains/add")
+    public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) {
+        String s = "src/main/resources/pdfs/" + pdfLink;
+        resultService.runningMethod(s);
+
+        return "redirect:/trains";
     }
 
     @GetMapping(value = "/trains/{trainKwr}")

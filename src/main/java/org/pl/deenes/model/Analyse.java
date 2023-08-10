@@ -27,7 +27,7 @@ public class Analyse {
     Integer trainNumber;
     Train trainEntity;
 
-    public void addStat(TrainStats stat) {
+    public void addStat(@NonNull TrainStats stat) {
         stat.setAnalyse(this);
         if (trainStats == null) {
             trainStats = new ArrayList<>();

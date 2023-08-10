@@ -6,6 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 import org.pl.deenes.api.controller.exception.NotFound;
+import org.pl.deenes.infrastructure.entity.CautionEntity;
 import org.pl.deenes.infrastructure.repositories.CautionRepository;
 import org.pl.deenes.model.Caution;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Service
 @AllArgsConstructor
@@ -51,14 +53,20 @@ public class WarningsReaderServiceImpl {
         return String.join(" ", splitBySpace).trim();
     }
 
-    public List<Caution> loadWarningsFromPDF() throws IOException {
+    @NonNull
+    private static PDFTextStripper settingsForRead() throws IOException {
+        PDFTextStripper stripper = new PDFTextStripper();
+        stripper.setStartPage(11);
+        stripper.setEndPage(85);
+        return stripper;
+    }
+
+    public List<CautionEntity> loadWarningsFromPDF() {
         List<Caution> cautionsList = new ArrayList<>();
 
         try (PDDocument loadPDF = PDDocument.load(Path.of(PDF_LINK).toFile())) {
 
-            PDFTextStripper stripper = new PDFTextStripper();
-            stripper.setStartPage(11);
-            stripper.setEndPage(19);
+            PDFTextStripper stripper = settingsForRead();
             String text = stripper.getText(loadPDF);
 
             String[] splitByLineNumber = text.split("Linia nr ");
@@ -66,23 +74,33 @@ public class WarningsReaderServiceImpl {
 
             for (String string : list) {
                 var lineWithCautionsLineByLine = prepareStringToGetLines(string);
-                for (String s1 : lineWithCautionsLineByLine) {
+                for (String oneLineWithCaution : lineWithCautionsLineByLine) {
                     char charWithLineNumber = lineWithCautionsLineByLine.get(0).charAt(0);
                     Integer lineNumber = (int) charWithLineNumber;
                     try {
-                        String s = prepareBeforeCreatingObjects(s1);
-                        Caution caution = convertStringToCaution(s, lineNumber);
-                        cautionsList.add(caution);
+                        creatingCautionAndAddToList(oneLineWithCaution, lineNumber, cautionsList);
                     } catch (NotFound notFound) {
-                        log.warn("test");
+                        log.warn("Problem with caution: Line: (%s), line number: (%s) ".formatted(oneLineWithCaution, lineNumber) + notFound.getMessage());
                     }
 
                 }
             }
+        } catch (IOException e) {
+            log.warn("cant read pdf " + e.getMessage());
         }
-        System.out.println(cautionRepository);
-        cautionRepository.saveAll(cautionsList);
-        return cautionsList;
+        cautionsList.removeIf(Objects::isNull);
+
+        return cautionRepository.saveAll(cautionsList);
+    }
+
+    private void creatingCautionAndAddToList(String s1, Integer lineNumber, List<Caution> cautionsList) {
+        if (s1 != null && lineNumber != null && cautionsList != null) {
+            String s = prepareBeforeCreatingObjects(s1);
+            Caution caution = convertStringToCaution(s, lineNumber);
+            cautionsList.add(caution);
+        } else {
+            log.warn("Caution jest nullem z linii %s".formatted(s1));
+        }
     }
 
     Caution convertStringToCaution(@NonNull String line, Integer lineNumber) {
@@ -100,6 +118,8 @@ public class WarningsReaderServiceImpl {
                     .build();
         } catch (NumberFormatException nfe) {
             log.warn("error while preparing Caution from line: " + line);
+        } catch (ArrayIndexOutOfBoundsException arr) {
+            log.warn(arr.getMessage() + "while reading %s".formatted(Arrays.toString(s1)));
         }
         return null;
     }
@@ -117,7 +137,7 @@ public class WarningsReaderServiceImpl {
         }
     }
 
-    private String prepareIfReasonExist(String reason, String line) {
+    private String prepareIfReasonExist(@NonNull String reason, String line) {
         if (!reason.equals("-")) {
             List<String> list = new java.util.ArrayList<>(Arrays.stream(line.split(" ")).toList());
             list.remove(0);

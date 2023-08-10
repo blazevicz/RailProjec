@@ -16,16 +16,17 @@ public class TrainStatsEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "train_stats_id")
     private Integer trainStatsId;
+
     @Column(name = "first_kilometer")
     private Double firstKilometer;
+
     @Column(name = "last_kilometer")
     private Double lastKilometer;
+
     @Column(name = "line_number")
     private Integer lineNumber;
 
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinColumn(name = "train_analyse_id")
-    private AnalyseEntity analyse;
-
-
+    @ManyToOne
+    @JoinColumn(name = "train_id")
+    private TrainEntity trainEntity;
 }

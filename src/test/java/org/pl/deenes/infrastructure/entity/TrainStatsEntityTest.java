@@ -20,13 +20,13 @@ class TrainStatsEntityTest {
         trainStatsEntity.setFirstKilometer(firstKilometer);
         trainStatsEntity.setLastKilometer(lastKilometer);
         trainStatsEntity.setLineNumber(lineNumber);
-        trainStatsEntity.setAnalyse(analyseEntity);
+//        trainStatsEntity.setAnalyse(analyseEntity);
 
         assertEquals(trainStatsId, trainStatsEntity.getTrainStatsId());
         assertEquals(firstKilometer, trainStatsEntity.getFirstKilometer());
         assertEquals(lastKilometer, trainStatsEntity.getLastKilometer());
         assertEquals(lineNumber, trainStatsEntity.getLineNumber());
-        assertEquals(analyseEntity, trainStatsEntity.getAnalyse());
+        // assertEquals(analyseEntity, trainStatsEntity.getAnalyse());
     }
 
     @Test
@@ -36,7 +36,8 @@ class TrainStatsEntityTest {
                 .firstKilometer(100.5)
                 .lastKilometer(200.5)
                 .lineNumber(123)
-                .analyse(new AnalyseEntity())
+                .trainEntity(TrainEntity.builder().build())
+                //  .analyse(new AnalyseEntity())
                 .build();
 
         TrainStatsEntity trainStatsEntity2 = TrainStatsEntity.builder()
@@ -44,7 +45,8 @@ class TrainStatsEntityTest {
                 .firstKilometer(100.5)
                 .lastKilometer(200.5)
                 .lineNumber(123)
-                .analyse(new AnalyseEntity())
+                .trainEntity(TrainEntity.builder().build())
+                // .analyse(new AnalyseEntity())
                 .build();
 
         boolean expectedEquals = true;

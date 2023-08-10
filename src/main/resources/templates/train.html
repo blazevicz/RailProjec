@@ -1,6 +1,7 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-
+<script src="popper.min.js"></script>
+<script src="bootstrap.bundle.min.js"></script>
 <head>
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
     <link crossorigin="anonymous"
@@ -21,80 +22,102 @@
             <a class="btn btn-secondary" role="button" th:href="@{/}">Go back to the main page</a>
         </div>
     </div>
-    <br>
-    <h2>Our available trains:</h2>
-
-    <div>
-        <table class="table">
-            <thead class="table-dark">
-            <tr>
-                <th>company</th>
-                <th>kwr</th>
-                <th>date</th>
-                <th>distance</th>
-                <th>driver</th>
-                <th>details</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="train : ${existingTrains}">
-                <td th:text="${train != null ? train.trainKwr : ''}"></td>
-                <td th:text="${train != null ? train.companyName : ''}"></td>
-                <td th:text="${train != null ? train.datePlan : ''}"></td>
-                <td th:text="${train != null ? train.roadStats : ''}"></td>
-
-                <td><a class="btn btn-info" role="button"
-                       th:href="@{'/trains/' + ${train != null ? train.trainKwr : ''}}">details</a></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <br>
-    <br>
-    <p>Choose train driver:</p>
-    <div class="container" id="saveButtonContainer" style="display: none;">
-        <div class="row mt-3">
-            <div class="col-md-4">
-                <a class="btn btn-success" role="button" th:href="@{/save}">Save</a>
+    <form method="POST" th:action="@{/trains/add}" th:object="${pdfFile}">
+        <div class="container">
+            <br>
+            <br>
+            <div class="container">
+                <div class="row mt-3">
+                    <div class="col-md-4">
+                        <div class="col-md-6">
+                            <label for="pdfFile">No available trains? Select one from list:</label>
+                            <select id="pdfFile" name="pdfLink">
+                                <option th:each="pdfFile : ${pdfFiles}" th:text="${pdfFile}"
+                                        th:value="${pdfFile}"></option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-4">
+                    <input class="btn btn-success" type="submit" value="GO!">
+                </div>
             </div>
         </div>
-    </div>
-    <div>
-        <table class="table">
-            <thead class="table-dark">
-            <tr>
-                <th>name</th>
-                <th>surname</th>
-                <th>pesel</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="driver : ${existingDrivers}">
-                <td th:text="${driver != null ? driver.name : ''}"></td>
-                <td th:text="${driver != null ? driver.surname : ''}"></td>
-                <td th:text="${driver != null ? driver.pesel : ''}"></td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-
-
+    </form>
     <br>
     <br>
+</div>
+<br>
+<h2>Our available trains:</h2>
 
-    <div class="container">
-        <div class="row mt-3">
-            <div class="col-md-4">
-                <a class="btn btn-warning" role="button" th:href="@{/warnings}">Show road warnings</a>
-            </div>
+<div>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>kwr</th>
+            <th>company name</th>
+            <th>date</th>
+            <th>distance</th>
+            <th>driver</th>
+            <th>details</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="train : ${existingTrains}">
+            <td th:text="${train != null ? train.trainKwr : ''}"></td>
+            <td th:text="${train != null ? train.companyName : ''}"></td>
+            <td th:text="${train != null ? train.datePlan : ''}"></td>
+            <td th:text="${train != null ? train.roadStats : ''}"></td>
 
+            <td><a class="btn btn-info" role="button"
+                   th:href="@{'/trains/' + ${train != null ? train.trainKwr : ''}}">details</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<br>
+<br>
+<p>Choose train driver:</p>
+<div class="container" id="saveButtonContainer" style="display: none;">
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <a class="btn btn-success" role="button" th:href="@{/save}">Save</a>
         </div>
     </div>
+</div>
+<div>
+    <table class="table">
+        <thead class="table-dark">
+        <tr>
+            <th>name</th>
+            <th>surname</th>
+            <th>pesel</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="driver : ${existingDrivers}">
+            <td th:text="${driver != null ? driver.name : ''}"></td>
+            <td th:text="${driver != null ? driver.surname : ''}"></td>
+            <td th:text="${driver != null ? driver.pesel : ''}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<br>
+<br>
+<div class="container">
+    <div class="row mt-3">
+        <div class="col-md-4">
+            <a class="btn btn-warning" role="button" th:href="@{/warnings}">Show road warnings</a>
+        </div>
 
-    <br>
-    <br>
-
+    </div>
+</div>
+<br>
+<br>
 </div>
 </body>
 </html>

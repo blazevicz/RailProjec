@@ -3,6 +3,6 @@ package org.pl.deenes.services.interfaces;
 import org.pl.deenes.services.TimetableDetails;
 
 public interface Timetable {
-    TimetableDetails read();
+    TimetableDetails read(String link);
 
 }

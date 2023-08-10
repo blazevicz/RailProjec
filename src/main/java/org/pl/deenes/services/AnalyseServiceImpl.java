@@ -16,7 +16,6 @@ import java.util.*;
 @Service
 @AllArgsConstructor
 @Transactional
-
 public class AnalyseServiceImpl implements AnalyseService {
 
     private final Map<TrainStats, TrainStats> trainStatsCache = new HashMap<>();

@@ -8,7 +8,6 @@ import org.pl.deenes.infrastructure.repositories.LineRepository;
 import org.pl.deenes.infrastructure.repositories.dao.AnalyseDAO;
 import org.pl.deenes.infrastructure.repositories.dao.TrainDAO;
 import org.pl.deenes.model.Analyse;
-import org.pl.deenes.model.Files;
 import org.pl.deenes.model.Train;
 import org.pl.deenes.model.TrainStats;
 import org.pl.deenes.services.interfaces.AnalyseService;
@@ -16,6 +15,7 @@ import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.File;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
@@ -48,9 +48,9 @@ public class TrainServiceImpl implements TrainService {
 
     @Override
     @Transactional
-    public Train trainCreate() {
-        readKilometersServiceImpl.setFile(Files.myPatch());
-        TimetableDetails reader = readKilometersServiceImpl.read();
+    public Train trainCreate(String link) {
+        readKilometersServiceImpl.setFile(new File(link));
+        TimetableDetails reader = readKilometersServiceImpl.read(link);
 
         reader.getAllRailwayLines();
         reader.giveAllKilometers();
@@ -62,17 +62,36 @@ public class TrainServiceImpl implements TrainService {
         TrainStats trainStats = trainStatsServiceImpl.calculateKilometers(trainStatsServiceImpl.getLastKilometer());
         Analyse analyse = analyseServiceImpl.creatingTrainAnalyse(trainStats);
 
-        return Train.builder()
+
+        Train train = Train.builder()
                 .companyName(split.get(2))
+                .trainNumber(analyse.getTrainNumber())
+                .brakePercent(analyse.getBrakePercent())
+                .trainType(analyse.getTrainType())
+                .startStation(analyse.getStartStation())
+                .endStation(analyse.getEndStation())
+                .trainMaxLength(analyse.getTrainMaxLength())
+                .trainMaxWeight(analyse.getTrainMaxWeight())
+                .locomotiveType(analyse.getLocomotiveType())
+                .trainMaxSpeed(analyse.getTrainMaxSpeed())
+                .trainStats(analyse.getTrainStats())
                 .trainKwr(analyse.getTrainKwr())
                 .datePlan(localDate)
                 .roadStats(trainStats.getHowManyKilometers())
-                .analyse(analyse)
+                .trainStats(List.of(analyse.getTrainStats().get(0)))
                 .build();
+        // train.setTrainStats(analyse.getTrainStats());
+
+
+        for (TrainStats stat : train.getTrainStats()) {
+            stat.setTrain(train);
+        }
+        return train;
     }
 
     @Transactional
-    public Train saveTrain(Train train) {
+    public Train saveTrain(@NonNull Train train) {
+        log.warn(train.toString());
         return trainDAO.save(train);
     }
 

@@ -9,6 +9,7 @@ import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Driver;
 import org.pl.deenes.model.Train;
+import org.pl.deenes.services.ResultServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,6 +43,9 @@ class TrainControllerTest {
 
     @MockBean
     private DriverDTOMapper driverMapper;
+
+    @MockBean
+    private ResultServiceImpl resultService;
 
     @Test
     void testGetTrainsPage() throws Exception {

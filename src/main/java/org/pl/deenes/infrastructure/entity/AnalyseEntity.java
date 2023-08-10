@@ -4,8 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.NaturalId;
 
-import java.util.List;
-
 @Entity
 @Builder
 @Getter
@@ -52,8 +50,10 @@ public class AnalyseEntity {
     @Column(name = "brake_percent")
     private int brakePercent;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "analyse", orphanRemoval = true)
+   /* @OneToMany(cascade = CascadeType.ALL,  orphanRemoval = true, mappedBy = "analyse")
     private List<TrainStatsEntity> trainStats;
 
-
+    @OneToOne(mappedBy = "analyse")
+    private TrainEntity trainEntity;
+*/
 }
