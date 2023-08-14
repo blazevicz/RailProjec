@@ -4,12 +4,13 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Builder
 @Getter
 @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "trainKwr")
@@ -18,51 +19,51 @@ public class TrainEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "train_id")
-    private Integer trainId;
+    Integer trainId;
 
     @Column(name = "company_name")
-    private String companyName;
+    String companyName;
 
     @Column(name = "train_kwr")
-    private Integer trainKwr;
+    Integer trainKwr;
 
     @Column(name = "date_plan")
-    private LocalDate datePlan;
+    LocalDate datePlan;
 
     @Column(name = "road_stats")
-    private Double roadStats;
+    Double roadStats;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
-    private DriverEntity driver;
+    DriverEntity driver;
 
     @Column(name = "train_number")
-    private int trainNumber;
+    Integer trainNumber;
 
     @Column(name = "train_max_weight")
-    private int trainMaxWeight;
+    Integer trainMaxWeight;
 
     @Column(name = "train_max_length")
-    private int trainMaxLength;
+    Integer trainMaxLength;
 
     @Column(name = "start_station")
-    private String startStation;
+    String startStation;
 
     @Column(name = "end_station")
-    private String endStation;
+    String endStation;
 
     @Column(name = "train_type")
-    private String trainType;
+    String trainType;
 
     @Column(name = "locomotive_type")
-    private String locomotiveType;
+    String locomotiveType;
 
     @Column(name = "train_max_speed")
-    private int trainMaxSpeed;
+    Integer trainMaxSpeed;
 
     @Column(name = "brake_percent")
-    private int brakePercent;
+    Integer brakePercent;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainEntity")
-    private List<TrainStatsEntity> trainStats;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainEntity", fetch = FetchType.EAGER)
+    Set<TrainStatsEntity> trainStats;
 }

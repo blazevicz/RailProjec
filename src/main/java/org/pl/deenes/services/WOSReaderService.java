@@ -10,7 +10,6 @@ import org.pl.deenes.infrastructure.repositories.LineRepository;
 import org.pl.deenes.infrastructure.repositories.ZLKRepo;
 import org.pl.deenes.model.LineDetails;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +24,6 @@ import java.util.stream.Collectors;
 @Service
 @Slf4j
 @AllArgsConstructor
-@Transactional
 public class WOSReaderService {
     private final File source = Path.of("src/main/resources/IDDE4 Dodatek 2 IZ Sosnowiec z popr 6 od 21 IV 23.pdf").toFile();
     private LineDetailsRepository lineDetailsRepository;
@@ -79,7 +77,6 @@ public class WOSReaderService {
         return formattedLines;
     }
 
-    @Transactional
     public void loadWosPDF() throws IOException {
         URL pdfUrl = new URL(
                 "https://drive.google.com/u/0/uc?id=1r_YqFDkm-FL2ES_qrwW2zY-8OZX4dM3Z&export=download");
@@ -102,7 +99,6 @@ public class WOSReaderService {
         }
     }
 
-    @Transactional
     public void loadWarningsFromPDF() throws IOException {
         Map<Integer, String> lineNumberWith;
         String pageNumbersLine = "1 2 3 4 5 6 7 8 9";

@@ -4,50 +4,85 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.pl.deenes.infrastructure.repositories.dao.TrainDAO;
+import org.pl.deenes.infrastructure.entity.TrainEntity;
+import org.pl.deenes.infrastructure.entity.TrainStatsEntity;
+import org.pl.deenes.infrastructure.mapper.TrainMapper;
+import org.pl.deenes.infrastructure.mapper.TrainStatsMapper;
+import org.pl.deenes.infrastructure.repositories.jpa.TrainJpaRepository;
 import org.pl.deenes.model.LocomotiveType;
 import org.pl.deenes.model.Train;
 import org.pl.deenes.model.TrainStats;
+import org.pl.deenes.services.ResultServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 class TrainRepositoryIT extends IntegrationReposIT {
 
-    private final TrainDAO trainRepository;
+    private final TrainJpaRepository trainRepository;
+
+    private final ResultServiceImpl resultService;
+    private final TrainMapper trainMapper;
+    private final TrainStatsMapper trainStatsMapper;
 
     @Test
     void shouldSaveInDatabase() {
-        Train train = Train.builder()
+        var build1 = TrainStats.builder().lineNumber(1).build();
+        var build2 = TrainStats.builder().lineNumber(2).build();
+
+        var train = Train.builder()
                 .trainKwr(123)
                 .companyName("asd")
                 .startStation("A")
+                .trainMaxSpeed(1)
+                .trainMaxWeight(2)
+                .trainMaxLength(3)
                 .endStation("B")
                 .trainType("TME")
                 .trainNumber(321)
                 .locomotiveType(LocomotiveType.ET22)
-                .trainStats(List.of(TrainStats.builder().build(),
-                        TrainStats.builder().howManyKilometers(1.1).build()))
+                .brakePercent(2)
                 .build();
 
-        Train save = trainRepository.save(train);
-        Optional<Train> train1 = trainRepository.find(123);
+        build1.setTrainEntity(train);
+        build2.setTrainEntity(train);
 
-        Assertions.assertEquals(2, save.getTrainStats().size());
-        Assertions.assertNotNull(save.getTrainStats().get(0).getTrainStatsId());
-        Assertions.assertEquals(1, save.getTrainStats().get(0).getTrainStatsId());
-        Assertions.assertNotNull(save.getTrainId());
-        Assertions.assertNotNull(save.getTrainStats().get(0).getTrainStatsId());
+        train.setTrainStats(Set.of(build1, build2));
 
-        Assertions.assertNotNull(train1.get().getTrainId());
-        Assertions.assertNotNull(train1.get().getTrainStats().get(0).getTrainStatsId());
+        TrainEntity trainEntity = trainMapper.mapToEntity(train);
+        TrainStatsEntity trainStatsEntity1 = trainStatsMapper.mapToEntity(build1);
+        TrainStatsEntity trainStatsEntity2 = trainStatsMapper.mapToEntity(build2);
 
-        log.warn(train1.get().toString());
+        trainStatsEntity1.setTrainEntity(trainEntity);
+        trainStatsEntity2.setTrainEntity(trainEntity);
 
+        trainEntity.setTrainStats(Set.of(trainStatsEntity1, trainStatsEntity2));
+
+
+        trainRepository.save(trainEntity);
+
+
+//        resultService.runningMethod("src/main/resources/pdfs/RJ_SKRJ_666401_464028_9.pdf");
+        var save = trainRepository.findAll();
+
+        Assertions.assertEquals(1, save.size());
+        Assertions.assertEquals(2, save.get(0).getTrainStats().size());
+        Assertions.assertNotNull(save.get(0).getTrainId());
+
+        Assertions.assertNotNull(save.get(0).getTrainId());
     }
 
+    @Test
+    void transactionChecking() {
+        resultService.runningMethod("src/main/resources/pdfs/RJ_SKRJ_666401_464028_9.pdf");
+        var train1 = trainRepository.findAll();
 
+        Assertions.assertNotNull(train1.get(0).getTrainId());
+        Assertions.assertNotNull(train1.get(0).getTrainStats());
+        Assertions.assertEquals(23, train1.get(0).getTrainStats().size());
+        Assertions.assertEquals(1, train1.size());
+
+    }
 }

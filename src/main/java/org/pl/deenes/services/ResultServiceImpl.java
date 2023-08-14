@@ -16,20 +16,14 @@ public class ResultServiceImpl implements ResultService {
 
     private TrainService trainServiceImpl;
     private TrainDAO trainDAO;
-    private TrainService trainService;
 
     @Override
     @Transactional
     public void runningMethod(String link) {
         Train train = trainServiceImpl.trainCreate(link);
         trainDAO.save(train);
-
-
     }
-
-    @Transactional
     public Train saveTrain(Train train) {
         return trainDAO.save(train);
-
     }
 }

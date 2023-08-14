@@ -8,14 +8,12 @@ import org.pl.deenes.model.LocomotiveType;
 import org.pl.deenes.model.TrainStats;
 import org.pl.deenes.services.interfaces.AnalyseService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
 @Slf4j
 @Service
 @AllArgsConstructor
-@Transactional
 public class AnalyseServiceImpl implements AnalyseService {
 
     private final Map<TrainStats, TrainStats> trainStatsCache = new HashMap<>();
@@ -23,7 +21,6 @@ public class AnalyseServiceImpl implements AnalyseService {
     private TrainStatsServiceImpl trainStatsService;
 
     @Override
-    @Transactional
     public Analyse creatingTrainAnalyse(@NonNull TrainStats trainStats) {
         String textForRegion = readKilometersServiceImpl.getTextToAnalyse();
         String grossTextToAnalyse = readKilometersServiceImpl.getBruttoTextToAnalyse();
@@ -52,14 +49,13 @@ public class AnalyseServiceImpl implements AnalyseService {
                 .build();
 
         trainStatsCache.putIfAbsent(trainStats, trainStats);
-
+        build.setTrainStats(new ArrayList<>(trainStatsList));
 
         trainStatsList.forEach(build::addStat);
 
         return build;
     }
 
-    @Transactional
     public List<TrainStats> trainStatsCreator(@NonNull Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer) {
         List<TrainStats> trainStatsList = new LinkedList<>();
 

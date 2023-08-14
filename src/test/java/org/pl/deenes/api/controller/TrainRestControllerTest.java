@@ -13,7 +13,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -42,7 +42,7 @@ class TrainRestControllerTest {
     void deleteTrain_shouldReturnNoContent() throws Exception {
         Integer trainKwrToDelete = 12345;
 
-        when(trainRepository.find(trainKwrToDelete)).thenReturn(Optional.empty());
+        when(trainRepository.find(trainKwrToDelete)).thenReturn(List.of());
 
         mockMvc.perform(delete("/api/train/delete/{trainKwr}", trainKwrToDelete))
                 .andExpect(status().isNoContent());

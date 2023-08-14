@@ -1,6 +1,5 @@
 package org.pl.deenes.services;
 
-import jakarta.transaction.Transactional;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.model.Line;
@@ -55,7 +54,6 @@ public class TrainStatsServiceImpl implements TrainStatsService {
     }
 
     @Override
-    @Transactional
     public TrainStats calculateKilometers(Double lastKilometer) {
         LinkedList<Line> lineList = calculateKilometers.createLinesAndAddToLineList(lastKilometer);
         calculateKilometersForEachLine(lineList);

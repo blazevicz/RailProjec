@@ -1,9 +1,7 @@
 package org.pl.deenes;
 
 import lombok.extern.slf4j.Slf4j;
-import org.pl.deenes.model.Train;
-import org.pl.deenes.services.ApiService;
-import org.pl.deenes.services.TrainServiceImpl;
+import org.pl.deenes.infrastructure.repositories.dao.TrainDAO;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -20,13 +18,9 @@ public class Main {
         Logger.getLogger("org.apache.pdfbox").setLevel(Level.SEVERE);
         ConfigurableApplicationContext run = SpringApplication.run(Main.class, args);
 
-        var bean = run.getBean(TrainServiceImpl.class);
-        var bean2 = run.getBean(ApiService.class);
-        // bean2.findStationAndGetPosition("BYTOM");
 
-        Train train = bean.findTrain(666401);
-        log.warn(train.toString());
-        //System.out.println(train.getAnalyse().getTrainStats().size());
+        TrainDAO bean1 = run.getBean(TrainDAO.class);
+        // var train1 = bean1.find(666401);
 
 
     }

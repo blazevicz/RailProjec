@@ -5,10 +5,9 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.api.controller.dto.TerrainProfileDTO;
 import org.pl.deenes.api.controller.mapper.TerrainProfileDTOMapper;
-import org.pl.deenes.infrastructure.repositories.AnalyseRepository;
-import org.pl.deenes.infrastructure.repositories.TrainStatsRepository;
-import org.pl.deenes.model.Analyse;
+import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.TerrainProfile;
+import org.pl.deenes.model.Train;
 import org.pl.deenes.model.TrainStats;
 import org.pl.deenes.services.TerrainProfileServiceImpl;
 import org.springframework.stereotype.Controller;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Controller
 @AllArgsConstructor
@@ -25,29 +25,13 @@ import java.util.List;
 public class MapAndProfileController {
 
     private final TerrainProfileServiceImpl terrainProfileService;
-    private final AnalyseRepository analyseRepository;
     private final TerrainProfileDTOMapper terrainProfileDTOMapper;
-    private final TrainStatsRepository trainStatsRepository;
-    //private final CautionRepository cautionRepository;
-
-
+    private final TrainRepository trainRepository;
     @GetMapping("/trains/{trainKwr}/profile")
     String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
 
-        // List<Analyse> allByTrainKwr = analyseRepository.findAllByTrainKwr(trainKwr);
-
-        List<TrainStats> trainStatsList = retrieveTrainStatsList(trainKwr);
-
-        LinkedList<TerrainProfile> terrainProfileLinkedList = new LinkedList<>();
-
-        trainStatsList.forEach(trainStats -> {
-            List<TerrainProfile> terrainProfiles = terrainProfileService.calculateSlope(
-                    trainStats.getLineNumber(),
-                    trainStats.getFirstKilometer(),
-                    trainStats.getLastKilometer()
-            );
-            terrainProfileLinkedList.addAll(terrainProfiles);
-        });
+        Train train = trainRepository.find(trainKwr).get(0);
+        LinkedList<TerrainProfile> terrainProfileLinkedList = getTerrainProfiles(train);
 
         List<TerrainProfileDTO> terrainProfileDTOList = terrainProfileLinkedList.stream()
                 .map(terrainProfileDTOMapper::mapToDTO)
@@ -57,15 +41,20 @@ public class MapAndProfileController {
         return "map_profile";
     }
 
-    private List<TrainStats> retrieveTrainStatsList(Integer trainKwr) {
-        List<Analyse> allByTrainKwr = analyseRepository.findAllByTrainKwr(trainKwr);
-        List<Integer> trainStatsIds = allByTrainKwr.stream()
-                .map(Analyse::getTrainAnalyseId)
-                .toList();
+    @NonNull
+    private LinkedList<TerrainProfile> getTerrainProfiles(@NonNull Train train) {
+        Set<TrainStats> allTrainsStats = train.getTrainStats();
 
-        return trainStatsIds.stream()
-                .skip(1)
-                .map(trainStatsId -> trainStatsRepository.findAllByTrainStatsId(trainStatsId).orElseThrow())
-                .toList();
+        LinkedList<TerrainProfile> terrainProfileLinkedList = new LinkedList<>();
+
+        allTrainsStats.forEach(trainStats -> {
+            List<TerrainProfile> terrainProfiles = terrainProfileService.calculateSlope(
+                    trainStats.getLineNumber(),
+                    trainStats.getFirstKilometer(),
+                    trainStats.getLastKilometer()
+            );
+            terrainProfileLinkedList.addAll(terrainProfiles);
+        });
+        return terrainProfileLinkedList;
     }
 }

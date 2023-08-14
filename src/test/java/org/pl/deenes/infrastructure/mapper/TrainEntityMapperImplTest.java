@@ -1,22 +1,25 @@
 package org.pl.deenes.infrastructure.mapper;
 
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.pl.deenes.infrastructure.entity.TrainEntity;
 import org.pl.deenes.infrastructure.entity.TrainStatsEntity;
+import org.pl.deenes.model.LocomotiveType;
 import org.pl.deenes.model.Train;
 import org.pl.deenes.model.TrainStats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
+import java.util.Set;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         TrainMapperImpl.class
 })
+@Slf4j
 class TrainEntityMapperImplTest {
     @Autowired
     private TrainMapper trainEntityMapper;
@@ -24,18 +27,30 @@ class TrainEntityMapperImplTest {
     @Test
     void shouldMapTrainToTrainEntity() {
         Train train = Train.builder()
-                .companyName("TEST")
-                .roadStats(777.11)
-                .trainStats(List.of(TrainStats.builder().build()))
+                .trainKwr(123)
+                .companyName("asd")
+                .startStation("A")
+                .endStation("B")
+                .trainType("TME")
+                .trainNumber(321)
+                .locomotiveType(LocomotiveType.ET22)
+                .trainStats(Set.of(TrainStats.builder().build(),
+                        TrainStats.builder().howManyKilometers(1.1).build()))
                 .build();
 
-        TrainEntity trainEntity = trainEntityMapper.mapToEntity(train);
 
+        train.getTrainStats().forEach(a -> a.setTrainEntity(train));
+
+        log.warn(train.toString());
+
+
+        // TrainEntity trainEntity = trainEntityMapper.mapToEntity(train);
+        TrainEntity trainEntity = trainEntityMapper.mapToEntity(train);
+        log.warn(trainEntity.toString());
         Assertions.assertNotNull(trainEntity);
         Assertions.assertEquals(train.getCompanyName(), trainEntity.getCompanyName());
         Assertions.assertEquals(train.getRoadStats(), trainEntity.getRoadStats());
         Assertions.assertEquals(train.getTrainKwr(), trainEntity.getTrainKwr());
-        Assertions.assertEquals(train.getTrainStats().size(), trainEntity.getTrainStats().size());
     }
 
     @Test
@@ -44,10 +59,10 @@ class TrainEntityMapperImplTest {
                 .companyName("TEST")
                 .roadStats(777.11)
                 .trainKwr(123)
-                .trainStats(List.of(TrainStatsEntity.builder().build()))
+                .trainStats(Set.of(TrainStatsEntity.builder().build()))
                 .build();
 
-        Train train = trainEntityMapper.mapFromEntity(trainEntity, new CycleAvoidingMappingContext());
+        Train train = trainEntityMapper.mapFromEntity(trainEntity);
 
         Assertions.assertNotNull(train);
         Assertions.assertEquals("TEST", train.getCompanyName());

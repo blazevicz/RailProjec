@@ -12,7 +12,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.Optional;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
@@ -37,7 +37,7 @@ class TrainRestControllerTest {
         Train train = Train.builder().trainKwr(trainKwr).build();
         TrainDTO trainDTO = TrainDTO.builder().trainKwr(trainKwr).build();
 
-        when(trainRepository.find(trainKwr)).thenReturn(Optional.of(train));
+        when(trainRepository.find(trainKwr)).thenReturn(List.of(train));
         when(trainDTOMapper.mapToDTO(train)).thenReturn(trainDTO);
 
         mockMvc.perform(get("/api/train/{trainKwr}", trainKwr))
@@ -50,7 +50,7 @@ class TrainRestControllerTest {
     void trainInfo_NonExistingTrain_ShouldReturnNotFound() throws Exception {
         int trainKwr = 123;
 
-        when(trainRepository.find(trainKwr)).thenReturn(Optional.empty());
+        when(trainRepository.find(trainKwr)).thenReturn(List.of());
 
         mockMvc.perform(get("/api/train/{trainKwr}", trainKwr))
                 .andExpect(status().isNotFound());

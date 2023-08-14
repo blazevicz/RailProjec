@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -95,9 +94,9 @@ class TrainServiceImplTest {
                 .roadStats(1000.0)
                 .build();
 
-        when(trainDAO.find(kwr)).thenReturn(Optional.of(train));
+        when(trainDAO.find(kwr)).thenReturn(List.of(train));
 
-        Train foundTrain = trainService.findTrain(kwr);
+        var foundTrain = trainService.findTrain(kwr);
 
         assertThat(foundTrain).isEqualTo(train);
     }

@@ -3,8 +3,8 @@ package org.pl.deenes.model;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @With
 @Data
@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @Getter
 @ToString(exclude = {"driver"})
-@EqualsAndHashCode(of = "trainId")
+@EqualsAndHashCode(of = {"trainKwr"})
 public class Train {
 
     Integer trainId;
@@ -30,13 +30,13 @@ public class Train {
     LocomotiveType locomotiveType;
     Integer trainMaxSpeed;
     Integer brakePercent;
-    List<TrainStats> trainStats;
+    Set<TrainStats> trainStats;
     Integer trainNumber;
 
     public void addStat(@NonNull TrainStats stat) {
-        stat.setTrain(this);
+        stat.setTrainEntity(this);
         if (trainStats == null) {
-            trainStats = new ArrayList<>();
+            trainStats = new HashSet<>();
         }
         trainStats.add(stat);
     }

@@ -10,7 +10,7 @@ import java.util.LinkedList;
 @Setter
 @Getter
 @ToString(of = {"trainStatsId", "lineNumber", "firstKilometer", "lastKilometer"})
-@EqualsAndHashCode
+@EqualsAndHashCode(of = {"trainStatsId", "firstKilometer", "lastKilometer", "lineNumber"})
 public class TrainStats {
 
     private final LinkedList<Line> lineList;
@@ -20,7 +20,7 @@ public class TrainStats {
     private Integer lineNumber;
     private Double firstKilometer;
     private Double lastKilometer;
-    private Train train;
+    private Train trainEntity;
     private Analyse analyse;
 
 

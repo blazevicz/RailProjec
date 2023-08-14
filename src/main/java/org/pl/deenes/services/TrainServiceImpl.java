@@ -13,19 +13,15 @@ import org.pl.deenes.model.TrainStats;
 import org.pl.deenes.services.interfaces.AnalyseService;
 import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 @ToString
 @AllArgsConstructor
 @Slf4j
-@Transactional
 public class TrainServiceImpl implements TrainService {
 
     private final TimetableImpl readKilometersServiceImpl;
@@ -47,7 +43,6 @@ public class TrainServiceImpl implements TrainService {
     }
 
     @Override
-    @Transactional
     public Train trainCreate(String link) {
         readKilometersServiceImpl.setFile(new File(link));
         TimetableDetails reader = readKilometersServiceImpl.read(link);
@@ -74,31 +69,28 @@ public class TrainServiceImpl implements TrainService {
                 .trainMaxWeight(analyse.getTrainMaxWeight())
                 .locomotiveType(analyse.getLocomotiveType())
                 .trainMaxSpeed(analyse.getTrainMaxSpeed())
-                .trainStats(analyse.getTrainStats())
                 .trainKwr(analyse.getTrainKwr())
                 .datePlan(localDate)
                 .roadStats(trainStats.getHowManyKilometers())
-                .trainStats(List.of(analyse.getTrainStats().get(0)))
                 .build();
-        // train.setTrainStats(analyse.getTrainStats());
+
+        Set<TrainStats> collect = new HashSet<>(analyse.getTrainStats());
 
 
-        for (TrainStats stat : train.getTrainStats()) {
-            stat.setTrain(train);
-        }
+        collect.forEach(a -> a.setTrainEntity(train));
+
+        train.setTrainStats(collect);
+
         return train;
     }
 
-    @Transactional
     public Train saveTrain(@NonNull Train train) {
         log.warn(train.toString());
         return trainDAO.save(train);
     }
 
-    @Transactional
-    public Train findTrain(Integer kwr) {
-        Optional<Train> train = trainDAO.find(kwr);
-        return train.orElseThrow();
+    public List<Train> findTrain(Integer kwr) {
+        return trainDAO.find(kwr);
 
     }
 }

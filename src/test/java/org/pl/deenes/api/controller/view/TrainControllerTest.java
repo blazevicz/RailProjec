@@ -18,7 +18,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -71,7 +70,7 @@ class TrainControllerTest {
     void testGetTrainDetails() throws Exception {
         int trainKwr = 1;
         Train train = Train.builder().trainId(1).trainKwr(123).build();
-        when(trainRepository.find(trainKwr)).thenReturn(Optional.of(train));
+        when(trainRepository.find(trainKwr)).thenReturn(List.of(train));
         mockMvc.perform(get("/trains/{trainKwr}", trainKwr))
                 .andExpect(status().isOk())
                 .andExpect(view().name("trainDetails"));
@@ -80,7 +79,7 @@ class TrainControllerTest {
     @Test
     void testGetTrainDetails_NotFound() throws Exception {
         int trainId = 1;
-        when(trainRepository.find(trainId)).thenReturn(Optional.empty());
+        when(trainRepository.find(trainId)).thenReturn(List.of());
 
         mockMvc.perform(get("/trains/{trainId}", trainId))
                 .andExpect(status().is5xxServerError())

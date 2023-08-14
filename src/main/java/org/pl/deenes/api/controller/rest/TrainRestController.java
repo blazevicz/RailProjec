@@ -3,11 +3,11 @@ package org.pl.deenes.api.controller.rest;
 
 import lombok.AllArgsConstructor;
 import org.pl.deenes.api.controller.dto.TrainDTO;
-import org.pl.deenes.api.controller.exception.NotFound;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
-import org.pl.deenes.model.Train;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -18,10 +18,11 @@ public class TrainRestController {
     private final TrainRepository trainRepository;
 
     @GetMapping(value = "/{trainKwr}")
-    public TrainDTO trainInfo(@PathVariable Integer trainKwr) {
+    public List<TrainDTO> trainInfo(@PathVariable Integer trainKwr) {
 
-        Train train = trainRepository.find(trainKwr).orElseThrow(() -> new NotFound("Train kwr: %s not found".formatted(trainKwr)));
-        return trainDTOMapper.mapToDTO(train);
+        var train = trainRepository.find(trainKwr);
+        //.orElseThrow(() -> new NotFound("Train kwr: %s not found".formatted(trainKwr)));
+        return train.stream().map(trainDTOMapper::mapToDTO).toList();
     }
 
     @DeleteMapping(value = "/delete/{trainKwr}")

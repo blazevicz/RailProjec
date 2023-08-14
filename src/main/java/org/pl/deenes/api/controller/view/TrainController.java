@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.dto.TrainDTO;
-import org.pl.deenes.api.controller.exception.NotFound;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
@@ -12,6 +11,7 @@ import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Driver;
 import org.pl.deenes.model.Train;
 import org.pl.deenes.services.ResultServiceImpl;
+import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +30,7 @@ public class TrainController {
     private final TrainRepository trainRepository;
     private final DriverRepository driverRepository;
     private final ResultServiceImpl resultService;
+    private final TrainService trainService;
 
 
     @GetMapping(value = "/trains")
@@ -51,17 +52,22 @@ public class TrainController {
     @PostMapping("/trains/add")
     public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) {
         String s = "src/main/resources/pdfs/" + pdfLink;
-        resultService.runningMethod(s);
+        // resultService.runningMethod(s);
+        Train train = trainService.trainCreate(s);
+        //trainRepository.save(train);
+        trainService.saveTrain(train);
+
 
         return "redirect:/trains";
     }
 
     @GetMapping(value = "/trains/{trainKwr}")
     public String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
-        var train = trainRepository.find(trainKwr)
-                .orElseThrow(() -> new NotFound("Train trainKwr: %s not found".formatted(trainKwr)));
+        var train = trainRepository.find(trainKwr);
 
-        TrainDTO trainDTO = trainMapper.mapToDTO(train);
+        List<TrainDTO> trainDTO = train.stream().map(trainMapper::mapToDTO).toList();
+
+        //TrainDTO trainDTO = trainMapper.mapToDTO(train);
         model.addAttribute("existingTrains", trainDTO);
 
         return "trainDetails";
