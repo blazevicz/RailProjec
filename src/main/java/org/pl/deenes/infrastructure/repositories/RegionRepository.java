@@ -33,12 +33,10 @@ public class RegionRepository implements RegionDAO {
         return byZlkRegionNumber.map(regionMapper::mapFromEntity);
     }
 
-
     @Override
     public List<Region> findAll() {
         List<RegionEntity> all = repository.findAll();
         return all.stream().map(regionMapper::mapFromEntity).toList();
     }
-
 }
 

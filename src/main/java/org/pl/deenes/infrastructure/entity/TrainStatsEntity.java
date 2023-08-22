@@ -21,6 +21,8 @@ public class TrainStatsEntity {
 
     @Column(name = "first_kilometer")
     Double firstKilometer;
+    @Column(name = "station")
+    String station;
 
     @Column(name = "last_kilometer")
     Double lastKilometer;

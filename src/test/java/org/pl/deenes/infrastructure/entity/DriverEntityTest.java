@@ -3,6 +3,8 @@ package org.pl.deenes.infrastructure.entity;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.Set;
+
 class DriverEntityTest {
 
     @Test
@@ -10,9 +12,9 @@ class DriverEntityTest {
         int driverId = 1;
         String name = "Jan";
         String surname = "Kowalski";
-        int pesel = 123456789;
+        String pesel = "66071749125";
 
-        DriverEntity driverEntity = new DriverEntity(driverId, name, surname, pesel);
+        DriverEntity driverEntity = new DriverEntity(driverId, name, surname, pesel, "123", Boolean.TRUE, Set.of());
 
         Assertions.assertThat(driverEntity.getDriverId()).isEqualTo(driverId);
         Assertions.assertThat(driverEntity.getName()).isEqualTo(name);
@@ -27,7 +29,7 @@ class DriverEntityTest {
         int driverId = 1;
         String name = "Jan";
         String surname = "Kowalski";
-        int pesel = 123456789;
+        String pesel = "66071749125";
 
         driverEntity.setDriverId(driverId);
         driverEntity.setName(name);
@@ -42,13 +44,13 @@ class DriverEntityTest {
 
     @Test
     void testDriverEntityEqualsAndHashCode() {
-        DriverEntity driverEntity1 = new DriverEntity(1, "Jan", "Kowalski", 123456789);
-        DriverEntity driverEntity2 = new DriverEntity(1, "Jan", "Kowalski", 123456789);
+        DriverEntity driverEntity1 = new DriverEntity(1, "Jan", "Kowalski", "66071749125L", "123", Boolean.TRUE, Set.of());
+        DriverEntity driverEntity2 = new DriverEntity(1, "Jan", "Kowalski", "66071749125L", "123", Boolean.TRUE, Set.of());
 
         Assertions.assertThat(driverEntity1).isEqualTo(driverEntity2);
         Assertions.assertThat(driverEntity1.hashCode()).hasSameHashCodeAs(driverEntity2.hashCode());
 
-        DriverEntity driverEntity3 = new DriverEntity(2, "Robert", "Adamczyk", 987654321);
+        DriverEntity driverEntity3 = new DriverEntity(2, "Robert", "Adamczyk", "66071749125L", "123", Boolean.TRUE, Set.of());
 
         Assertions.assertThat(driverEntity1).isNotEqualTo(driverEntity3);
         Assertions.assertThat(driverEntity1.hashCode()).isNotEqualTo(driverEntity3.hashCode());

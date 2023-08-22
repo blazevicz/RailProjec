@@ -3,7 +3,9 @@ package org.pl.deenes.infrastructure.repositories.dao;
 
 import org.pl.deenes.model.Localization;
 
+import java.util.Optional;
+
 public interface LocalizationDAO {
 
-    Localization findByStation(String stationName);
+    Optional<Localization> findByStation(String stationName);
 }

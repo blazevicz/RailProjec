@@ -101,13 +101,14 @@ public class TrainMapperImpl implements TrainMapper {
         trainStatsEntity.firstKilometer(trainStats.getFirstKilometer());
         trainStatsEntity.lastKilometer(trainStats.getLastKilometer());
         trainStatsEntity.lineNumber(trainStats.getLineNumber());
+        trainStatsEntity.station(trainStats.getStation());
 
         return trainStatsEntity.build();
     }
 
     protected Set<TrainStatsEntity> trainStatsSetToTrainStatsEntitySet(Set<TrainStats> set) {
         if (set == null) {
-            return null;
+            return Set.of();
         }
 
         Set<TrainStatsEntity> set1 = new LinkedHashSet<>(Math.max((int) (set.size() / .75f) + 1, 16));
@@ -144,13 +145,14 @@ public class TrainMapperImpl implements TrainMapper {
         trainStats.lineNumber(trainStatsEntity.getLineNumber());
         trainStats.firstKilometer(trainStatsEntity.getFirstKilometer());
         trainStats.lastKilometer(trainStatsEntity.getLastKilometer());
+        trainStats.station(trainStatsEntity.getStation());
 
         return trainStats.build();
     }
 
     protected Set<TrainStats> trainStatsEntitySetToTrainStatsSet(Set<TrainStatsEntity> set) {
         if (set == null) {
-            return null;
+            return Set.of();
         }
 
         Set<TrainStats> set1 = new LinkedHashSet<>(Math.max((int) (set.size() / .75f) + 1, 16));

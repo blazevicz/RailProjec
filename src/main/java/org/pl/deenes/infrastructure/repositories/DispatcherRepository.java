@@ -9,6 +9,7 @@ import org.pl.deenes.model.Dispatcher;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @AllArgsConstructor
@@ -22,6 +23,11 @@ public class DispatcherRepository implements DispatcherDAO {
         DispatcherEntity dispatcherEntity = dispatcherMapper.mapToEntity(dispatcher);
         DispatcherEntity save = dispatcherJpaRepository.save(dispatcherEntity);
         return dispatcherMapper.mapFromEntity(save);
+    }
+
+    @Override
+    public Optional<DispatcherEntity> findBySurname(String surname) {
+        return dispatcherJpaRepository.findBySurname(surname);
     }
 
     @Override

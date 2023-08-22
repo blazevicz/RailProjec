@@ -6,10 +6,11 @@ CREATE TABLE train_stats
     train_analyse_id INT,
     first_kilometer  DOUBLE PRECISION,
     last_kilometer   DOUBLE PRECISION,
-    train_kwr INTEGER,
-    train_id  INT,
+    train_kwr        INTEGER,
+    train_id         INT,
     analyse_train_analyse_id INT,
     train_entity_train_id    INT,
+    station          VARCHAR(64),
 
 
     CONSTRAINT fk_train_stats_line

@@ -21,7 +21,7 @@ public class AnalyseServiceImpl implements AnalyseService {
     private TrainStatsServiceImpl trainStatsService;
 
     @Override
-    public Analyse creatingTrainAnalyse(@NonNull TrainStats trainStats) {
+    public Analyse creatingTrainAnalyse(@NonNull TrainStats trainStats, List<String> stations) {
         String textForRegion = readKilometersServiceImpl.getTextToAnalyse();
         String grossTextToAnalyse = readKilometersServiceImpl.getBruttoTextToAnalyse();
         var string = Arrays.stream(grossTextToAnalyse.split("\\s")).toList();
@@ -33,7 +33,7 @@ public class AnalyseServiceImpl implements AnalyseService {
 
         Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer =
                 trainStatsService.mapWithLineNumberAndFirstLastKilometer(trainStats.getLineList());
-        List<TrainStats> trainStatsList = trainStatsCreator(mapWithLineNumberAndFirstLastKilometer);
+        List<TrainStats> trainStatsList = trainStatsCreator(mapWithLineNumberAndFirstLastKilometer, stations);
 
         Analyse build = Analyse.builder()
                 .locomotiveType(LocomotiveType.valueOf(string.get(11)))
@@ -56,7 +56,7 @@ public class AnalyseServiceImpl implements AnalyseService {
         return build;
     }
 
-    public List<TrainStats> trainStatsCreator(@NonNull Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer) {
+    public List<TrainStats> trainStatsCreator(@NonNull Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer, List<String> stations) {
         List<TrainStats> trainStatsList = new LinkedList<>();
 
         for (Map.Entry<Integer, List<Double>> integerListEntry : mapWithLineNumberAndFirstLastKilometer.entrySet()) {
@@ -66,7 +66,10 @@ public class AnalyseServiceImpl implements AnalyseService {
                     .lastKilometer(integerListEntry.getValue().get(integerListEntry.getValue().size() - 1))
                     .build();
             trainStatsList.add(build);
-
+        }
+        for (int i = 0; i < stations.size(); i++) {
+            TrainStats trainStats = trainStatsList.get(i);
+            trainStats.setStation(stations.get(i));
         }
         return trainStatsList;
     }

@@ -9,6 +9,8 @@ import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.TerrainProfile;
 import org.pl.deenes.model.Train;
 import org.pl.deenes.model.TrainStats;
+import org.pl.deenes.osm.model.Way;
+import org.pl.deenes.services.ApiService;
 import org.pl.deenes.services.TerrainProfileServiceImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,17 +29,29 @@ public class MapAndProfileController {
     private final TerrainProfileServiceImpl terrainProfileService;
     private final TerrainProfileDTOMapper terrainProfileDTOMapper;
     private final TrainRepository trainRepository;
+    private final ApiService apiService;
+
     @GetMapping("/trains/{trainKwr}/profile")
     String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
 
-        Train train = trainRepository.find(trainKwr).get(0);
+        Train train = trainRepository.find(trainKwr).orElseThrow();
         LinkedList<TerrainProfile> terrainProfileLinkedList = getTerrainProfiles(train);
 
         List<TerrainProfileDTO> terrainProfileDTOList = terrainProfileLinkedList.stream()
                 .map(terrainProfileDTOMapper::mapToDTO)
                 .toList();
 
+        Set<TrainStats> trainStats = train.getTrainStats();
+        log.warn(trainStats.toString());
+        List<List<Way>> listWithStationInfo1 = trainStats.stream().map(a -> apiService.findStationAndGetPosition(a.getStation())).toList();
+
+        List<Way> listWithStationInfo = listWithStationInfo1.stream()
+                .flatMap(List::stream)
+                .toList();
+        log.warn(listWithStationInfo.toString());
+
         model.addAttribute("terrainProfiles", terrainProfileDTOList);
+        model.addAttribute("listWithStationInfo", listWithStationInfo);
         return "map_profile";
     }
 

@@ -1,8 +1,10 @@
 package org.pl.deenes.model;
 
 import lombok.Builder;
+import org.pl.deenes.infrastructure.entity.RoleEntity;
 
 import java.util.List;
+import java.util.Set;
 
 @Builder
 public record Dispatcher(
@@ -10,6 +12,9 @@ public record Dispatcher(
         String name,
         String surname,
         String phoneNumber,
-        Integer pesel,
+        Boolean active,
+        Set<RoleEntity> roles,
+        String password,
+        Long pesel,
         List<Train> trains) {
 }

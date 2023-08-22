@@ -23,7 +23,4 @@ public class ResultServiceImpl implements ResultService {
         Train train = trainServiceImpl.trainCreate(link);
         trainDAO.save(train);
     }
-    public Train saveTrain(Train train) {
-        return trainDAO.save(train);
-    }
 }

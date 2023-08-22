@@ -25,6 +25,11 @@ public class DriverRepository implements DriverDAO {
     }
 
     @Override
+    public Optional<DriverEntity> findByPesel(String pesel) {
+        return driverJpaRepository.findByPesel(pesel);
+    }
+
+    @Override
     public Driver save(Driver driver) {
         DriverEntity save = driverJpaRepository.save(driverMapper.mapToEntity(driver));
         return driverMapper.mapFromEntity(save);
@@ -41,5 +46,7 @@ public class DriverRepository implements DriverDAO {
                 .map(driverMapper::mapFromEntity)
                 .toList();
     }
+
+
 }
 

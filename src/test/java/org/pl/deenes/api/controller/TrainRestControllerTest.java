@@ -1,29 +1,32 @@
 package org.pl.deenes.api.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.exception.NotFound;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
 import org.pl.deenes.api.controller.rest.TrainRestController;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
+import org.pl.deenes.model.Train;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(controllers = TrainRestController.class)
 @AutoConfigureMockMvc(addFilters = false)
-//@AllArgsConstructor(onConstructor = @__(@Autowired))
 class TrainRestControllerTest {
+
     @Autowired
     private MockMvc mockMvc;
 
@@ -36,21 +39,19 @@ class TrainRestControllerTest {
     @MockBean
     private TrainRepository trainRepository;
 
-
     @Test
-    @Disabled
-    void deleteTrain_shouldReturnNoContent() throws Exception {
-        Integer trainKwrToDelete = 12345;
+    void testTrainInfo_ValidTrain_ShouldReturnTrainDTOList() throws Exception {
+        int trainKwr = 123;
+        Train train = Train.builder().trainKwr(trainKwr).build();
 
-        when(trainRepository.find(trainKwrToDelete)).thenReturn(List.of());
+        when(trainRepository.find(trainKwr)).thenReturn(Optional.of(train));
 
-        mockMvc.perform(delete("/api/train/delete/{trainKwr}", trainKwrToDelete))
-                .andExpect(status().isNoContent());
+        mockMvc.perform(get("/api/train/{trainKwr}", trainKwr))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
-    @Disabled
-
     void deleteTrain_shouldReturnNotFound() throws Exception {
         Integer trainKwrToDelete = 12345;
 

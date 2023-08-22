@@ -16,9 +16,10 @@ import java.util.Optional;
 public class TrainStatsRepository implements TrainStatsDAO {
     private final TrainStatsJPaRepository trainStatsJPaRepository;
     private final TrainStatsMapper trainStatsMapper;
+
     @Override
     public Optional<TrainStats> findAllByTrainStatsId(Integer id) {
-        return Optional.empty();
+        return trainStatsJPaRepository.findById(id).map(trainStatsMapper::mapFromEntity);
     }
 
     @Override

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
@@ -52,9 +53,7 @@ public class TrainController {
     @PostMapping("/trains/add")
     public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) {
         String s = "src/main/resources/pdfs/" + pdfLink;
-        // resultService.runningMethod(s);
         Train train = trainService.trainCreate(s);
-        //trainRepository.save(train);
         trainService.saveTrain(train);
 
 
@@ -63,15 +62,15 @@ public class TrainController {
 
     @GetMapping(value = "/trains/{trainKwr}")
     public String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
-        var train = trainRepository.find(trainKwr);
+        Optional<Train> optionalTrain = trainRepository.find(trainKwr);
 
-        List<TrainDTO> trainDTO = train.stream().map(trainMapper::mapToDTO).toList();
-
-        //TrainDTO trainDTO = trainMapper.mapToDTO(train);
-        model.addAttribute("existingTrains", trainDTO);
-
-        return "trainDetails";
+        if (optionalTrain.isPresent()) {
+            Train train = optionalTrain.get();
+            TrainDTO trainDTO = trainMapper.mapToDTO(train);
+            model.addAttribute("train", trainDTO);
+            return "trainDetails";
+        } else {
+            return "error";
+        }
     }
-
-
 }

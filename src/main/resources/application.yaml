@@ -7,6 +7,8 @@ server:
 logging:
   level:
     org:
+      springframework:
+        security: DEBUG
       hibernate:
         orm:
           jdbc:
@@ -24,7 +26,7 @@ spring:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/rail
     username: postgres
-    password: niewiem
+    password: postgres
     hikari:
       idle-timeout: 10000
       connectionTimeout: 20000

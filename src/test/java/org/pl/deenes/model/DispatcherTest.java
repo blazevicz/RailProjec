@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,7 +16,7 @@ class DispatcherTest {
         String name = "Jan";
         String surname = "Kowalski";
         String phoneNumber = "123456789";
-        Integer pesel = 1234567890;
+        Long pesel = 66071749125L;
         List<Train> trains = new ArrayList<>();
 
         Train build = Train.builder().trainId(1).build();
@@ -23,7 +24,7 @@ class DispatcherTest {
         trains.add(build);
         trains.add(build2);
 
-        Dispatcher dispatcher = new Dispatcher(id, name, surname, phoneNumber, pesel, trains);
+        Dispatcher dispatcher = new Dispatcher(id, name, surname, phoneNumber, true, Set.of(), "asd", pesel, trains);
 
         assertNotNull(dispatcher);
         assertEquals(id, dispatcher.id());

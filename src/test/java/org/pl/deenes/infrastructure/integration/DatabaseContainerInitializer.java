@@ -9,7 +9,7 @@ import org.testcontainers.containers.PostgreSQLContainer;
 class DatabaseContainerInitializer
         implements ApplicationContextInitializer<ConfigurableApplicationContext> {
     public static final String POSTGRESQL_USERNAME = "postgres";
-    public static final String POSTGRESQL_PASSWORD = "niewiem";
+    public static final String POSTGRESQL_PASSWORD = "postgres";
     public static final String POSTGRESQL_BEAN_NAME = "postgres";
     public static final String POSTGRESQL_CONTAINER = "postgres:15.0";
 

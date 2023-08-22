@@ -9,6 +9,8 @@ import org.pl.deenes.infrastructure.repositories.jpa.LocalizationJpaRepository;
 import org.pl.deenes.model.Localization;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 @AllArgsConstructor
 public class LocalizationRepository implements LocalizationDAO {
@@ -17,8 +19,8 @@ public class LocalizationRepository implements LocalizationDAO {
     private final LocalizationMapper localizationMapper;
 
     @Override
-    public Localization findByStation(String stationName) {
+    public Optional<Localization> findByStation(String stationName) {
         LocalizationEntity byStation = localizationJpaRepository.findByStation(stationName);
-        return localizationMapper.mapFromEntity(byStation);
+        return Optional.ofNullable(localizationMapper.mapFromEntity(byStation));
     }
 }

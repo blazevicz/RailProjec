@@ -1,4 +1,4 @@
-package org.pl.deenes.infrastructure.repositories;
+package org.pl.deenes.infrastructure.repositories.jpa;
 
 import org.pl.deenes.infrastructure.entity.RegionEntity;
 import org.springframework.data.jpa.repository.JpaRepository;

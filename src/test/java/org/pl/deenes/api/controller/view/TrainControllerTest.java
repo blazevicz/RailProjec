@@ -3,6 +3,7 @@ package org.pl.deenes.api.controller.view;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
+import org.pl.deenes.api.controller.dto.TrainDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
@@ -10,6 +11,7 @@ import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Driver;
 import org.pl.deenes.model.Train;
 import org.pl.deenes.services.ResultServiceImpl;
+import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -17,7 +19,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,6 +50,10 @@ class TrainControllerTest {
     @MockBean
     private ResultServiceImpl resultService;
 
+    @MockBean
+    private TrainService trainService;
+
+
     @Test
     void testGetTrainsPage() throws Exception {
         List<Train> trains = Arrays.asList(
@@ -55,8 +63,8 @@ class TrainControllerTest {
         when(trainRepository.findAll()).thenReturn(trains);
 
         List<Driver> drivers = Arrays.asList(
-                Driver.builder().driverId(1).name("A").pesel(123123123).build(),
-                Driver.builder().driverId(2).name("B").pesel(32513).build());
+                Driver.builder().driverId(1).name("A").pesel("66071749125L").build(),
+                Driver.builder().driverId(2).name("B").pesel("61071749125L").build());
         when(driverRepository.findAllDrivers()).thenReturn(drivers);
 
         mockMvc.perform(get("/trains"))
@@ -69,20 +77,32 @@ class TrainControllerTest {
     @Test
     void testGetTrainDetails() throws Exception {
         int trainKwr = 1;
-        Train train = Train.builder().trainId(1).trainKwr(123).build();
-        when(trainRepository.find(trainKwr)).thenReturn(List.of(train));
+        Train train = Train.builder().trainId(1).trainKwr(trainKwr).build();
+        when(trainRepository.find(trainKwr)).thenReturn(Optional.of(train));
+
+        TrainDTO trainDTO = trainMapper.mapToDTO(train);
+
         mockMvc.perform(get("/trains/{trainKwr}", trainKwr))
                 .andExpect(status().isOk())
-                .andExpect(view().name("trainDetails"));
+                .andExpect(view().name("trainDetails"))
+                .andExpect(model().attribute("existingTrains", trainDTO));
     }
 
-    @Test
-    void testGetTrainDetails_NotFound() throws Exception {
-        int trainId = 1;
-        when(trainRepository.find(trainId)).thenReturn(List.of());
 
-        mockMvc.perform(get("/trains/{trainId}", trainId))
-                .andExpect(status().is5xxServerError())
-                .andExpect(view().name("error"));
+    @Test
+    void testTrainsPage_NoTrains_ShouldReturnEmptyList() throws Exception {
+        when(trainRepository.findAll()).thenReturn(Collections.emptyList());
+        when(driverRepository.findAllDrivers()).thenReturn(Collections.emptyList());
+
+        mockMvc.perform(get("/trains"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("train"))
+                .andExpect(model().attributeExists("existingTrains", "existingDrivers", "pdfFiles"))
+                .andExpect(model().attribute("existingTrains", List.of()))
+                .andExpect(model().attribute("existingDrivers", List.of()))
+                .andExpect(model().attribute("pdfFiles", List.of(
+                        "RJ_SKRJ_666401_464028_9.pdf",
+                        "RJ_SKRJ_956925_644010_1.pdf"
+                )));
     }
 }

@@ -2,6 +2,7 @@ package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.infrastructure.mapper.NodeMapper;
 import org.pl.deenes.infrastructure.repositories.LocalizationRepository;
 import org.pl.deenes.model.Localization;
@@ -13,10 +14,13 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class ApiService {
 
     private final MapApi mapApi;
@@ -37,10 +41,16 @@ public class ApiService {
     }
 
     public List<Way> findStationAndGetPosition(String stationName) {
-        Localization localization = localizationRepository.findByStation(stationName);
-        String bbox = convertLocalizationToBbox(localization.latitude(), localization.longitude());
-        List<Way> locationByBbox = findLocationByBbox(bbox);
-        return filterStationBuildingsAndRailLines(locationByBbox);
+        Localization localization;
+        try {
+            localization = localizationRepository.findByStation(stationName).orElseThrow();
+            String bbox = convertLocalizationToBbox(localization.latitude(), localization.longitude());
+            List<Way> locationByBbox = findLocationByBbox(bbox);
+            return filterStationBuildingsAndRailLines(locationByBbox);
+        } catch (NoSuchElementException nf) {
+            log.warn(nf + " " + stationName);
+        }
+        return Collections.emptyList();
     }
 
     public List<Way> findLocationByBbox(String bbox) {

@@ -37,6 +37,7 @@ public class TimetableImpl implements Timetable {
     private String bruttoTextToAnalyse;
     private String companyName;
 
+
     @Override
     public TimetableDetails read(String link) {
         TimetableDetails timetableDetails = new TimetableDetails();
@@ -55,9 +56,18 @@ public class TimetableImpl implements Timetable {
                 stripper.extractRegions(page);
                 if (currentPage == 0) {
                     textToAnalyse = stripper.getTextForRegion(Positions.ANALYSIS.name());
-                    bruttoTextToAnalyse = stripper.getTextForRegion(Positions.BRUTTOANALYSIS.name());
-                    companyName = stripper.getTextForRegion(Positions.COMPANYNAME.name());
+                    bruttoTextToAnalyse = stripper.getTextForRegion(Positions.BRUTTO_ANALYSIS.name());
+                    companyName = stripper.getTextForRegion(Positions.COMPANY_NAME.name());
                 }
+                String textForRegion1 = stripper.getTextForRegion(Positions.LEFT_STATIONS.name());
+                var stationNames1 = searchStationNames(textForRegion1);
+
+                String textForRegion = stripper.getTextForRegion(Positions.RIGHT_STATIONS.name());
+                var stationNames = searchStationNames(textForRegion);
+
+                timetableDetails.getStations().addAll(stationNames);
+                timetableDetails.getStations().addAll(stationNames1);
+
                 stripper.getTextForRegion(Positions.LEFT.name());
                 stripper.getTextForRegion(Positions.RIGHT.name());
                 addingToList(stripper, Positions.LEFT.name(), timetableDetails);
@@ -76,7 +86,9 @@ public class TimetableImpl implements Timetable {
             log.error("pdf not loading", e);
             throw new LoadingPdfException(e);
         }
+        log.warn(String.valueOf(timetableDetails.getStations().contains("BYTOM")));
         return timetableDetails;
+
     }
 
     public void gettingLastKilometer(@NonNull String text) {
@@ -108,12 +120,26 @@ public class TimetableImpl implements Timetable {
         return Arrays.stream(stripper.getTextForRegion(leftOrRight).split("\\s")).toList();
     }
 
-    private void addRegionsConfiguration(@NonNull PDFTextStripperByArea stripper) {
-        stripper.addRegion(Positions.COMPANYNAME.name(), new Rectangle(59, 125, 302, 302));
-        stripper.addRegion(Positions.BRUTTOANALYSIS.name(), new Rectangle(730, 41, 91, 548));
+    void addRegionsConfiguration(@NonNull PDFTextStripperByArea stripper) {
+        stripper.addRegion(Positions.COMPANY_NAME.name(), new Rectangle(59, 125, 302, 302));
+        stripper.addRegion(Positions.BRUTTO_ANALYSIS.name(), new Rectangle(730, 41, 91, 548));
         stripper.addRegion(Positions.ANALYSIS.name(), new Rectangle(444, 25, 376, 18));
         stripper.addRegion(Positions.TITLE.name(), new Rectangle(12, 20, 389, 553));
         stripper.addRegion(Positions.LEFT.name(), new Rectangle(31, 45, 57, 518));
         stripper.addRegion(Positions.RIGHT.name(), new Rectangle(449, 45, 57, 518));
+        stripper.addRegion(Positions.LEFT_STATIONS.name(), new Rectangle(127, 46, 123, 520));
+        stripper.addRegion(Positions.RIGHT_STATIONS.name(), new Rectangle(546, 46, 123, 520));
+    }
+
+    private List<String> searchStationNames(@NonNull String textForRegion) {
+        List<String> list = Arrays.stream(textForRegion.split("\\n")).toList();
+
+        return list.stream()
+                .filter(str -> str.length() >= 4)
+                .filter(str -> Character.isLetter(str.charAt(0)) && !str.equals("Stacja"))
+                .map(str -> str.replaceAll("\\b[a-z]\\w*\\s?", ""))
+                .filter(str -> !str.isEmpty() && str.length() >= 4 && !Character.isLowerCase(str.charAt(0)))
+                .map(String::trim)
+                .toList();
     }
 }

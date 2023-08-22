@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.view;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.pl.deenes.api.controller.dto.DriverDTO;
@@ -41,7 +42,7 @@ public class DriverController {
     }
 
     @PostMapping(value = "/driver")
-    public String createDriver(@RequestBody DriverDTO driverDTO) {
+    public String createDriver(@Valid @RequestBody DriverDTO driverDTO) {
         Driver driver = driverDTOMapper.mapFromDTO(driverDTO);
         driverRepository.save(driver);
         return SUCCESS_VIEW;

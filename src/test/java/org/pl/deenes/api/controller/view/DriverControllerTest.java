@@ -2,7 +2,6 @@ package org.pl.deenes.api.controller.view;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
@@ -21,6 +20,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -46,34 +46,38 @@ class DriverControllerTest {
                 Driver.builder().driverId(1)
                         .name("Jan")
                         .surname("Kowalski")
-                        .pesel(123123123)
+                        .pesel("66071749125L")
                         .build(),
                 Driver.builder().driverId(2)
                         .name("Henry")
                         .surname("Malinowski")
-                        .pesel(321232111)
+                        .pesel("3212321111L")
                         .build()
         );
         List<DriverDTO> driversDTO = Arrays.asList(
                 DriverDTO.builder().driverId(1)
                         .name("Jan")
                         .surname("Kowalski")
-                        .pesel(123123123)
+                        .pesel("66071749125L")
                         .build(),
                 DriverDTO.builder().driverId(2)
                         .name("Henry")
                         .surname("Malinowski")
-                        .pesel(321232111)
+                        .pesel("3212321111L")
                         .build()
         );
 
         when(driverRepository.findAllDrivers()).thenReturn(drivers);
+        when(driverDTOMapper.mapToDTO(any(Driver.class)))
+                .thenReturn(driversDTO.get(0))
+                .thenReturn(driversDTO.get(1));
+
 
         mockMvc.perform(get("/drivers"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("drivers"))
-                .andExpect(model().attributeExists("driversDTO"));
-        // .andExpect(model().attribute("drivers", drivers.stream().map(a -> driverDTOMapper.mapToDTO(a)).toList()));
+                .andExpect(model().attributeExists("driversDTO"))
+                .andExpect(model().attribute("driversDTO", (driversDTO)));
     }
 
     @Test
@@ -81,14 +85,14 @@ class DriverControllerTest {
         Driver driver = Driver.builder().driverId(1)
                 .name("Jan")
                 .surname("Kowalski")
-                .pesel(123123123)
+                .pesel("66071749125L")
                 .build();
         when(driverRepository.findDriverById(1)).thenReturn(Optional.of(driver));
 
         mockMvc.perform(get("/driver/1"))
                 .andExpect(status().isOk())
-                .andExpect(view().name("driver"));
-        //   .andExpect(model().attribute("drivers", driverDTOMapper.mapToDTO(driver)));
+                .andExpect(view().name("driver"))
+                .andExpect(model().attribute("drivers", driverDTOMapper.mapToDTO(driver)));
     }
 
     @Test
@@ -108,7 +112,7 @@ class DriverControllerTest {
                 DriverDTO.builder().driverId(null)
                         .name("Jan")
                         .surname("Kowalski")
-                        .pesel(123123123)
+                        .pesel("61051731141")
                         .build();
 
         Driver driver = driverDTOMapper.mapFromDTO(driverDTO);
@@ -122,24 +126,24 @@ class DriverControllerTest {
     }
 
     @Test
-    @Disabled
     void testUpdateDriver() throws Exception {
         DriverDTO driverDTO = DriverDTO.builder().driverId(1)
                 .name("Jan")
                 .surname("Kowalski")
-                .pesel(123123123)
+                .pesel("66071749125L")
                 .build();
 
         Driver driver = Driver.builder().driverId(1)
                 .name("Jan")
                 .surname("Kowalski")
-                .pesel(123123123)
+                .pesel("66071749125L")
                 .locomotiveAuthorization(null)
                 .trains(null)
                 .lineAuthorization(null)
                 .build();
+
         when(driverRepository.findDriverById(1)).thenReturn(Optional.of(driver));
-        when(driverRepository.save(driver)).thenReturn(driver);
+        when(driverDTOMapper.mapFromDTO(driverDTO)).thenReturn(driver);
 
         mockMvc.perform(put("/driver/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -153,7 +157,7 @@ class DriverControllerTest {
         DriverDTO driverDTO = DriverDTO.builder().driverId(1)
                 .name("Jan")
                 .surname("Kowalski")
-                .pesel(123123123)
+                .pesel("66071749125L")
                 .build();
         when(driverRepository.findDriverById(anyInt())).thenAnswer(invocation -> {
             throw new ChangeSetPersister.NotFoundException();
@@ -171,7 +175,7 @@ class DriverControllerTest {
         Driver driver = Driver.builder().driverId(1)
                 .name("Jan")
                 .surname("Kowalski")
-                .pesel(123123123)
+                .pesel("66071749125L")
                 .build();
         when(driverRepository.findDriverById(1)).thenReturn(Optional.of(driver));
 

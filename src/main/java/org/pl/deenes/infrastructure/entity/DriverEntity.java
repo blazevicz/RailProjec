@@ -3,6 +3,8 @@ package org.pl.deenes.infrastructure.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.Set;
+
 @Entity
 @Builder
 @Getter
@@ -26,8 +28,20 @@ public class DriverEntity {
     private String surname;
 
     @Column(name = "pesel")
-    private Integer pesel;
+    private String pesel;
 
+    @Column(name = "password")
+    private String password;
 
+    @Column(name = "active")
+    private Boolean active;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "driver_role",
+            joinColumns = @JoinColumn(name = "driver_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleEntity> roles;
 
 }

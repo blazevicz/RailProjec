@@ -3,7 +3,6 @@ package org.pl.deenes.model;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @With
@@ -33,12 +32,5 @@ public class Train {
     Set<TrainStats> trainStats;
     Integer trainNumber;
 
-    public void addStat(@NonNull TrainStats stat) {
-        stat.setTrainEntity(this);
-        if (trainStats == null) {
-            trainStats = new HashSet<>();
-        }
-        trainStats.add(stat);
-    }
 }
 

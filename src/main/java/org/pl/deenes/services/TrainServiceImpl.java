@@ -55,8 +55,7 @@ public class TrainServiceImpl implements TrainService {
         LocalDate localDate = extractingDate(split).orElseThrow();
 
         TrainStats trainStats = trainStatsServiceImpl.calculateKilometers(trainStatsServiceImpl.getLastKilometer());
-        Analyse analyse = analyseServiceImpl.creatingTrainAnalyse(trainStats);
-
+        Analyse analyse = analyseServiceImpl.creatingTrainAnalyse(trainStats, reader.getStations());
 
         Train train = Train.builder()
                 .companyName(split.get(2))
@@ -76,7 +75,6 @@ public class TrainServiceImpl implements TrainService {
 
         Set<TrainStats> collect = new HashSet<>(analyse.getTrainStats());
 
-
         collect.forEach(a -> a.setTrainEntity(train));
 
         train.setTrainStats(collect);
@@ -89,7 +87,7 @@ public class TrainServiceImpl implements TrainService {
         return trainDAO.save(train);
     }
 
-    public List<Train> findTrain(Integer kwr) {
+    public Optional<Train> findTrain(Integer kwr) {
         return trainDAO.find(kwr);
 
     }

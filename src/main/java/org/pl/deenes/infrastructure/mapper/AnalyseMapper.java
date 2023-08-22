@@ -18,6 +18,7 @@ public interface AnalyseMapper {
     default boolean isNotEmpty(String value) {
         return value != null && !value.isEmpty();
     }
+
     @DoIgnore
     default AnalyseEntity mapToEntity(Analyse analyse) {
         return mapToEntity(analyse, new CycleAvoidingMappingContext());

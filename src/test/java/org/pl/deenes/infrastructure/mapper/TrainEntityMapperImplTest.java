@@ -15,6 +15,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.Set;
 
+
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {
         TrainMapperImpl.class
@@ -34,19 +35,14 @@ class TrainEntityMapperImplTest {
                 .trainType("TME")
                 .trainNumber(321)
                 .locomotiveType(LocomotiveType.ET22)
-                .trainStats(Set.of(TrainStats.builder().build(),
+                .trainStats(Set.of(TrainStats.builder().lineNumber(2).build(),
                         TrainStats.builder().howManyKilometers(1.1).build()))
                 .build();
 
 
         train.getTrainStats().forEach(a -> a.setTrainEntity(train));
-
-        log.warn(train.toString());
-
-
-        // TrainEntity trainEntity = trainEntityMapper.mapToEntity(train);
         TrainEntity trainEntity = trainEntityMapper.mapToEntity(train);
-        log.warn(trainEntity.toString());
+
         Assertions.assertNotNull(trainEntity);
         Assertions.assertEquals(train.getCompanyName(), trainEntity.getCompanyName());
         Assertions.assertEquals(train.getRoadStats(), trainEntity.getRoadStats());

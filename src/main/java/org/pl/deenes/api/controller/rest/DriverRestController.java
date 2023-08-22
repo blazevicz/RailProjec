@@ -1,7 +1,8 @@
 package org.pl.deenes.api.controller.rest;
 
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/driver")
@@ -37,9 +39,9 @@ public class DriverRestController {
         return ResponseEntity.ok(driverDTOMapper.mapToDTO(driver));
     }
 
-
     @PostMapping(value = "/add")
-    public DriverDTO addDriver(@RequestBody DriverDTO driverDTO) {
+    public DriverDTO addDriver(@Valid @RequestBody DriverDTO driverDTO) {
+        log.warn(driverDTO.toString());
         Driver save = driverRepository.save(driverDTOMapper.mapFromDTO(driverDTO));
         return driverDTOMapper.mapToDTO(save);
     }

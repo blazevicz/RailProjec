@@ -10,7 +10,7 @@ import org.pl.deenes.model.LocomotiveType;
 import org.pl.deenes.model.TrainStats;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Data
 @Builder
@@ -33,7 +33,7 @@ public class TrainDTO {
     LocomotiveType locomotiveType;
     Integer trainMaxSpeed;
     Integer brakePercent;
-    List<TrainStats> trainStats;
+    Set<TrainStats> trainStats;
     Integer trainNumber;
 
 }

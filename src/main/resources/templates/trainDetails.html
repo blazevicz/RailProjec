@@ -30,14 +30,24 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="train : ${existingTrains}">
-            <td th:text="${train.trainKwr}"></td>
-            <td th:text="${train.companyName}"></td>
-            <td th:text="${train.datePlan}"></td>
-            <td th:text="${train.roadStats}"></td>
-            <td th:text="${train.driver}"></td>
-            <a class="btn btn-info" role="button"
-               th:href="@{'/trains/' + ${train != null ? train.trainKwr + '/profile': ''}}">map</a>
+        <tr>
+            <th>trainKwr</th>
+            <th>companyName</th>
+            <th>datePlan</th>
+            <th>roadStats</th>
+            <th>driver</th>
+        </tr>
+        <tr>
+            <td th:text="${train != null ? train.trainKwr : ''}"></td>
+            <td th:text="${train != null ? train.companyName : ''}"></td>
+            <td th:text="${train != null ? train.datePlan : ''}"></td>
+            <td th:text="${train != null ? train.roadStats : ''}"></td>
+            <td th:text="${train != null ? train.driver : ''}"></td>
+
+            <td>
+                <a class="btn btn-info" role="button"
+                   th:href="@{'/trains/' + ${train != null ? train.trainKwr + '/profile' : ''}}">map</a>
+            </td>
         </tr>
         <div class="container">
             <div class="row mt-2">

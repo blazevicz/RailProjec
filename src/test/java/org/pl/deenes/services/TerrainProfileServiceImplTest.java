@@ -44,7 +44,7 @@ class TerrainProfileServiceImplTest {
 
         LinkedList<TerrainProfile> singleElementList = new LinkedList<>(List.of(build));
         when(terrainProfileJpaRepository.findAllByLineNumberIsAndKilometerBetween(anyInt(), anyDouble(), anyDouble()))
-                .thenReturn((LinkedList<TerrainProfile>) singleElementList);
+                .thenReturn(singleElementList);
 
         List<TerrainProfile> result = terrainProfileService.calculateSlope(1, 0.0, 10.0);
 
@@ -67,7 +67,7 @@ class TerrainProfileServiceImplTest {
 
         LinkedList<TerrainProfile> multipleElementsList = new LinkedList<>(List.of(build1, build2));
         when(terrainProfileJpaRepository.findAllByLineNumberIsAndKilometerBetween(anyInt(), anyDouble(), anyDouble()))
-                .thenReturn((LinkedList<TerrainProfile>) multipleElementsList);
+                .thenReturn(multipleElementsList);
 
         List<TerrainProfile> result = terrainProfileService.calculateSlope(1, 0.0, 10.0);
 

@@ -4,8 +4,8 @@ import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -16,11 +16,9 @@ import java.util.Optional;
 @Slf4j
 @ControllerAdvice
 public class GlobalExceptionHandler {
-
-
-
     private static final String VIEW_NAME_ERROR = "error";
     private static final String ATTRIBUTE_NAME = "errorA";
+
     @ExceptionHandler(ChangeSetPersister.NotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public ModelAndView handleNoResourceFound(ChangeSetPersister.@NonNull NotFoundException ex) {
@@ -50,9 +48,9 @@ public class GlobalExceptionHandler {
         return modelView;
     }
 
-    @ExceptionHandler(BindException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ModelAndView handleException(@NonNull BindException ex) {
+    public ModelAndView handleException(@NonNull MethodArgumentNotValidException ex) {
         String message = String.format("Bad request for field: [%s], wrong value: [%s]",
                 Optional.ofNullable(ex.getFieldError()).map(FieldError::getField).orElse(null),
                 Optional.ofNullable(ex.getFieldError()).map(FieldError::getRejectedValue).orElse(null));
@@ -61,6 +59,4 @@ public class GlobalExceptionHandler {
         modelView.addObject(ATTRIBUTE_NAME, message);
         return modelView;
     }
-
-
 }

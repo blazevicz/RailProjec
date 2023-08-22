@@ -74,6 +74,21 @@
         });
     };
 </script>
+
+<h2>Train details:</h2>
+<div class="container">
+    <ul class="list-group">
+        <li class="list-group-item" th:each="way : ${listWithStationInfo}">
+            <strong>Line info::</strong>
+            <span th:text="'Line number: ' + ${way.getTags().get('ref')}"></span><br>
+            <span th:text="'Gauge: ' + ${way.getTags().get('gauge')}"></span><br>
+            <span th:text="'Max speeed: ' + ${way.getTags().get('maxspeed')}"></span><br>
+            <span th:text="'Voltage: ' + ${way.getTags().get('voltage')}"></span><br>
+            <span th:href="'url: ' + ${way.getTags().get('url')}"></span><br>
+        </li>
+    </ul>
+</div>
+
 </body>
 
 </html>

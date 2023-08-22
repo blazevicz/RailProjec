@@ -24,7 +24,7 @@ import java.util.List;
 import static org.mockito.BDDMockito.given;
 
 @WebMvcTest(controllers = DriverRestController.class)
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 class DriverRestControllerTest {
 
     @Autowired
@@ -44,19 +44,19 @@ class DriverRestControllerTest {
         Driver driver1 = Driver.builder()
                 .driverId(1)
                 .name("Test1")
-                .pesel(123456789)
+                .pesel(String.valueOf(66071749125L))
                 .build();
         Driver driver2 = Driver.builder()
                 .driverId(2)
                 .name("Test2")
-                .pesel(8888888)
+                .pesel("16071749125L")
                 .build();
         List<Driver> driverList = List.of(driver1, driver2);
 
         DriverDTO driverDTO1 = DriverDTO.builder()
                 .driverId(1)
                 .name("Test1")
-                .pesel(123456789)
+                .pesel("66071749125L")
                 .build();
 
 

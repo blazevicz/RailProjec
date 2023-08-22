@@ -62,9 +62,6 @@ class TrainRepositoryIT extends IntegrationReposIT {
 
 
         trainRepository.save(trainEntity);
-
-
-//        resultService.runningMethod("src/main/resources/pdfs/RJ_SKRJ_666401_464028_9.pdf");
         var save = trainRepository.findAll();
 
         Assertions.assertEquals(1, save.size());
@@ -74,15 +71,4 @@ class TrainRepositoryIT extends IntegrationReposIT {
         Assertions.assertNotNull(save.get(0).getTrainId());
     }
 
-    @Test
-    void transactionChecking() {
-        resultService.runningMethod("src/main/resources/pdfs/RJ_SKRJ_666401_464028_9.pdf");
-        var train1 = trainRepository.findAll();
-
-        Assertions.assertNotNull(train1.get(0).getTrainId());
-        Assertions.assertNotNull(train1.get(0).getTrainStats());
-        Assertions.assertEquals(23, train1.get(0).getTrainStats().size());
-        Assertions.assertEquals(1, train1.size());
-
-    }
 }

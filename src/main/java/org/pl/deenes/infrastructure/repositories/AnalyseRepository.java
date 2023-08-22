@@ -26,7 +26,6 @@ public class AnalyseRepository implements AnalyseDAO {
         AnalyseEntity analyseEntity = analyseMapper.mapToEntity(analyse);
         AnalyseEntity savedAnalyse = analyseJpaRepository.save(analyseEntity);
         return analyseMapper.mapFromEntity(savedAnalyse, new CycleAvoidingMappingContext());
-
     }
 
     @Override

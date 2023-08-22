@@ -2,6 +2,7 @@ package org.pl.deenes.infrastructure.repositories;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.pl.deenes.api.controller.exception.NotFound;
 import org.pl.deenes.infrastructure.entity.TrainEntity;
 import org.pl.deenes.infrastructure.entity.TrainStatsEntity;
 import org.pl.deenes.infrastructure.mapper.TrainMapper;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -26,7 +28,6 @@ public class TrainRepository implements TrainDAO {
     private final TrainMapper trainMapper;
     private final TrainStatsMapper trainStatsMapper;
 
-
     @Override
     public Train save(Train train) {
         TrainEntity trainEntity = trainMapper.mapToEntity(train);
@@ -36,30 +37,26 @@ public class TrainRepository implements TrainDAO {
 
         trainEntity.setTrainStats(collect);
 
-
         TrainEntity saved = trainJpaRepository.save(trainEntity);
         return trainMapper.mapFromEntity(saved);
     }
 
     @Override
     @Transactional
-    public List<Train> find(Integer trainKwr) {
-        return trainJpaRepository.findByTrainKwr(trainKwr).stream()
-                .map(a -> trainMapper.mapFromEntity(a)).toList();
+    public Optional<Train> find(Integer trainKwr) {
+        Optional<TrainEntity> byTrainKwr = trainJpaRepository.findByTrainKwr(trainKwr);
+        return byTrainKwr.map(trainMapper::mapFromEntity);
     }
 
     @Override
     public void delete(Integer trainKwr) {
-        var byTrainKwr = trainJpaRepository.findByTrainKwr(trainKwr);
-        //trainJpaRepository.delete(byTrainKwr);
+        var byTrainKwr = trainJpaRepository.findByTrainKwr(trainKwr).orElseThrow(() -> new NotFound(trainKwr + "not found"));
+        trainJpaRepository.delete(byTrainKwr);
     }
-
 
     @Override
     public List<Train> findAll() {
         List<TrainEntity> all = trainJpaRepository.findAll();
-        return all.stream().map(a -> trainMapper.mapFromEntity(a)).toList();
+        return all.stream().map(trainMapper::mapFromEntity).toList();
     }
-
-
 }

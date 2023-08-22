@@ -42,7 +42,7 @@ class AnalyseServiceImplTest {
         when(trainStatsService.mapWithLineNumberAndFirstLastKilometer(any())).thenReturn(Map.of(1, List.of(10.0, 50.0)));
 
 
-        Analyse result = analyseService.creatingTrainAnalyse(trainStats);
+        Analyse result = analyseService.creatingTrainAnalyse(trainStats, List.of());
 
         assertEquals(LocomotiveType.ET22, result.getLocomotiveType());
         assertEquals(100, result.getTrainMaxWeight());
@@ -60,7 +60,7 @@ class AnalyseServiceImplTest {
     void testTrainStatsCreator() {
         Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer = Map.of(1, List.of(10.0, 50.0));
 
-        List<TrainStats> trainStatsList = analyseService.trainStatsCreator(mapWithLineNumberAndFirstLastKilometer);
+        List<TrainStats> trainStatsList = analyseService.trainStatsCreator(mapWithLineNumberAndFirstLastKilometer, List.of());
 
         assertEquals(1, trainStatsList.size());
 

@@ -1,8 +1,6 @@
 package org.pl.deenes.services;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.services.interfaces.KilometersService;
 import org.springframework.stereotype.Service;
@@ -15,10 +13,13 @@ import java.util.*;
 @Service
 @Slf4j
 @NoArgsConstructor
+@Builder
+@AllArgsConstructor
 public class TimetableDetails implements KilometersService {
     private List<List<String>> allKilometers = new ArrayList<>();
     private Set<Integer> kilometersAfterConvert = new HashSet<>();
     private List<Number> lineNumbers = new LinkedList<>();
+    private List<String> stations = new ArrayList<>();
 
     public static boolean isNumeric(@NonNull String numberToCheck) {
         try {

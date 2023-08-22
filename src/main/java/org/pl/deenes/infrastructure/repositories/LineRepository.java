@@ -8,6 +8,7 @@ import org.pl.deenes.infrastructure.entity.LineEntity;
 import org.pl.deenes.infrastructure.mapper.LineDetailsMapper;
 import org.pl.deenes.infrastructure.mapper.LineMapper;
 import org.pl.deenes.infrastructure.repositories.dao.LineDAO;
+import org.pl.deenes.infrastructure.repositories.jpa.LineDetailsJpaRepository;
 import org.pl.deenes.infrastructure.repositories.jpa.LineJpaRepository;
 import org.pl.deenes.model.Line;
 import org.pl.deenes.model.LineDetails;
@@ -20,14 +21,14 @@ import java.util.List;
 @AllArgsConstructor
 public class LineRepository implements LineDAO {
     private final LineDetailsMapper lineDetailsMapper;
-    private final LineDetailsRepository lineDetailsRepository;
+    private final LineDetailsJpaRepository lineDetailsJpaRepository;
     private final LineMapper lineMapper;
     private final LineJpaRepository lineJpaRepository;
 
     @Override
     public void saveALl(@NonNull List<LineDetails> lineDetails) {
         List<LineDetailsEntity> collect = lineDetails.stream().map(lineDetailsMapper::mapToEntity).toList();
-        lineDetailsRepository.saveAll(collect);
+        lineDetailsJpaRepository.saveAll(collect);
     }
 
     @Override

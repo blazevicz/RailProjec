@@ -9,8 +9,10 @@ public enum Positions {
     RIGHT("right"),
     TITLE("title"),
     ANALYSIS("analysis"),
-    BRUTTOANALYSIS("bruttoAnalysis"),
-    COMPANYNAME("companyName");
+    BRUTTO_ANALYSIS("bruttoAnalysis"),
+    COMPANY_NAME("companyName"),
+    LEFT_STATIONS("leftStations"),
+    RIGHT_STATIONS("rightStations");
 
     final String value;
 
