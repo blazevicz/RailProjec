@@ -32,16 +32,6 @@ public class TrainServiceImpl implements TrainService {
     private final AnalyseDAO analyseDAO;
     private final LineRepository lineRepository;
 
-    private static Optional<LocalDate> extractingDate(@NonNull List<String> split) {
-        Optional<String> day = split.stream().filter(a -> a.contains("dnia")).limit(1).findFirst();
-        if (day.isPresent()) {
-            String[] split1 = day.get().split(" ");
-            String[] split2 = split1[split1.length - 1].split("\\.");
-            return Optional.of(LocalDate.of(Integer.parseInt(split2[2]), Integer.parseInt(split2[1]), Integer.parseInt(split2[0])));
-        }
-        return Optional.empty();
-    }
-
     @Override
     public Train trainCreate(String link) {
         readKilometersServiceImpl.setFile(new File(link));
@@ -82,13 +72,21 @@ public class TrainServiceImpl implements TrainService {
         return train;
     }
 
+    private Optional<LocalDate> extractingDate(@NonNull List<String> split) {
+        Optional<String> day = split.stream().filter(a -> a.contains("dnia")).limit(1).findFirst();
+        if (day.isPresent()) {
+            String[] split1 = day.get().split(" ");
+            String[] split2 = split1[split1.length - 1].split("\\.");
+            return Optional.of(LocalDate.of(Integer.parseInt(split2[2]), Integer.parseInt(split2[1]), Integer.parseInt(split2[0])));
+        }
+        return Optional.empty();
+    }
+
     public Train saveTrain(@NonNull Train train) {
         log.warn(train.toString());
         return trainDAO.save(train);
     }
-
     public Optional<Train> findTrain(Integer kwr) {
         return trainDAO.find(kwr);
-
     }
 }

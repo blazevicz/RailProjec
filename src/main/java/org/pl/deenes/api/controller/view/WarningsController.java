@@ -19,7 +19,6 @@ public class WarningsController {
     private final RegionRepository regionRepository;
     private final RegionDTOMapper regionDTOMapper;
     private final WebScrapingRegionsService webScrapingRegionsService;
-
     @GetMapping(path = "/warnings")
     public String downloadWarnings(@NonNull Model model) {
         webScrapingRegionsService.runner();
@@ -30,5 +29,4 @@ public class WarningsController {
 
         return "warnings";
     }
-
 }

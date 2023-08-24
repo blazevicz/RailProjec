@@ -12,9 +12,9 @@ import java.util.Set;
 @ToString
 @EqualsAndHashCode
 public class Line {
-    private Integer lineId;
     private final Integer lineNumber;
     private final List<Double> kilometers;
+    private Integer lineId;
     private Double size;
     private LineDetails lineEntry;
     private Set<Region> zlk;

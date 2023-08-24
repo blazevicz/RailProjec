@@ -87,6 +87,5 @@ class TrainRepositoryTest {
         verify(trainJpaRepository, times(1)).save(trainEntity);
 
         assertEquals(trainEntity, save);
-
     }
 }

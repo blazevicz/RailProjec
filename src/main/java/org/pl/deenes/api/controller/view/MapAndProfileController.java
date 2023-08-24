@@ -30,7 +30,6 @@ public class MapAndProfileController {
     private final TerrainProfileDTOMapper terrainProfileDTOMapper;
     private final TrainRepository trainRepository;
     private final ApiService apiService;
-
     @GetMapping("/trains/{trainKwr}/profile")
     String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
 

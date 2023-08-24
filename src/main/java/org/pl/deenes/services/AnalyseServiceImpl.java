@@ -1,6 +1,7 @@
 package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.model.Analyse;
@@ -14,28 +15,14 @@ import java.util.*;
 @Slf4j
 @Service
 @AllArgsConstructor
+@EqualsAndHashCode
 public class AnalyseServiceImpl implements AnalyseService {
 
-    private final Map<TrainStats, TrainStats> trainStatsCache = new HashMap<>();
     private TimetableImpl readKilometersServiceImpl;
     private TrainStatsServiceImpl trainStatsService;
 
-    @Override
-    public Analyse creatingTrainAnalyse(@NonNull TrainStats trainStats, List<String> stations) {
-        String textForRegion = readKilometersServiceImpl.getTextToAnalyse();
-        String grossTextToAnalyse = readKilometersServiceImpl.getBruttoTextToAnalyse();
-        var string = Arrays.stream(grossTextToAnalyse.split("\\s")).toList();
-
-        List<String> splitTrainDetailsForAnalyse = Arrays.stream(textForRegion.split("\\s")).toList();
-        String[] split = textForRegion.trim().split("Relacja");
-        String[] relationAtoB = split[1].split("-");
-
-
-        Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer =
-                trainStatsService.mapWithLineNumberAndFirstLastKilometer(trainStats.getLineList());
-        List<TrainStats> trainStatsList = trainStatsCreator(mapWithLineNumberAndFirstLastKilometer, stations);
-
-        Analyse build = Analyse.builder()
+    private static Analyse buildAnalyse(List<String> string, List<String> splitTrainDetailsForAnalyse, String[] relationAtoB) {
+        return Analyse.builder()
                 .locomotiveType(LocomotiveType.valueOf(string.get(11)))
                 .trainMaxWeight(Integer.parseInt(string.get(12)))
                 .trainMaxSpeed(Integer.parseInt(string.get(13)))
@@ -47,13 +34,33 @@ public class AnalyseServiceImpl implements AnalyseService {
                 .startStation(relationAtoB[0].trim())
                 .endStation(relationAtoB[1].trim().replaceFirst(".$", "").trim())
                 .build();
+    }
 
-        trainStatsCache.putIfAbsent(trainStats, trainStats);
-        build.setTrainStats(new ArrayList<>(trainStatsList));
+    @Override
+    public Analyse creatingTrainAnalyse(@NonNull TrainStats trainStats, List<String> stations) {
+        Result relationFromText = getRelationFromText();
 
-        trainStatsList.forEach(build::addStat);
+        Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer =
+                trainStatsService.mapWithLineNumberAndFirstLastKilometer(trainStats.getLineList());
+        List<TrainStats> trainStatsList = trainStatsCreator(mapWithLineNumberAndFirstLastKilometer, stations);
 
-        return build;
+        Analyse analyse = buildAnalyse(relationFromText.string(), relationFromText.splitTrainDetailsForAnalyse(), relationFromText.relationAtoB());
+        analyse.setTrainStats(new ArrayList<>(trainStatsList));
+        trainStatsList.forEach(analyse::addStat);
+
+        return analyse;
+    }
+
+    @NonNull
+    private Result getRelationFromText() {
+        String textForRegion = readKilometersServiceImpl.getTextToAnalyse();
+        String grossTextToAnalyse = readKilometersServiceImpl.getBruttoTextToAnalyse();
+        var string = Arrays.stream(grossTextToAnalyse.split("\\s")).toList();
+
+        List<String> splitTrainDetailsForAnalyse = Arrays.stream(textForRegion.split("\\s")).toList();
+        String[] split = textForRegion.trim().split("Relacja");
+        String[] relationAtoB = split[1].split("-");
+        return new Result(string, splitTrainDetailsForAnalyse, relationAtoB);
     }
 
     public List<TrainStats> trainStatsCreator(@NonNull Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer, List<String> stations) {
@@ -74,6 +81,21 @@ public class AnalyseServiceImpl implements AnalyseService {
         return trainStatsList;
     }
 
+    private record Result(List<String> string, List<String> splitTrainDetailsForAnalyse, String[] relationAtoB) {
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Result result = (Result) o;
+            return Objects.equals(string, result.string) && Objects.equals(splitTrainDetailsForAnalyse, result.splitTrainDetailsForAnalyse) && Arrays.equals(relationAtoB, result.relationAtoB);
+        }
 
+        @Override
+        public int hashCode() {
+            int result = Objects.hash(string, splitTrainDetailsForAnalyse);
+            result = 31 * result + Arrays.hashCode(relationAtoB);
+            return result;
+        }
+    }
 }
 

@@ -1,13 +1,13 @@
 package org.pl.deenes.infrastructure.repositories;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.pl.deenes.infrastructure.entity.CautionEntity;
 import org.pl.deenes.infrastructure.mapper.CautionMapper;
-import org.pl.deenes.infrastructure.repositories.dao.CautionDAO;
 import org.pl.deenes.infrastructure.repositories.jpa.CautionJpaRepository;
 import org.pl.deenes.model.Caution;
 
@@ -16,42 +16,31 @@ import java.util.stream.Collectors;
 
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 class CautionRepositoryTest {
-
     @Mock
     private CautionMapper cautionMapper;
 
     @Mock
     private CautionJpaRepository cautionJpaRepository;
 
-    private CautionDAO cautionRepository;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        cautionRepository = new CautionRepository(cautionMapper, cautionJpaRepository);
-    }
+    @InjectMocks
+    private CautionRepository cautionRepository;
 
     @Test
     void testSaveAll() {
-        // Arrange
         List<Caution> cautions = List.of(Caution.builder().build(), Caution.builder().build());
         List<CautionEntity> entities = cautions.stream()
                 .map(caution -> {
-                    CautionEntity entity = new CautionEntity();
-                    // Set properties on entity using caution
-                    return entity;
+                    return new CautionEntity();
                 })
                 .collect(Collectors.toList());
 
         when(cautionMapper.mapToEntity(any(Caution.class))).thenAnswer(invocation -> {
-            Caution caution = invocation.getArgument(0);
             return new CautionEntity();
         });
-
         when(cautionJpaRepository.saveAll(anyList())).thenReturn(entities);
 
-        // Act
         List<CautionEntity> savedEntities = cautionRepository.saveAll(cautions);
 
         Assertions.assertEquals(2, savedEntities.size());

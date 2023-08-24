@@ -38,7 +38,7 @@ class AnalyseServiceImplTest {
 
         when(timetable.getTextToAnalyse()).thenReturn("TME 464028/9 (666401) Relacja Dąbrowa Górnicza Towarowa - Chorula Cementownia 2");
         when(timetable.getBruttoTextToAnalyse()).thenReturn(
-                "Gross text to analyse analyse analyse analyse analyse analyse analyse analyse ET22 100 120 50 200 TME 1234/1 5678 ");
+                "Texxt text to analyse analyse analyse analyse analyse analyse analyse analyse ET22 100 120 50 200 TME 1234/1 5678 ");
         when(trainStatsService.mapWithLineNumberAndFirstLastKilometer(any())).thenReturn(Map.of(1, List.of(10.0, 50.0)));
 
 

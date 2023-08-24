@@ -4,9 +4,8 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 class AnalyseEntityTest {
-
     @Test
-    void testEqualsAndHashCode() {
+    void equalsAndHashCodeImplCheck() {
         AnalyseEntity analyse1 = AnalyseEntity.builder().trainKwr(123456).build();
         AnalyseEntity analyse2 = AnalyseEntity.builder().trainKwr(123456).build();
         AnalyseEntity analyse3 = AnalyseEntity.builder().trainKwr(654321).build();
@@ -19,7 +18,7 @@ class AnalyseEntityTest {
     }
 
     @Test
-    void testGettersAndSetters() {
+    void gettersAndSettersShouldWork() {
         AnalyseEntity analyse = new AnalyseEntity();
         analyse.setTrainAnalyseId(1);
         analyse.setTrainKwr(123456);

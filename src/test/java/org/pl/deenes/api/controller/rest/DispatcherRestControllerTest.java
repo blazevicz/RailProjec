@@ -36,53 +36,48 @@ class DispatcherRestControllerTest {
 
     @Test
     void allDispatchers() throws Exception {
-        List<Dispatcher> build = List.of(Dispatcher.builder()
+        List<Dispatcher> dispatchers = List.of(Dispatcher.builder()
                 .name("A")
                 .surname("B")
                 .phoneNumber("32 1231231").build());
-        DispatcherDTO build1 = DispatcherDTO.builder()
+
+        DispatcherDTO dispatcherDTO = DispatcherDTO.builder()
                 .name("A")
                 .surname("B")
                 .phoneNumber("32 1231231").build();
 
-        when(dispatcherRepository.findAll()).thenReturn(build);
+        when(dispatcherRepository.findAll()).thenReturn(dispatchers);
 
-        when(dispatcherDTOMapper.mapToDTO(any())).thenReturn(build1);
+        when(dispatcherDTOMapper.mapToDTO(any())).thenReturn(dispatcherDTO);
 
         mockMvc.perform(get("/api/dispatcher/all"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].name", Matchers.is(build1.getName())))
-                .andExpect(jsonPath("$[0].surname", Matchers.is(build1.getSurname())))
-                .andExpect(jsonPath("$[0].phoneNumber", Matchers.is(build1.getPhoneNumber())));
+                .andExpect(jsonPath("$[0].name", Matchers.is(dispatcherDTO.getName())))
+                .andExpect(jsonPath("$[0].surname", Matchers.is(dispatcherDTO.getSurname())))
+                .andExpect(jsonPath("$[0].phoneNumber", Matchers.is(dispatcherDTO.getPhoneNumber())));
     }
 
     @Test
     void addDispatcher() throws Exception {
-        DispatcherDTO requestDto = DispatcherDTO.builder()
+        DispatcherDTO dispatcherDTO = DispatcherDTO.builder()
                 .name("Witold")
                 .surname("Jackowski")
                 .phoneNumber("32 222 11 11")
                 .build();
 
-        Dispatcher savedDispatcher = Dispatcher.builder()
+        Dispatcher dispatcher = Dispatcher.builder()
                 .id(1)
                 .name("Witold")
                 .surname("Jackowski")
                 .phoneNumber("32 222 11 11")
                 .build();
 
-        when(dispatcherDTOMapper.mapFromDTO(requestDto)).thenReturn(Dispatcher.builder()
-                .name("Witold")
-                .surname("Jackowski")
-                .phoneNumber("32 222 11 11")
-                .build());
+        when(dispatcherDTOMapper.mapFromDTO(dispatcherDTO)).thenReturn(dispatcher);
+        when(dispatcherRepository.save(any())).thenReturn(dispatcher);
+        when(dispatcherDTOMapper.mapToDTO(dispatcher)).thenReturn(dispatcherDTO);
 
-        when(dispatcherRepository.save(any())).thenReturn(savedDispatcher);
-
-        when(dispatcherDTOMapper.mapToDTO(savedDispatcher)).thenReturn(requestDto);
-
-        mockMvc.perform(post("/api/dispatcher/add")
+        mockMvc.perform(post("/api/dispatcher")
                         .contentType("application/json")
                         .content("{\"name\":\"Witold\",\"surname\":\"Jackowski\",\"phoneNumber\":\"32 222 11 11\"}"))
                 .andExpect(status().isOk())

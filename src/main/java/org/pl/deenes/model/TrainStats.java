@@ -12,9 +12,7 @@ import java.util.LinkedList;
 @ToString(of = {"trainStatsId", "lineNumber", "firstKilometer", "lastKilometer", "station"})
 @EqualsAndHashCode(of = {"trainStatsId", "firstKilometer", "lastKilometer", "lineNumber"})
 public class TrainStats {
-
     private final LinkedList<Line> lineList;
-
     private Integer trainStatsId;
     private Double howManyKilometers;
     private String station;

@@ -37,7 +37,6 @@ public class TimetableImpl implements Timetable {
     private String bruttoTextToAnalyse;
     private String companyName;
 
-
     @Override
     public TimetableDetails read(String link) {
         TimetableDetails timetableDetails = new TimetableDetails();
@@ -73,22 +72,24 @@ public class TimetableImpl implements Timetable {
                 addingToList(stripper, Positions.LEFT.name(), timetableDetails);
                 addingToList(stripper, Positions.RIGHT.name(), timetableDetails);
 
-                if (currentPage == pages.getCount() - 1) {
-                    int lastPageNumber = pages.getCount();
-                    stripper.setStartPage(lastPageNumber);
-                    stripper.setEndPage(lastPageNumber);
-                    String text = stripper.getTextForRegion(Positions.TITLE.name());
-                    gettingLastKilometer(text);
-                }
+                readingTitleFromFirstPage(currentPage, pages, stripper);
                 currentPage++;
             }
         } catch (IOException e) {
             log.error("pdf not loading", e);
             throw new LoadingPdfException(e);
         }
-        log.warn(String.valueOf(timetableDetails.getStations().contains("BYTOM")));
         return timetableDetails;
+    }
 
+    private void readingTitleFromFirstPage(int currentPage, @NonNull PDPageTree pages, PDFTextStripperByArea stripper) {
+        if (currentPage == pages.getCount() - 1) {
+            int lastPageNumber = pages.getCount();
+            stripper.setStartPage(lastPageNumber);
+            stripper.setEndPage(lastPageNumber);
+            String text = stripper.getTextForRegion(Positions.TITLE.name());
+            gettingLastKilometer(text);
+        }
     }
 
     public void gettingLastKilometer(@NonNull String text) {
@@ -120,7 +121,7 @@ public class TimetableImpl implements Timetable {
         return Arrays.stream(stripper.getTextForRegion(leftOrRight).split("\\s")).toList();
     }
 
-    void addRegionsConfiguration(@NonNull PDFTextStripperByArea stripper) {
+    private void addRegionsConfiguration(@NonNull PDFTextStripperByArea stripper) {
         stripper.addRegion(Positions.COMPANY_NAME.name(), new Rectangle(59, 125, 302, 302));
         stripper.addRegion(Positions.BRUTTO_ANALYSIS.name(), new Rectangle(730, 41, 91, 548));
         stripper.addRegion(Positions.ANALYSIS.name(), new Rectangle(444, 25, 376, 18));

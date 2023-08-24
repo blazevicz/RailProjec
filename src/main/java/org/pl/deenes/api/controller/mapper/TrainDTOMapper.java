@@ -6,7 +6,6 @@ import org.pl.deenes.model.Train;
 
 @Mapper(componentModel = "spring")
 public interface TrainDTOMapper {
-
     TrainDTO mapToDTO(Train train);
 
     Train mapFromDTO(TrainDTO trainDTO);

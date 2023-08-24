@@ -61,45 +61,38 @@
 
         <tbody>
 
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">Train number:</th>
-            <td th:text="${train.trainNumber}"></td>
+            <td th:text="${train != null ? train.trainNumber : ''}"></td>
         </tr>
-        <tr th:each="train : ${existingTrains}">
             <th scope="row">MAX weight:</th>
-            <td th:text="${train.trainMaxWeight}"></td>
+        <td th:text="${train != null ?train.trainMaxWeight : ''}"></td>
 
-        </tr>
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">MAX length:</th>
-            <td th:text="${train.trainMaxLength}"></td>
-
+            <td th:text="${train != null ?train.trainMaxLength : ''}"></td>
         </tr>
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">MAX speed:</th>
-            <td th:text="${train.trainMaxSpeed}"></td>
-
+            <td th:text="${train != null ?train.trainMaxSpeed : ''}"></td>
         </tr>
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">Start station:</th>
-            <td th:text="${train.startStation}"></td>
+            <td th:text="${train != null ?train.startStation : ''}"></td>
         </tr>
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">Last station:</th>
-            <td th:text="${train.endStation}"></td>
-
+            <td th:text="${train != null ?train.endStation : ''}"></td>
         </tr>
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">Locomotive Type:</th>
-            <td th:text="${train.locomotiveType}"></td>
-
+            <td th:text="${train != null ?train.locomotiveType : ''}"></td>
         </tr>
 
-        <tr th:each="train : ${existingTrains}">
+        <tr>
             <th scope="row">Brake %:</th>
-            <td th:text="${train.brakePercent}"></td>
+            <td th:text="${train != null ?train.brakePercent : ''}"></td>
         </tr>
-
 
         <br>
 

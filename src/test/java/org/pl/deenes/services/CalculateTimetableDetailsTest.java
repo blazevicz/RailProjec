@@ -22,7 +22,6 @@ class CalculateTimetableDetailsTest {
     private final List<Number> lineNumbers = List.of(0.0, 5, 10.0, 15.5, 20, 25.5, 30.0, 35.5, 40, 45.5, 50.0, 55.5);
     @Mock
     private TimetableDetails kilometersService;
-
     @InjectMocks
     private CalculateKilometersServiceImpl calculateKilometersService;
 
@@ -45,7 +44,5 @@ class CalculateTimetableDetailsTest {
         LinkedList<Line> actualLines = calculateKilometersService.createLinesAndAddToLineList(61.1);
 
         assertThat(actualLines).isEqualTo(expectedLines);
-
     }
-
 }

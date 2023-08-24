@@ -35,7 +35,5 @@ public class LineRepository implements LineDAO {
     public Line findLine(Integer lineNumber) {
         LineEntity byLineNumber = lineJpaRepository.findByLineNumber(lineNumber);
         return lineMapper.mapFromEntity(byLineNumber);
-
     }
-
 }

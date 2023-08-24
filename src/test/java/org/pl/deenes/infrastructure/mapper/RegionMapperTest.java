@@ -46,6 +46,4 @@ class RegionMapperTest {
         Assertions.assertEquals("test", regionEntity.getActualWOS());
         Assertions.assertEquals("link", regionEntity.getActualWOSlink());
     }
-
-
 }

@@ -40,18 +40,14 @@ class TimetableDetailsTest {
         assertEquals(expectedLineNumbers, timetableDetails.getLineNumbers());
     }
 
-
     @Test
     void testIsNumeric() {
-        // given
         String numericString = "1234";
         String notNumericString = "1234a";
-
         // when
         boolean isNumeric1 = TimetableDetails.isNumeric(numericString);
         boolean isNumeric2 = TimetableDetails.isNumeric(notNumericString);
 
-        // then
         assertTrue(isNumeric1);
         Assertions.assertFalse(isNumeric2);
     }
@@ -81,7 +77,6 @@ class TimetableDetailsTest {
 
     @Test
     void testGiveAllKilometersHandlesNullValues() {
-        // given
         List<List<String>> allKilometers = new ArrayList<>();
         allKilometers.add(Arrays.asList("2", null, "13.2", "18.5"));
         allKilometers.add(Arrays.asList("6.1", "12", null, "23.4"));
@@ -89,18 +84,15 @@ class TimetableDetailsTest {
         TimetableDetails timetableDetails = new TimetableDetails();
         timetableDetails.setAllKilometers(allKilometers);
 
-        // when
         timetableDetails.giveAllKilometers();
         List<Number> result = timetableDetails.getLineNumbers();
 
-        // then
         List<Number> expected = Arrays.asList(2, 13.2, 18.5, 6.1, 12, 23.4);
         assertEquals(expected, result);
     }
 
     @Test
     void testGiveAllKilometersHandlesInvalidNumberFormat() {
-        // given
         List<List<String>> allKilometers = new ArrayList<>();
         allKilometers.add(Arrays.asList("2", "5.7", "abc", "18.5"));
         allKilometers.add(Arrays.asList("6.1", "12", "19.8", "xyz"));
@@ -108,22 +100,18 @@ class TimetableDetailsTest {
         TimetableDetails timetableDetails = new TimetableDetails();
         timetableDetails.setAllKilometers(allKilometers);
 
-        // when
         timetableDetails.giveAllKilometers();
         List<Number> result = timetableDetails.getLineNumbers();
 
-        // then
         List<Number> expected = Arrays.asList(2, 5.7, 18.5, 6.1, 12, 19.8);
         assertEquals(expected, result);
     }
 
     @Test
     void testGiveAllKilometersHandlesEmptyList() {
-        // given
         TimetableDetails timetableDetails = new TimetableDetails();
         timetableDetails.setAllKilometers(Collections.emptyList());
 
-        // when
         timetableDetails.giveAllKilometers();
         assertTrue(timetableDetails.getLineNumbers().isEmpty());
     }

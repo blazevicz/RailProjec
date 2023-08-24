@@ -32,7 +32,11 @@ class TrainTest {
                 .datePlan(LocalDate.of(2023, 8, 18))
                 .build();
 
-        String expectedToString = "Train(trainId=null, trainKwr=123, companyName=Company, datePlan=2023-08-18, roadStats=null, analyse=null, trainMaxWeight=null, trainMaxLength=null, startStation=null, endStation=null, trainType=null, locomotiveType=null, trainMaxSpeed=null, brakePercent=null, trainStats=null, trainNumber=null)";
+        String expectedToString =
+                "Train(trainId=null, trainKwr=123, companyName=Company, datePlan=2023-08-18, roadStats=null," +
+                        " analyse=null, trainMaxWeight=null, trainMaxLength=null, startStation=null, endStation=null," +
+                        " trainType=null, locomotiveType=null, trainMaxSpeed=null, brakePercent=null, trainStats=null," +
+                        " trainNumber=null)";
         assertEquals(expectedToString, train.toString());
     }
 

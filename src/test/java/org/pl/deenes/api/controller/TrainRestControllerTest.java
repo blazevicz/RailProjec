@@ -40,7 +40,7 @@ class TrainRestControllerTest {
     private TrainRepository trainRepository;
 
     @Test
-    void testTrainInfo_ValidTrain_ShouldReturnTrainDTOList() throws Exception {
+    void shouldReturnTrainDetails() throws Exception {
         int trainKwr = 123;
         Train train = Train.builder().trainKwr(trainKwr).build();
 
@@ -52,7 +52,7 @@ class TrainRestControllerTest {
     }
 
     @Test
-    void deleteTrain_shouldReturnNotFound() throws Exception {
+    void deleteNotExistingTrainShouldThrowNowFoundEx() throws Exception {
         Integer trainKwrToDelete = 12345;
 
         doThrow(new NotFound("Train kwr: %s not found".formatted(trainKwrToDelete)))

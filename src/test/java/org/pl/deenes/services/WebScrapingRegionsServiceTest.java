@@ -1,5 +1,6 @@
 package org.pl.deenes.services;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -22,22 +23,28 @@ class WebScrapingRegionsServiceTest {
     private WebScrapingRegionsService webScrapingRegionsService;
 
     @Test
-    void testGetNewestWosFromRegion() {
+    void GetNewestWosFromRegion() {
         Set<String> pageLinks = new HashSet<>();
         pageLinks.add("https://www.lotoskolej.pl/repository/100");
         pageLinks.add("https://www.lotoskolej.pl/repository/200");
         pageLinks.add("https://www.lotoskolej.pl/repository/300");
 
-        String result = WebScrapingRegionsService.getNewestWosFromRegion(pageLinks);
+        String result = webScrapingRegionsService.getNewestWosFromRegion(pageLinks);
 
         assertThat(result).isEqualTo("https://www.lotoskolej.pl/repository/300");
     }
 
     @Test
-    void testGetNumberFromURL() {
+    void NewestWosDontFindNewest() {
+        Set<String> pageLinks = new HashSet<>();
+        Assertions.assertThrows(Exception.class, () -> webScrapingRegionsService.getNewestWosFromRegion(pageLinks));
+    }
+
+    @Test
+    void GetNumberFromURL() {
         String url = "https://www.lotoskolej.pl/repository/100";
 
-        Integer result = WebScrapingRegionsService.getNumberFromURL(url);
+        Integer result = webScrapingRegionsService.getNumberFromURL(url);
 
         assertThat(result).isEqualTo(100);
     }

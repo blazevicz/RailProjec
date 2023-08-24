@@ -7,6 +7,5 @@ import org.pl.deenes.model.TerrainProfile;
 @Mapper(componentModel = "spring")
 public interface TerrainProfileDTOMapper {
     TerrainProfile mapFromDTO(TerrainProfileDTO dto);
-
     TerrainProfileDTO mapToDTO(TerrainProfile model);
 }

@@ -8,7 +8,5 @@ import lombok.Value;
 @Builder
 @AllArgsConstructor(staticName = "of")
 public class ExceptionMessage {
-
     String errorId;
-
 }

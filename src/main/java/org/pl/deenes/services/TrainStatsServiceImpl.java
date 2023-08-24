@@ -30,17 +30,6 @@ public class TrainStatsServiceImpl implements TrainStatsService {
         this.calculateKilometers = calculateKilometers;
     }
 
-    void calculateKilometersForEachLine(@NonNull List<Line> lineList) {
-        for (Line line : lineList) {
-            List<Double> kilometers1 = new ArrayList<>(line.getKilometers());
-            Collections.sort(kilometers1);
-            if (kilometers1.size() < 2) {
-                continue;
-            }
-            sumKilometersForEachLine(line, kilometers1);
-        }
-    }
-
     private static void sumKilometersForEachLine(Line line, @NonNull List<Double> kilometers1) {
         List<Double> allKilometersInLine = Stream.concat(
                         Stream.of(kilometers1.get(0)),
@@ -50,6 +39,17 @@ public class TrainStatsServiceImpl implements TrainStatsService {
             line.setSize(allKilometersInLine.get(0) - allKilometersInLine.get(1));
         } else {
             line.setSize(allKilometersInLine.get(1) - allKilometersInLine.get(0));
+        }
+    }
+
+    void calculateKilometersForEachLine(@NonNull List<Line> lineList) {
+        for (Line line : lineList) {
+            List<Double> kilometers1 = new ArrayList<>(line.getKilometers());
+            Collections.sort(kilometers1);
+            if (kilometers1.size() < 2) {
+                continue;
+            }
+            sumKilometersForEachLine(line, kilometers1);
         }
     }
 

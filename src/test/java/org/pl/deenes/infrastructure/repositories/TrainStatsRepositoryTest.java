@@ -19,13 +19,10 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class TrainStatsRepositoryTest {
-
     @Mock
     private TrainStatsJPaRepository trainStatsJpaRepository;
-
     @Mock
     private TrainStatsMapper trainStatsMapper;
-
     @InjectMocks
     private TrainStatsRepository trainStatsRepository;
 

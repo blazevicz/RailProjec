@@ -31,7 +31,6 @@ class TrainStatsEntityMapperTest {
         Assertions.assertNotNull(trainStats);
         Assertions.assertEquals(1.1, trainStatsBuilder.getFirstKilometer());
         Assertions.assertEquals(2.2, trainStatsBuilder.getLastKilometer());
-
     }
 
     @Test

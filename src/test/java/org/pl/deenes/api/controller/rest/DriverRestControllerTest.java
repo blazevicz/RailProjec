@@ -81,14 +81,14 @@ class DriverRestControllerTest {
 
     @Test
     void addDriver() throws Exception {
-        DriverDTO requestDto = DriverDTO.builder().name("Jan").surname("Trzewiczek").pesel("69070611222").build();
-        Driver savedDriver = Driver.builder().driverId(1).name("Jan").surname("Trzewiczek").pesel("69070611222").build();
+        DriverDTO driverDTO = DriverDTO.builder().name("Jan").surname("Trzewiczek").pesel("69070611222").build();
+        Driver driver = Driver.builder().driverId(1).name("Jan").surname("Trzewiczek").pesel("69070611222").build();
 
-        when(driverDTOMapper.mapFromDTO(requestDto)).thenReturn(savedDriver);
-        when(driverRepository.save(any())).thenReturn(savedDriver);
-        when(driverDTOMapper.mapToDTO(savedDriver)).thenReturn(requestDto);
+        when(driverDTOMapper.mapFromDTO(driverDTO)).thenReturn(driver);
+        when(driverRepository.save(any())).thenReturn(driver);
+        when(driverDTOMapper.mapToDTO(driver)).thenReturn(driverDTO);
 
-        mockMvc.perform(post("/api/driver/add")
+        mockMvc.perform(post("/api/driver")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"Jan\",\"surname\":\"Trzewiczek\", \"pesel\": \"69070611222\"}"))
                 .andExpect(status().isOk())
@@ -101,7 +101,7 @@ class DriverRestControllerTest {
     @Test
     void deleteDriver() throws Exception {
         int driverId = 1;
-        mockMvc.perform(delete("/api/driver/{driverId}/delete", driverId))
+        mockMvc.perform(delete("/api/driver/{driverId}", driverId))
                 .andExpect(status().isOk());
     }
 
@@ -110,7 +110,7 @@ class DriverRestControllerTest {
     void addDriverInvalidPeselShouldReturnBadRequest() throws Exception {
 
         DriverDTO driverDTO =
-                DriverDTO.builder().driverId(null)
+                DriverDTO.builder()
                         .name("Jan")
                         .surname("Kowalski")
                         .pesel("11")
@@ -120,7 +120,7 @@ class DriverRestControllerTest {
         when(driverRepository.save(any(Driver.class))).thenReturn(Driver.builder().build());
         when(driverDTOMapper.mapToDTO(any(Driver.class))).thenReturn(driverDTO);
 
-        mockMvc.perform(post("/api/driver/add")
+        mockMvc.perform(post("/api/driver")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(new ObjectMapper().writeValueAsString(driverDTO)))
                 .andExpect(status().isBadRequest());

@@ -7,10 +7,7 @@ import java.util.Optional;
 
 public interface TrainDAO {
     Train save(Train train);
-
     Optional<Train> find(Integer trainKwr);
-
     void delete(Integer trainKwr);
-
     List<Train> findAll();
 }

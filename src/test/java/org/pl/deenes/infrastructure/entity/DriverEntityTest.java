@@ -14,7 +14,8 @@ class DriverEntityTest {
         String surname = "Kowalski";
         String pesel = "66071749125";
 
-        DriverEntity driverEntity = new DriverEntity(driverId, name, surname, pesel, "123", Boolean.TRUE, Set.of());
+        DriverEntity driverEntity =
+                new DriverEntity(driverId, name, surname, pesel, "123", Boolean.TRUE, Set.of());
 
         Assertions.assertThat(driverEntity.getDriverId()).isEqualTo(driverId);
         Assertions.assertThat(driverEntity.getName()).isEqualTo(name);

@@ -57,21 +57,21 @@ class DriverDTOMapperTest {
     }
 
     @Test
-    void testMappingToJsonAndBack() throws Exception {
-        DriverDTO originalDTO = new DriverDTO();
-        originalDTO.setName("Jan");
-        originalDTO.setSurname("Kowalski");
-        originalDTO.setPesel("51080948577");
+    void mappingToJsonAndFromJson() throws Exception {
+        DriverDTO driverDTO = DriverDTO.builder()
+                .name("Jan")
+                .surname("Kowalski")
+                .pesel("51080948577")
+                .build();
 
         ObjectMapper objectMapper = new ObjectMapper();
 
-        String json = objectMapper.writeValueAsString(originalDTO);
+        String json = objectMapper.writeValueAsString(driverDTO);
 
         DriverDTO deserializedDTO = objectMapper.readValue(json, DriverDTO.class);
 
-        assertEquals(originalDTO.getName(), deserializedDTO.getName());
-        assertEquals(originalDTO.getSurname(), deserializedDTO.getSurname());
-        assertEquals(originalDTO.getPesel(), deserializedDTO.getPesel());
+        assertEquals(driverDTO.getName(), deserializedDTO.getName());
+        assertEquals(driverDTO.getSurname(), deserializedDTO.getSurname());
+        assertEquals(driverDTO.getPesel(), deserializedDTO.getPesel());
     }
-
 }

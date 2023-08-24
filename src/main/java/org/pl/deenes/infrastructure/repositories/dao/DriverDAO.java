@@ -9,13 +9,9 @@ import java.util.Optional;
 public interface DriverDAO {
 
     List<Driver> findAllDrivers();
-
     void delete(Integer driverId);
-
     Driver save(Driver driver);
-
     Optional<Driver> findDriverById(Integer id);
-
     Optional<DriverEntity> findByPesel(String pesel);
 
 }

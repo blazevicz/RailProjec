@@ -33,7 +33,7 @@ class WarningsControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void warningViewLoadProperty() throws Exception {
+    void shouldLoadWarningViewProperty() throws Exception {
         Region region = Region.builder()
                 .regionId(1)
                 .actualWOS("asd")

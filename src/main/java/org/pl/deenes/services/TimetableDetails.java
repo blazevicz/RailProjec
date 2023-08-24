@@ -30,7 +30,6 @@ public class TimetableDetails implements KilometersService {
         return true;
     }
 
-
     private static boolean isInteger(String str) {
         try {
             Integer.parseInt(str);
@@ -39,7 +38,6 @@ public class TimetableDetails implements KilometersService {
             return false;
         }
     }
-
     @Override
     public void giveAllKilometers() {
         for (List<String> kilometer : allKilometers) {
@@ -49,7 +47,6 @@ public class TimetableDetails implements KilometersService {
                 }
                 String replace = s.replace(",", ".");
                 NumberFormat format = NumberFormat.getInstance(Locale.US);
-
                 try {
                     lineNumberOrKilometer(replace, format);
                 } catch (ParseException e) {
@@ -58,7 +55,6 @@ public class TimetableDetails implements KilometersService {
             }
         }
     }
-
     private void lineNumberOrKilometer(String replace, NumberFormat format) throws ParseException {
         Number number;
         if (isNumeric(replace)) {

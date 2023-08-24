@@ -8,7 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DriverJpaRepository extends JpaRepository<DriverEntity, Integer> {
-
     Optional<DriverEntity> findByPesel(String pesel);
-
 }

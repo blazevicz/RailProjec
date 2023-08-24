@@ -55,7 +55,7 @@ class TrainControllerTest {
 
 
     @Test
-    void testGetTrainsPage() throws Exception {
+    void shouldReturnTrainsPageWithExistingTrainsAndDrivers() throws Exception {
         List<Train> trains = Arrays.asList(
                 Train.builder().trainId(1).trainKwr(123).build(),
                 Train.builder().trainId(2).trainKwr(223).build()
@@ -75,9 +75,16 @@ class TrainControllerTest {
     }
 
     @Test
-    void testGetTrainDetails() throws Exception {
+    void shouldReturnTrainDetailsPageForExistingTrain() throws Exception {
         int trainKwr = 1;
-        Train train = Train.builder().trainId(1).trainKwr(trainKwr).build();
+        Train train = Train.builder()
+                .trainId(1)
+                .trainKwr(trainKwr)
+                .trainNumber(1)
+                .trainMaxLength(1)
+                .trainMaxSpeed(1)
+                .trainMaxWeight(1)
+                .build();
         when(trainRepository.find(trainKwr)).thenReturn(Optional.of(train));
 
         TrainDTO trainDTO = trainMapper.mapToDTO(train);
@@ -85,12 +92,12 @@ class TrainControllerTest {
         mockMvc.perform(get("/trains/{trainKwr}", trainKwr))
                 .andExpect(status().isOk())
                 .andExpect(view().name("trainDetails"))
-                .andExpect(model().attribute("existingTrains", trainDTO));
+                .andExpect(model().attribute("train", trainDTO));
     }
 
 
     @Test
-    void testTrainsPage_NoTrains_ShouldReturnEmptyList() throws Exception {
+    void shouldReturnTrainsPageWithEmptyListWhenNoTrains() throws Exception {
         when(trainRepository.findAll()).thenReturn(Collections.emptyList());
         when(driverRepository.findAllDrivers()).thenReturn(Collections.emptyList());
 

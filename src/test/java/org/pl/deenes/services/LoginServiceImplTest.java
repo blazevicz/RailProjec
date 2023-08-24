@@ -58,7 +58,5 @@ class LoginServiceImplTest {
         assertThrows(UsernameNotFoundException.class,
                 () -> loginService.loadUserByUsername(anyString()),
                 "Expected UsernameNotFoundException to be thrown");
-
-
     }
 }

@@ -13,15 +13,9 @@ import java.util.Optional;
 
 @Repository
 public interface RegionJpaRepository extends JpaRepository<RegionEntity, Integer> {
-
     List<RegionEntity> findAll();
-
     RegionEntity save(Region region);
-
     Optional<RegionEntity> findByZlkRegionNumber(Integer regionNumber);
-
-
-    //@Query("update RegionEntity z set z.actualWOS = :actualWOS, z.actualWOSlink = :actualWOSlink where z.zlkRegionNumber = :zlkRegionNumber and z.actualWOS != :actualWOS")
     @Modifying
     @Query("update RegionEntity z set z.actualWOS = :actualWOS, z.actualWOSlink = :actualWOSlink where z.zlkRegionNumber = :zlkRegionNumber and z.actualWOS != :actualWOS")
     void updateByZlkRegionNumber(@Param("zlkRegionNumber") Integer zlkRegionNumber, @Param("actualWOS") String actualWOS, @Param("actualWOSlink") String actualWOSlink);

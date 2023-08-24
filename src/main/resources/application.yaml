@@ -1,7 +1,6 @@
 api:
   osm:
     url: https://api.openstreetmap.org/
-
 server:
   port: 8080
 logging:

@@ -29,8 +29,10 @@ class TrainRepositoryIT extends IntegrationReposIT {
 
     @Test
     void shouldSaveInDatabase() {
-        var build1 = TrainStats.builder().lineNumber(1).build();
-        var build2 = TrainStats.builder().lineNumber(2).build();
+        var build1 =
+                TrainStats.builder().lineNumber(1).build();
+        var build2 =
+                TrainStats.builder().lineNumber(2).build();
 
         var train = Train.builder()
                 .trainKwr(123)
@@ -60,15 +62,12 @@ class TrainRepositoryIT extends IntegrationReposIT {
 
         trainEntity.setTrainStats(Set.of(trainStatsEntity1, trainStatsEntity2));
 
-
         trainRepository.save(trainEntity);
         var save = trainRepository.findAll();
 
         Assertions.assertEquals(1, save.size());
         Assertions.assertEquals(2, save.get(0).getTrainStats().size());
         Assertions.assertNotNull(save.get(0).getTrainId());
-
         Assertions.assertNotNull(save.get(0).getTrainId());
     }
-
 }

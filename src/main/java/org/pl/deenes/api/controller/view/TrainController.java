@@ -33,7 +33,6 @@ public class TrainController {
     private final ResultServiceImpl resultService;
     private final TrainService trainService;
 
-
     @GetMapping(value = "/trains")
     public String trainsPage(@NonNull Model model) {
         List<Train> all = trainRepository.findAll();
@@ -55,7 +54,6 @@ public class TrainController {
         String s = "src/main/resources/pdfs/" + pdfLink;
         Train train = trainService.trainCreate(s);
         trainService.saveTrain(train);
-
 
         return "redirect:/trains";
     }

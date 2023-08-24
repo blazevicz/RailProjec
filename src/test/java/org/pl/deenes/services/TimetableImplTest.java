@@ -22,7 +22,6 @@ class TimetableImplTest {
     TimetableImpl timetable;
     @Mock
     private TrainStatsServiceImpl trainStatsService;
-    ;
 
     @Test
     void testReadLoadingPdfException() {

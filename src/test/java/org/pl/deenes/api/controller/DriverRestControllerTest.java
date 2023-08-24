@@ -40,7 +40,7 @@ class DriverRestControllerTest {
     private DriverRepository driverRepository;
 
     @Test
-    void allDrivers() throws Exception {
+    void shouldReturnAllDriversAsDTOs() throws Exception {
         Driver driver1 = Driver.builder()
                 .driverId(1)
                 .name("Test1")

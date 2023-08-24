@@ -6,7 +6,6 @@ import org.pl.deenes.model.Region;
 
 @Mapper(componentModel = "spring")
 public interface RegionDTOMapper {
-
     RegionDTO mapToDTO(Region region);
 
     Region mapFromDTO(RegionDTO dto);

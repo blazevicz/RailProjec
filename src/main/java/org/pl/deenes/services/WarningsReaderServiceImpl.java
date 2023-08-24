@@ -38,6 +38,14 @@ public class WarningsReaderServiceImpl {
                 .toList();
     }
 
+    @NonNull
+    private static PDFTextStripper settingsForRead() throws IOException {
+        PDFTextStripper stripper = new PDFTextStripper();
+        stripper.setStartPage(11);
+        stripper.setEndPage(85);
+        return stripper;
+    }
+
     String prepareBeforeCreatingObjects(@NonNull String lineToPrepare) {
         if (lineToPrepare.isEmpty()) {
             throw new NotFound("no valid line");
@@ -51,14 +59,6 @@ public class WarningsReaderServiceImpl {
             return prepareBeforeCreatingObjects(String.join(" ", splitBySpace).trim());
         }
         return String.join(" ", splitBySpace).trim();
-    }
-
-    @NonNull
-    private static PDFTextStripper settingsForRead() throws IOException {
-        PDFTextStripper stripper = new PDFTextStripper();
-        stripper.setStartPage(11);
-        stripper.setEndPage(85);
-        return stripper;
     }
 
     public List<CautionEntity> loadWarningsFromPDF() {
@@ -77,12 +77,7 @@ public class WarningsReaderServiceImpl {
                 for (String oneLineWithCaution : lineWithCautionsLineByLine) {
                     char charWithLineNumber = lineWithCautionsLineByLine.get(0).charAt(0);
                     Integer lineNumber = (int) charWithLineNumber;
-                    try {
-                        creatingCautionAndAddToList(oneLineWithCaution, lineNumber, cautionsList);
-                    } catch (NotFound notFound) {
-                        log.warn("Problem with caution: Line: (%s), line number: (%s) ".formatted(oneLineWithCaution, lineNumber) + notFound.getMessage());
-                    }
-
+                    cautionCreator(oneLineWithCaution, lineNumber, cautionsList);
                 }
             }
         } catch (IOException e) {
@@ -91,6 +86,14 @@ public class WarningsReaderServiceImpl {
         cautionsList.removeIf(Objects::isNull);
 
         return cautionRepository.saveAll(cautionsList);
+    }
+
+    private void cautionCreator(String oneLineWithCaution, Integer lineNumber, List<Caution> cautionsList) {
+        try {
+            creatingCautionAndAddToList(oneLineWithCaution, lineNumber, cautionsList);
+        } catch (NotFound notFound) {
+            log.warn("Problem with caution: Line: (%s), line number: (%s) ".formatted(oneLineWithCaution, lineNumber) + notFound.getMessage());
+        }
     }
 
     private void creatingCautionAndAddToList(String s1, Integer lineNumber, List<Caution> cautionsList) {

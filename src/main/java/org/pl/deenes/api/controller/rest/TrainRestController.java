@@ -19,7 +19,6 @@ public class TrainRestController {
 
     private final TrainDTOMapper trainDTOMapper;
     private final TrainRepository trainRepository;
-
     @GetMapping(value = "/{trainKwr}")
     public ResponseEntity<List<TrainDTO>> trainInfo(@PathVariable Integer trainKwr) {
         var trainOptional = trainRepository.find(trainKwr);
@@ -33,7 +32,7 @@ public class TrainRestController {
         }
     }
 
-    @DeleteMapping(value = "/delete/{trainKwr}")
+    @DeleteMapping(value = "/{trainKwr}")
     public ResponseEntity<String> deleteTrain(@PathVariable Integer trainKwr) {
         Optional<Train> trainOptional = trainRepository.find(trainKwr);
         if (trainOptional.isPresent()) {

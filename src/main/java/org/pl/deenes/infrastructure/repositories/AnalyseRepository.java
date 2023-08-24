@@ -39,6 +39,4 @@ public class AnalyseRepository implements AnalyseDAO {
         return allByTrainKwr.stream()
                 .map(a -> analyseMapper.mapFromEntity(a, new CycleAvoidingMappingContext())).toList();
     }
-
-
 }

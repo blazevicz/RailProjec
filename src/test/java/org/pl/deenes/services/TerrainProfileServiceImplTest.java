@@ -36,43 +36,43 @@ class TerrainProfileServiceImplTest {
 
     @Test
     void testCalculateSlope_SingleElementList() {
-        TerrainProfile build = TerrainProfile.builder()
+        TerrainProfile terrainProfile = TerrainProfile.builder()
                 .height(15.5)
                 .kilometer(22)
                 .lineNumber(2)
                 .build();
 
-        LinkedList<TerrainProfile> singleElementList = new LinkedList<>(List.of(build));
+        LinkedList<TerrainProfile> singleElementList = new LinkedList<>(List.of(terrainProfile));
         when(terrainProfileJpaRepository.findAllByLineNumberIsAndKilometerBetween(anyInt(), anyDouble(), anyDouble()))
                 .thenReturn(singleElementList);
 
         List<TerrainProfile> result = terrainProfileService.calculateSlope(1, 0.0, 10.0);
 
         assertEquals(singleElementList, result);
-        assertEquals(0.0, build.getSlope());
+        assertEquals(0.0, terrainProfile.getSlope());
     }
 
     @Test
     void testCalculateSlope_MultipleElementsList() {
-        TerrainProfile build1 = TerrainProfile.builder()
+        TerrainProfile terrainProfile = TerrainProfile.builder()
                 .height(15.5)
                 .kilometer(22)
                 .lineNumber(2)
                 .build();
-        TerrainProfile build2 = TerrainProfile.builder()
+        TerrainProfile terrainProfile1 = TerrainProfile.builder()
                 .height(15.5)
                 .kilometer(22)
                 .lineNumber(2)
                 .build();
 
-        LinkedList<TerrainProfile> multipleElementsList = new LinkedList<>(List.of(build1, build2));
+        LinkedList<TerrainProfile> terrainProfileLinkedList = new LinkedList<>(List.of(terrainProfile, terrainProfile1));
         when(terrainProfileJpaRepository.findAllByLineNumberIsAndKilometerBetween(anyInt(), anyDouble(), anyDouble()))
-                .thenReturn(multipleElementsList);
+                .thenReturn(terrainProfileLinkedList);
 
-        List<TerrainProfile> result = terrainProfileService.calculateSlope(1, 0.0, 10.0);
+        List<TerrainProfile> terrainProfileList = terrainProfileService.calculateSlope(1, 0.0, 10.0);
 
-        assertEquals(multipleElementsList, result);
-        assertEquals(0.0, build1.getSlope());
-        assertEquals(build1.getSlope(), build2.getSlope());
+        assertEquals(terrainProfileLinkedList, terrainProfileList);
+        assertEquals(0.0, terrainProfile.getSlope());
+        assertEquals(terrainProfile.getSlope(), terrainProfile1.getSlope());
     }
 }

@@ -39,14 +39,14 @@ public class DriverRestController {
         return ResponseEntity.ok(driverDTOMapper.mapToDTO(driver));
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping()
     public DriverDTO addDriver(@Valid @RequestBody DriverDTO driverDTO) {
         log.warn(driverDTO.toString());
         Driver save = driverRepository.save(driverDTOMapper.mapFromDTO(driverDTO));
         return driverDTOMapper.mapToDTO(save);
     }
 
-    @DeleteMapping(value = "/{driverId}/delete")
+    @DeleteMapping(value = "/{driverId}")
     public void deleteDriver(@PathVariable Integer driverId) {
         driverRepository.delete(driverId);
     }

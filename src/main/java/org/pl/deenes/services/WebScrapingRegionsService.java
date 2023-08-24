@@ -20,27 +20,46 @@ import java.util.*;
 @AllArgsConstructor
 @Transactional
 public class WebScrapingRegionsService {
+
     private static final String ALL_REGIONS_LINK = "https://www.lotoskolej.pl/2298/o_nas/wykaz_ostrzezen_stalych/";
     private static final String REPO_LINK = "https://www.lotoskolej.pl/repository/";
     private static final String DOMAIN = "https://www.lotoskolej.pl/";
-    private static final HashSet<String> links = new HashSet<>();
-    private static final Map<String, String> result = new HashMap<>();
-
 
     private final RegionRepository regionRepository;
 
-    public static @NonNull String getNewestWosFromRegion(@NonNull Set<String> pageLinks) {
+    @Transactional
+    public void runner() {
+        Map<String, String> mapWithAllRegionsLinks = getAllRegions();
+        Map<String, String> result = new HashMap<>();
+
+        for (var region : mapWithAllRegionsLinks.entrySet()) {
+            Set<String> pageLinks = getPageLinks(region.getValue());
+            String newestWosFromRegion = getNewestWosFromRegion(pageLinks);
+            result.put(region.getKey(), newestWosFromRegion);
+        }
+
+        for (Map.Entry<String, String> entry : result.entrySet()) {
+            Optional<Region> optionalRegion = regionRepository.findByZlkRegionNumber(Integer.valueOf(entry.getKey()));
+
+            Region regionToUpdate = optionalRegion.orElseGet(() -> createRegion(entry.getKey(), entry.getValue()));
+
+            regionToUpdate.setActualWOS(String.valueOf(getNumberFromURL(entry.getValue())));
+            regionToUpdate.setActualWOSlink(entry.getValue());
+            regionRepository.save(regionToUpdate);
+        }
+    }
+
+    String getNewestWosFromRegion(@NonNull Set<String> pageLinks) {
         Integer findBiggestLinkValue = pageLinks.stream()
                 .filter(a -> a.contains("repository"))
-                .map(WebScrapingRegionsService::getNumberFromURL)
+                .map(this::getNumberFromURL)
                 .max(Comparator.naturalOrder())
-                .orElseGet(() -> 333);
+                .orElseThrow();
 
         return REPO_LINK.concat(findBiggestLinkValue.toString());
     }
 
-    public static @NonNull Map<String, String> getAllRegions() {
-        links.clear();
+    Map<String, String> getAllRegions() {
         Set<String> links = getPageLinks(ALL_REGIONS_LINK);
         Map<String, String> regionsMap = new HashMap<>();
         for (String link : links) {
@@ -56,12 +75,12 @@ public class WebScrapingRegionsService {
         return regionsMap;
     }
 
-    public static @NonNull Integer getNumberFromURL(@NonNull String url) {
+    public Integer getNumberFromURL(@NonNull String url) {
         String replace = url.replace(REPO_LINK, "").replace("/", "");
         return Integer.valueOf(replace);
     }
 
-    public static @NonNull Set<String> getPageLinks(String url) {
+    public Set<String> getPageLinks(String url) {
         Set<String> linksMy = new HashSet<>();
         try {
             Document document = Jsoup.connect(url).get();
@@ -69,9 +88,8 @@ public class WebScrapingRegionsService {
 
             for (Element page : linksOnPage) {
                 String link = page.attr("abs:href");
-                if (link.contains(DOMAIN) && (!links.contains(link))) {
+                if (link.contains(DOMAIN)) {
                     linksMy.add(link);
-                    links.add(link);
                 }
             }
         } catch (IOException e) {
@@ -80,37 +98,11 @@ public class WebScrapingRegionsService {
         return linksMy;
     }
 
-    private static Region getRegion(Map.@NonNull Entry<String, String> stringStringEntry) {
+    private Region createRegion(String key, String value) {
         return Region.builder()
-                .zlkRegionNumber(Integer.valueOf(stringStringEntry.getKey()))
-                .actualWOS(String.valueOf(getNumberFromURL(stringStringEntry.getValue())))
-                .actualWOSlink(stringStringEntry.getValue())
+                .zlkRegionNumber(Integer.valueOf(key))
+                .actualWOS(String.valueOf(getNumberFromURL(value)))
+                .actualWOSlink(value)
                 .build();
-    }
-
-    @Transactional
-    public void runner() {
-        Map<String, String> mapWithAllRegionsLinks = getAllRegions();
-
-        for (var region : mapWithAllRegionsLinks.entrySet()) {
-
-            Set<String> pageLinks1 = getPageLinks(region.getValue());
-            String newestWosFromRegion1 = getNewestWosFromRegion(pageLinks1);
-            result.put(region.getKey(), newestWosFromRegion1);
-        }
-
-        for (Map.Entry<String, String> stringStringEntry : result.entrySet()) {
-
-            var byZlkRegionNumber = regionRepository.findByZlkRegionNumber(Integer.valueOf(stringStringEntry.getKey()));
-            if (byZlkRegionNumber.isEmpty()) {
-                Region build = getRegion(stringStringEntry);
-                regionRepository.save(build);
-
-            } else {
-                byZlkRegionNumber.get().setActualWOS(String.valueOf(getNumberFromURL(stringStringEntry.getValue())));
-                byZlkRegionNumber.get().setActualWOSlink(stringStringEntry.getValue());
-                regionRepository.save(byZlkRegionNumber.get());
-            }
-        }
     }
 }

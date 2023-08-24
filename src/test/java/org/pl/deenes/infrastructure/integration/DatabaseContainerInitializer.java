@@ -29,6 +29,4 @@ class DatabaseContainerInitializer
         });
         applicationContext.getBeanFactory().registerSingleton(POSTGRESQL_BEAN_NAME, container);
     }
-
-
 }

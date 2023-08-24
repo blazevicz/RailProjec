@@ -65,6 +65,5 @@ class TrainEntityMapperImplTest {
         Assertions.assertEquals(777.11, train.getRoadStats());
         Assertions.assertEquals(123, train.getTrainKwr());
         Assertions.assertEquals(1, train.getTrainStats().size());
-
     }
 }

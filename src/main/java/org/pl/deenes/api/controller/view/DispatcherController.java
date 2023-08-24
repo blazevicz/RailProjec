@@ -29,5 +29,4 @@ public class DispatcherController {
 
         return "all_warnings";
     }
-
 }

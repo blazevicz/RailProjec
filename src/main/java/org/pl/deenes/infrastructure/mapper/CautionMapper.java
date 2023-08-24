@@ -8,6 +8,5 @@ import org.pl.deenes.model.Caution;
 public interface CautionMapper {
 
     Caution mapFromEntity(CautionEntity entity);
-
     CautionEntity mapToEntity(Caution caution);
 }

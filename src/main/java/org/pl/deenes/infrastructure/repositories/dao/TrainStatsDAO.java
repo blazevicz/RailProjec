@@ -8,6 +8,5 @@ import java.util.Optional;
 public interface TrainStatsDAO {
 
     Optional<TrainStats> findAllByTrainStatsId(Integer id);
-
     List<TrainStats> findAll();
 }

@@ -24,7 +24,7 @@ class ApiIT extends IntegrationReposIT {
     private final LocalizationRepository localizationRepository;
 
     @Test
-    void test1() {
+    void shouldFindStationByNameAndReturnWayList() {
 
         List<Way> stationAndGetPosition =
                 apiService.findStationAndGetPosition("BYTOM");

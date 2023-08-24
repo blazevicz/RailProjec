@@ -7,9 +7,7 @@ import java.util.Optional;
 
 public interface RegionDAO {
     List<Region> findAll();
-
     Region save(Region region);
-
     Optional<Region> findByZlkRegionNumber(Integer regionNumber);
 
 

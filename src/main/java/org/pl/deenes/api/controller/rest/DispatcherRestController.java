@@ -20,7 +20,6 @@ public class DispatcherRestController {
 
     private final DispatcherDTOMapper dispatcherDTOMapper;
     private final DispatcherRepository dispatcherRepository;
-
     @GetMapping(value = "/all")
     public List<DispatcherDTO> allDispatchers() {
         return dispatcherRepository.findAll().stream()
@@ -28,7 +27,7 @@ public class DispatcherRestController {
                 .toList();
     }
 
-    @PostMapping(value = "/add")
+    @PostMapping()
     public DispatcherDTO addDispatcher(@RequestBody DispatcherDTO dispatcherDTO) {
         Dispatcher save = dispatcherRepository.save(dispatcherDTOMapper.mapFromDTO(dispatcherDTO));
         return dispatcherDTOMapper.mapToDTO(save);

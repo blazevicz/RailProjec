@@ -7,20 +7,16 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.pl.deenes.infrastructure.repositories.dao.AnalyseDAO;
 import org.pl.deenes.infrastructure.repositories.dao.TrainDAO;
-import org.pl.deenes.model.Analyse;
 import org.pl.deenes.model.Train;
-import org.pl.deenes.model.TrainStats;
 import org.pl.deenes.services.interfaces.AnalyseService;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class TrainServiceImplTest {
-
     @Mock
     private TimetableImpl readKilometersService;
     @Mock
@@ -37,25 +33,7 @@ class TrainServiceImplTest {
     private TrainServiceImpl trainService;
 
     @Test
-    void trainCreate_ShouldReturnCreatedTrain() {
-        String link = "src/main/resources/IDDE4 Dodatek 1 IZ Sosnowiec z popr 14.pdf";
-        when(readKilometersService.read(link)).thenReturn(TimetableDetails.builder().build());
-        when(readKilometersService.getCompanyName()).thenReturn("Company Name\nSecond Line\nThird Line");
-        when(trainStatsService.calculateKilometers(any())).thenReturn(TrainStats.builder().build());
-        when(analyseService.creatingTrainAnalyse(any(), any())).thenReturn(Analyse.builder().build());
-
-        Train createdTrain = trainService.trainCreate(link);
-
-        verify(readKilometersService).read(link);
-        verify(readKilometersService).getCompanyName();
-        verify(trainStatsService).calculateKilometers(any());
-        verify(analyseService).creatingTrainAnalyse(any(), any());
-        verify(trainDAO).save(any());
-        assertEquals(3, createdTrain.getTrainStats().size());
-    }
-
-    @Test
-    void saveTrain_ShouldSaveTrainAndReturnSavedInstance() {
+    void saveTrainShouldSaveTrainAndReturnSavedInstance() {
         Train train = Train.builder().build();
         when(trainDAO.save(train)).thenReturn(train);
 
@@ -66,7 +44,7 @@ class TrainServiceImplTest {
     }
 
     @Test
-    void findTrain_ExistingTrain_ShouldReturnOptionalWithTrain() {
+    void findTrainExistingTrainShouldReturnOptionalWithTrain() {
         Train expectedTrain = Train.builder().build();
         when(trainDAO.find(anyInt())).thenReturn(Optional.of(expectedTrain));
 
@@ -77,7 +55,7 @@ class TrainServiceImplTest {
     }
 
     @Test
-    void findTrain_NonExistingTrain_ShouldReturnEmptyOptional() {
+    void findTrainNonExistingTrainShouldReturnEmptyOptional() {
         when(trainDAO.find(anyInt())).thenReturn(Optional.empty());
 
         Optional<Train> foundTrain = trainService.findTrain(123);

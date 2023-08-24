@@ -16,7 +16,6 @@ public class ResultServiceImpl implements ResultService {
 
     private TrainService trainServiceImpl;
     private TrainDAO trainDAO;
-
     @Override
     @Transactional
     public void runningMethod(String link) {

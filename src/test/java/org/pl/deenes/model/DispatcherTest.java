@@ -24,7 +24,8 @@ class DispatcherTest {
         trains.add(build);
         trains.add(build2);
 
-        Dispatcher dispatcher = new Dispatcher(id, name, surname, phoneNumber, true, Set.of(), "asd", pesel, trains);
+        Dispatcher dispatcher =
+                new Dispatcher(id, name, surname, phoneNumber, true, Set.of(), "asd", pesel, trains);
 
         assertNotNull(dispatcher);
         assertEquals(id, dispatcher.id());
@@ -34,6 +35,4 @@ class DispatcherTest {
         assertEquals(pesel, dispatcher.pesel());
         assertEquals(trains, dispatcher.trains());
     }
-
-
 }
