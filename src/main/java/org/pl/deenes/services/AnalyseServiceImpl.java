@@ -96,6 +96,15 @@ public class AnalyseServiceImpl implements AnalyseService {
             result = 31 * result + Arrays.hashCode(relationAtoB);
             return result;
         }
+
+        @Override
+        public String toString() {
+            return "Result{" +
+                    "string=" + string +
+                    ", splitTrainDetailsForAnalyse=" + splitTrainDetailsForAnalyse +
+                    ", relationAtoB=" + Arrays.toString(relationAtoB) +
+                    '}';
+        }
     }
 }
 

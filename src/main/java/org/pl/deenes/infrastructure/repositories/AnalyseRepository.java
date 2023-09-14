@@ -1,7 +1,7 @@
 package org.pl.deenes.infrastructure.repositories;
 
 import lombok.AllArgsConstructor;
-import org.pl.deenes.configuration.MethodNotImplementedException;
+import org.pl.deenes.expections.MethodNotImplementedException;
 import org.pl.deenes.infrastructure.entity.AnalyseEntity;
 import org.pl.deenes.infrastructure.mapper.AnalyseMapper;
 import org.pl.deenes.infrastructure.mapper.CycleAvoidingMappingContext;

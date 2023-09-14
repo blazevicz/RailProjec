@@ -8,9 +8,9 @@ import lombok.*;
 @AllArgsConstructor
 @EqualsAndHashCode
 public class TerrainProfileDTO {
-    int profileId;
-    int lineNumber;
-    double kilometer;
-    double height;
-    double slope;
+    private int profileId;
+    private int lineNumber;
+    private double kilometer;
+    private double height;
+    private double slope;
 }

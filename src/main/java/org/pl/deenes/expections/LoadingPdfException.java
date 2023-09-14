@@ -1,4 +1,4 @@
-package org.pl.deenes.configuration;
+package org.pl.deenes.expections;
 
 
 public class LoadingPdfException extends RuntimeException {

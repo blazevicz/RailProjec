@@ -9,7 +9,7 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageTree;
 import org.apache.pdfbox.text.PDFTextStripperByArea;
-import org.pl.deenes.configuration.LoadingPdfException;
+import org.pl.deenes.expections.LoadingPdfException;
 import org.pl.deenes.model.Positions;
 import org.pl.deenes.services.interfaces.Timetable;
 import org.springframework.stereotype.Service;

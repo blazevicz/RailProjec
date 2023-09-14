@@ -11,8 +11,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DispatcherDTO {
 
-    Integer id;
-    String name;
-    String surname;
-    String phoneNumber;
+    private Integer id;
+    private String name;
+    private String surname;
+    private String phoneNumber;
 }

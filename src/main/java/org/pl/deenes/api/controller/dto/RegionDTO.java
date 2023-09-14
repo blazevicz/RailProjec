@@ -10,9 +10,9 @@ import org.pl.deenes.model.Line;
 @EqualsAndHashCode
 public class RegionDTO {
 
-    Integer id;
-    Integer zlkRegionNumber;
-    String actualWOS;
-    String actualWOSlink;
-    Line line;
+    private Integer id;
+    private Integer zlkRegionNumber;
+    private String actualWOS;
+    private String actualWOSlink;
+    private Line line;
 }

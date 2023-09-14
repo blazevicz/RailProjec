@@ -17,23 +17,21 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TrainDTO {
-
-    Integer trainId;
-    Integer trainKwr;
-    String companyName;
-    LocalDate datePlan;
-    Double roadStats;
-    Analyse analyse;
-    Driver driver;
-    Integer trainMaxWeight;
-    Integer trainMaxLength;
-    String startStation;
-    String endStation;
-    String trainType;
-    LocomotiveType locomotiveType;
-    Integer trainMaxSpeed;
-    Integer brakePercent;
-    Set<TrainStats> trainStats;
-    Integer trainNumber;
-
+    private LocalDate datePlan;
+    private Double roadStats;
+    private Analyse analyse;
+    private Driver driver;
+    private LocomotiveType locomotiveType;
+    private Set<TrainStats> trainStats;
+    private Integer trainId;
+    private Integer trainKwr;
+    private String companyName;
+    private Integer trainMaxWeight;
+    private Integer trainMaxLength;
+    private String startStation;
+    private String endStation;
+    private String trainType;
+    private Integer trainMaxSpeed;
+    private Integer brakePercent;
+    private Integer trainNumber;
 }

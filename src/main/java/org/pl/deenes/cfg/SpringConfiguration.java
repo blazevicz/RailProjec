@@ -1,4 +1,4 @@
-package org.pl.deenes.configuration;
+package org.pl.deenes.cfg;
 
 
 import org.springframework.context.annotation.Bean;

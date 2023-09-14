@@ -7,7 +7,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pl.deenes.configuration.LoadingPdfException;
+import org.pl.deenes.expections.LoadingPdfException;
 
 import java.nio.file.Path;
 
