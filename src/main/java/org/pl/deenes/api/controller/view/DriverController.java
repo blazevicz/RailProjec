@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.view;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -17,6 +18,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@Hidden
 public class DriverController {
 
     private static final String SUCCESS_VIEW = "driver_success";

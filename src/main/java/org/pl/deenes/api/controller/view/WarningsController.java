@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.view;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.pl.deenes.api.controller.dto.RegionDTO;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @Controller
 @AllArgsConstructor
+@Hidden
 public class WarningsController {
     private final RegionRepository regionRepository;
     private final RegionDTOMapper regionDTOMapper;

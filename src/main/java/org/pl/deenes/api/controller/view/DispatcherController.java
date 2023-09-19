@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.view;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +17,7 @@ import java.util.List;
 @Controller
 @AllArgsConstructor
 @Slf4j
+@Hidden
 public class DispatcherController {
     private final WarningsReaderServiceImpl warningsReaderService;
     private final CautionMapper cautionMapper;

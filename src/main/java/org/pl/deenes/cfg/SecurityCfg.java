@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityCfg {
     private static final String DISPATCHER = "DISPATCHER";
-
+    private static final String DRIVER = "DRIVER";
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -43,11 +43,12 @@ public class SecurityCfg {
     public SecurityFilterChain filterChain(@NonNull HttpSecurity http) throws Exception {
         http.authorizeHttpRequests()
                 .requestMatchers("/login", "/error").permitAll()
-                .requestMatchers("/api*").permitAll()
+                .requestMatchers("/api/**").permitAll()
                 .requestMatchers(HttpMethod.DELETE).hasAuthority(DISPATCHER)
-                .requestMatchers("/").hasAnyAuthority(DISPATCHER, "DRIVER")
-                .requestMatchers("/trains/**").hasAnyAuthority(DISPATCHER, "DRIVER")
-                .requestMatchers("/*").hasAnyAuthority(DISPATCHER)
+                .requestMatchers("/").hasAnyAuthority(DISPATCHER, DRIVER)
+                .requestMatchers("/trains/**").hasAnyAuthority(DISPATCHER, DRIVER)
+                .requestMatchers("/swagger-ui/**", "/v3/api-docs/**").hasAnyAuthority(DISPATCHER, DRIVER)
+                // .requestMatchers("/*").hasAnyAuthority(DISPATCHER)
                 .and()
                 .formLogin()
                 .permitAll()

@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.view;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,7 @@ import java.util.Set;
 @Controller
 @AllArgsConstructor
 @Slf4j
+@Hidden
 public class MapAndProfileController {
 
     private final TerrainProfileServiceImpl terrainProfileService;

@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.view;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.pl.deenes.api.controller.dto.DriverDTO;
@@ -24,6 +25,7 @@ import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
+@Hidden
 public class TrainController {
 
     private final DriverDTOMapper driverMapper;
