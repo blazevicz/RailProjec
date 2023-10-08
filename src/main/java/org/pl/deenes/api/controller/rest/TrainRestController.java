@@ -19,6 +19,7 @@ public class TrainRestController {
 
     private final TrainDTOMapper trainDTOMapper;
     private final TrainRepository trainRepository;
+
     @GetMapping(value = "/{trainKwr}")
     public ResponseEntity<List<TrainDTO>> trainInfo(@PathVariable Integer trainKwr) {
         var trainOptional = trainRepository.find(trainKwr);
@@ -32,6 +33,14 @@ public class TrainRestController {
         }
     }
 
+    @GetMapping(value = "/all")
+    public ResponseEntity<List<TrainDTO>> allTrainsInfo() {
+        var trainOptional = trainRepository.findAll();
+        List<TrainDTO> list = trainOptional.stream().map(trainDTOMapper::mapToDTO).toList();
+        return ResponseEntity.ok(list);
+    }
+
+
     @DeleteMapping(value = "/{trainKwr}")
     public ResponseEntity<String> deleteTrain(@PathVariable Integer trainKwr) {
         Optional<Train> trainOptional = trainRepository.find(trainKwr);
@@ -41,5 +50,13 @@ public class TrainRestController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PostMapping(value = "/analyse")
+    public ResponseEntity<TrainDTO> addNewTrain(@RequestBody TrainDTO trainDto) {
+        Train train = trainDTOMapper.mapFromDTO(trainDto);
+        Train save = trainRepository.save(train);
+        TrainDTO trainDTO = trainDTOMapper.mapToDTO(save);
+        return ResponseEntity.ok(trainDTO);
     }
 }

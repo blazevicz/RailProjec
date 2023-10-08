@@ -58,4 +58,5 @@ class TrainRestControllerTest {
         mockMvc.perform(get("/api/train/{trainKwr}", trainKwr))
                 .andExpect(status().isNotFound());
     }
+
 }

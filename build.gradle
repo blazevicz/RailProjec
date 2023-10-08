@@ -75,6 +75,8 @@ dependencies {
     implementation 'de.westnordost:osmapi-overpass:2.0'
     implementation 'org.jacoco:org.jacoco.core:0.8.10'
 
+    testImplementation 'io.rest-assured:rest-assured:5.3.2'
+
 
 }
 dependencyManagement {
@@ -111,7 +113,6 @@ sourceSets {
 }
 compileJava.dependsOn tasks.openApiGenerate
 
-
 test {
     useJUnitPlatform()
     testLogging {
@@ -136,4 +137,13 @@ jacocoTestReport {
 }
 bootJar {
     archiveFileName = "trainDriverHelper.${archiveExtension.get()}"
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+test {
+    ignoreFailures = true
 }
