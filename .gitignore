@@ -20,6 +20,7 @@ gradle-app.setting
 
 # From https://github.com/github/gitignore/blob/master/Java.gitignore
 *.class
+!**/trainDriverHelper.jar
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
