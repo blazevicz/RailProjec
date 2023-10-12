@@ -22,6 +22,8 @@ configurations {
 dependencies {
     testImplementation 'org.springframework.security:spring-security-test:6.1.2'
     testAnnotationProcessor 'org.springframework.security:spring-security-test:6.1.2'
+// https://mvnrepository.com/artifact/com.google.cloud.tools/appengine-gradle-plugin
+    implementation 'com.google.cloud.tools:appengine-gradle-plugin:2.5.0'
 
 
     implementation 'org.springframework.boot:spring-boot-starter'

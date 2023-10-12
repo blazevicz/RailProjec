@@ -1,8 +1,6 @@
 # From https://github.com/github/gitignore/blob/master/Gradle.gitignore
 .gradle
-/build/
 .idea
-build/*
 
 # Ignore Gradle GUI config
 gradle-app.setting
@@ -20,7 +18,6 @@ gradle-app.setting
 
 # From https://github.com/github/gitignore/blob/master/Java.gitignore
 *.class
-!**/trainDriverHelper.jar
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
