@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Table(name = "train_stats")
 @EqualsAndHashCode(of = {"firstKilometer", "lastKilometer", "lineNumber"})
-@ToString
+@ToString(exclude = "trainEntity")
 public class TrainStatsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

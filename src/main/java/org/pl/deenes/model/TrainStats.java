@@ -8,11 +8,13 @@ import java.util.LinkedList;
 @Builder
 @With
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @ToString(of = {"trainStatsId", "lineNumber", "firstKilometer", "lastKilometer", "station"})
 @EqualsAndHashCode(of = {"trainStatsId", "firstKilometer", "lastKilometer", "lineNumber"})
 public class TrainStats {
-    private final LinkedList<Line> lineList;
+    private LinkedList<Line> lineList;
     private Integer trainStatsId;
     private Double howManyKilometers;
     private String station;
@@ -21,6 +23,4 @@ public class TrainStats {
     private Double lastKilometer;
     private Train trainEntity;
     private Analyse analyse;
-
-
 }

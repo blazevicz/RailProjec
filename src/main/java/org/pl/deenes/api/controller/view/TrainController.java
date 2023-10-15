@@ -3,6 +3,7 @@ package org.pl.deenes.api.controller.view;
 import io.swagger.v3.oas.annotations.Hidden;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.dto.TrainDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
@@ -20,12 +21,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @AllArgsConstructor
 @Hidden
+@Slf4j
 public class TrainController {
 
     private final DriverDTOMapper driverMapper;
@@ -52,9 +55,11 @@ public class TrainController {
     }
 
     @PostMapping("/trains/add")
-    public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) {
-        String s = "src/main/resources/pdfs/" + pdfLink;
-        Train train = trainService.trainCreate(s);
+    public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) throws MalformedURLException {
+        //  String s = "src/main/resources/pdfs/" + pdfLink;
+        //TODO: to fix
+        String link = "pdfs/" + pdfLink;
+        Train train = trainService.trainCreate(pdfLink);
         trainService.saveTrain(train);
 
         return "redirect:/trains";

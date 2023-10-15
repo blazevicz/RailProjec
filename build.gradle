@@ -1,10 +1,21 @@
+buildscript {
+    repositories {
+        maven {
+            url = uri("https://plugins.gradle.org/m2/")
+        }
+    }
+    dependencies {
+        classpath("gradle.plugin.com.github.johnrengelman:shadow:7.1.2")
+    }
+}
+
 plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.5'
     id 'io.spring.dependency-management' version '1.1.0'
     id "org.openapi.generator" version "6.5.0"
     id 'jacoco'
-
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 group 'org.example'
@@ -14,15 +25,16 @@ repositories {
     mavenCentral()
     google()
 }
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
 }
+
 dependencies {
     testImplementation 'org.springframework.security:spring-security-test:6.1.2'
     testAnnotationProcessor 'org.springframework.security:spring-security-test:6.1.2'
-// https://mvnrepository.com/artifact/com.google.cloud.tools/appengine-gradle-plugin
     implementation 'com.google.cloud.tools:appengine-gradle-plugin:2.5.0'
 
 
@@ -78,9 +90,10 @@ dependencies {
     implementation 'org.jacoco:org.jacoco.core:0.8.10'
 
     testImplementation 'io.rest-assured:rest-assured:5.3.2'
-
-
 }
+apply plugin: "com.github.johnrengelman.shadow"
+
+
 dependencyManagement {
     imports {
         mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
@@ -108,11 +121,13 @@ openApiGenerate {
     apiPackage = "org.pl.deenes.osm.infrastructure"
     modelPackage = "org.pl.deenes.osm.model"
 }
+
 sourceSets {
     main {
         java.srcDirs += "$buildDir/generated-sources/openapi/src/main/java"
     }
 }
+
 compileJava.dependsOn tasks.openApiGenerate
 
 test {
@@ -122,21 +137,24 @@ test {
     }
     finalizedBy jacocoTestReport
 }
+
 jacocoTestReport {
     dependsOn test
 }
+
 apply plugin: 'org.openapi.generator'
 jacoco {
     toolVersion = "0.8.9"
 }
-jacocoTestReport {
 
+jacocoTestReport {
     reports {
         xml.required = false
         csv.required = false
         html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
     }
 }
+
 bootJar {
     archiveFileName = "trainDriverHelper.${archiveExtension.get()}"
 }
