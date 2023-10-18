@@ -11,5 +11,5 @@ public interface TokenRepository extends JpaRepository<Token, Integer> {
 
     Optional<Token> findByToken(String token);
 
-    List<Token> findAllByDriverEntityAndExpiredIsFalseAndRevokedIsFalse(Integer id);
+    List<Token> findAllByDriverEntity_DriverIdAndExpiredIsFalseAndRevokedIsFalse(Integer id);
 }

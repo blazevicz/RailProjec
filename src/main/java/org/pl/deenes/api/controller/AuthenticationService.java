@@ -64,7 +64,7 @@ public class AuthenticationService {
 
     private void revokeAllUserTokens(Driver user) {
         List<Token> tokens =
-                tokenRepository.findAllByDriverEntityAndExpiredIsFalseAndRevokedIsFalse(user.getDriverId());
+                tokenRepository.findAllByDriverEntity_DriverIdAndExpiredIsFalseAndRevokedIsFalse(user.getDriverId());
 
         if (tokens.isEmpty()) {
             return;
