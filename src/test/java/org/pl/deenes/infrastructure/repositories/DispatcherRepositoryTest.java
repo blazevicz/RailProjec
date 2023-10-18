@@ -13,7 +13,6 @@ import org.pl.deenes.model.Dispatcher;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -31,9 +30,23 @@ class DispatcherRepositoryTest {
 
     @Test
     void testSave2() {
-        Dispatcher dispatcher = new Dispatcher(
-                1, "A", "B", "123", true, Collections.emptySet(), "asd", 66071749125L, Collections.emptyList());
-        DispatcherEntity entity = new DispatcherEntity(1, "A", "B", "123", "asd", true, Collections.emptySet());
+        Dispatcher dispatcher = Dispatcher.builder()
+                .id(1)
+                .name("A")
+                .surname("B")
+                .phoneNumber("66071749125L")
+                .password("asd")
+                .active(true)
+                .roles(Collections.emptySet())
+                .build();
+        DispatcherEntity entity = DispatcherEntity.builder()
+                .name("A")
+                .surname("B")
+                .phoneNumber("66071749125L")
+                .password("asd")
+                .active(true)
+                .roles(Collections.emptySet())
+                .build();
 
         when(dispatcherMapper.mapToEntity(dispatcher)).thenReturn(entity);
         when(dispatcherMapper.mapFromEntity(entity)).thenReturn(dispatcher);
@@ -51,11 +64,11 @@ class DispatcherRepositoryTest {
     @Test
     void findBySurname() {
         String surname = "Adamiak";
-        DispatcherEntity entity = new DispatcherEntity();
+        Dispatcher entity = Dispatcher.builder().build();
 
-        when(dispatcherJpaRepository.findBySurname(surname)).thenReturn(Optional.of(entity));
+        when(dispatcherRepository.findBySurname(surname)).thenReturn(Optional.of(entity));
 
-        Optional<DispatcherEntity> result = dispatcherRepository.findBySurname(surname);
+        Optional<Dispatcher> result = dispatcherRepository.findBySurname(surname);
 
         assertEquals(Optional.of(entity), result);
         verify(dispatcherJpaRepository, times(1)).findBySurname(surname);
@@ -64,16 +77,44 @@ class DispatcherRepositoryTest {
     @Test
     void findAll() {
         List<DispatcherEntity> entities = List.of(new DispatcherEntity(), new DispatcherEntity());
-        List<Dispatcher> dispatchers = List.of(new Dispatcher(
-                        1, "A", "B", "123", true, Set.of(), "asd", 66071749125L, List.of()),
-                new Dispatcher(
-                        2, "A", "B", "1234", true, Set.of(), "asd", 16071749125L, List.of()));
+        List<Dispatcher> dispatchers = List.of(Dispatcher.builder()
+                        .id(1)
+                        .name("A")
+                        .surname("B")
+                        .phoneNumber("66071749125L")
+                        .password("asd")
+                        .active(true)
+                        .roles(Collections.emptySet())
+                        .build(),
+                Dispatcher.builder()
+                        .id(2)
+                        .name("A")
+                        .surname("C")
+                        .phoneNumber("66271749125L")
+                        .password("asd")
+                        .active(true)
+                        .roles(Collections.emptySet())
+                        .build());
 
         when(dispatcherJpaRepository.findAll()).thenReturn(entities);
-        when(dispatcherMapper.mapFromEntity(any(DispatcherEntity.class))).thenReturn(new Dispatcher(
-                        1, "A", "B", "123", true, Set.of(), "asd", 66071749125L, List.of()))
-                .thenReturn(new Dispatcher(
-                        2, "A", "B", "1234", true, Set.of(), "asd", 16071749125L, List.of()));
+        when(dispatcherMapper.mapFromEntity(any(DispatcherEntity.class))).thenReturn(Dispatcher.builder()
+                        .id(1)
+                        .name("A")
+                        .surname("B")
+                        .phoneNumber("66071749125L")
+                        .password("asd")
+                        .active(true)
+                        .roles(Collections.emptySet())
+                        .build())
+                .thenReturn(Dispatcher.builder()
+                        .id(2)
+                        .name("A")
+                        .surname("B")
+                        .phoneNumber("661231749125L")
+                        .password("asd")
+                        .active(true)
+                        .roles(Collections.emptySet())
+                        .build());
 
         List<Dispatcher> result = dispatcherRepository.findAll();
 

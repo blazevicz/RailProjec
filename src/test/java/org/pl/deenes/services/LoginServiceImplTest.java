@@ -6,10 +6,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pl.deenes.infrastructure.entity.DispatcherEntity;
 import org.pl.deenes.infrastructure.entity.RoleEntity;
 import org.pl.deenes.infrastructure.repositories.DispatcherRepository;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
+import org.pl.deenes.model.Dispatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -35,7 +35,7 @@ class LoginServiceImplTest {
 
     @Test
     void loadUserByUsername() {
-        DispatcherEntity dispatcherEntity = DispatcherEntity.builder()
+        Dispatcher dispatcherEntity = Dispatcher.builder()
                 .surname("A")
                 .password("asd")
                 .roles(Set.of(RoleEntity.builder().role("DISPATCHER").build()))
@@ -45,9 +45,9 @@ class LoginServiceImplTest {
 
         UserDetails userDetails = loginService.loadUserByUsername("A");
 
-        Assertions.assertEquals(dispatcherEntity.getSurname(), userDetails.getUsername());
-        Assertions.assertEquals(dispatcherEntity.getPassword(), userDetails.getPassword());
-        Assertions.assertEquals(dispatcherEntity.getActive(), userDetails.isEnabled());
+        Assertions.assertEquals(dispatcherEntity.name(), userDetails.getUsername());
+        Assertions.assertEquals(dispatcherEntity.password(), userDetails.getPassword());
+        Assertions.assertEquals(dispatcherEntity.active(), userDetails.isEnabled());
     }
 
     @Test

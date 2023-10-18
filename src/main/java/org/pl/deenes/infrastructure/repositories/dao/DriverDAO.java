@@ -1,6 +1,5 @@
 package org.pl.deenes.infrastructure.repositories.dao;
 
-import org.pl.deenes.infrastructure.entity.DriverEntity;
 import org.pl.deenes.model.Driver;
 
 import java.util.List;
@@ -12,6 +11,9 @@ public interface DriverDAO {
     void delete(Integer driverId);
     Driver save(Driver driver);
     Optional<Driver> findDriverById(Integer id);
-    Optional<DriverEntity> findByPesel(String pesel);
+
+    Optional<Driver> findByPesel(String pesel);
+
+    Optional<Driver> findBySurname(String surname);
 
 }

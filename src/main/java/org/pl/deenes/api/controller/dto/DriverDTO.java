@@ -20,5 +20,4 @@ public class DriverDTO {
     private Boolean active;
     private Integer driverId;
     private Set<RoleEntity> roles;
-    private String password;
 }

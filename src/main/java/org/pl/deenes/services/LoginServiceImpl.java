@@ -2,7 +2,6 @@ package org.pl.deenes.services;
 
 
 import lombok.AllArgsConstructor;
-import org.pl.deenes.infrastructure.entity.DispatcherEntity;
 import org.pl.deenes.infrastructure.repositories.DispatcherRepository;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.services.interfaces.LoginService;
@@ -28,7 +27,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String surname) throws UsernameNotFoundException {
-        DispatcherEntity dispatcher = dispatcherRepository.findBySurname(surname)
+        var dispatcher = dispatcherRepository.findBySurname(surname)
                 .orElseThrow(() -> new UsernameNotFoundException("user not found: %s".formatted(surname)));
 
         List<SimpleGrantedAuthority> list = dispatcher.getRoles().stream()

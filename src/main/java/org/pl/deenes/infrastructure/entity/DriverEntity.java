@@ -2,7 +2,13 @@ package org.pl.deenes.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.pl.deenes.api.controller.token.Token;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -14,7 +20,7 @@ import java.util.Set;
 @EqualsAndHashCode
 @ToString(of = {"name", "surname", "pesel"})
 @Table(name = "driver")
-public class DriverEntity {
+public class DriverEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -36,7 +42,11 @@ public class DriverEntity {
     @Column(name = "active")
     private Boolean active;
 
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "driverEntity")
+    private List<Token> tokens;
+
+    //byllo merge
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "driver_role",
             joinColumns = @JoinColumn(name = "driver_id"),
@@ -44,4 +54,34 @@ public class DriverEntity {
     )
     private Set<RoleEntity> roles;
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRole()))
+                .toList();
+    }
+
+    public String getUsername() {
+        return surname;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return active;
+    }
 }

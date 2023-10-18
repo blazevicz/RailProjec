@@ -33,10 +33,13 @@ configurations {
 }
 
 dependencies {
+
+    implementation 'io.jsonwebtoken:jjwt-api:0.12.3'
+    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.12.3'
+
     testImplementation 'org.springframework.security:spring-security-test:6.1.2'
     testAnnotationProcessor 'org.springframework.security:spring-security-test:6.1.2'
-    implementation 'com.google.cloud.tools:appengine-gradle-plugin:2.5.0'
-
+    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.12.3'
 
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.springframework.boot:spring-boot-starter-web'
@@ -104,7 +107,6 @@ openApiGenerate {
     globalProperties.set(
             [
                     additionalModelTypeAnnotations: "@lombok.Getter"
-
             ]
     )
 

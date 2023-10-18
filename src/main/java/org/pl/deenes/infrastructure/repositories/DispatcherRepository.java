@@ -26,8 +26,9 @@ public class DispatcherRepository implements DispatcherDAO {
     }
 
     @Override
-    public Optional<DispatcherEntity> findBySurname(String surname) {
-        return dispatcherJpaRepository.findBySurname(surname);
+    public Optional<Dispatcher> findBySurname(String surname) {
+        return dispatcherJpaRepository.findBySurname(surname)
+                .map(dispatcherMapper::mapFromEntity);
     }
 
     @Override

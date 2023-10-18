@@ -28,11 +28,11 @@ class DispatcherTest {
                 new Dispatcher(id, name, surname, phoneNumber, true, Set.of(), "asd", pesel, trains);
 
         assertNotNull(dispatcher);
-        assertEquals(id, dispatcher.id());
-        assertEquals(name, dispatcher.name());
-        assertEquals(surname, dispatcher.surname());
-        assertEquals(phoneNumber, dispatcher.phoneNumber());
-        assertEquals(pesel, dispatcher.pesel());
-        assertEquals(trains, dispatcher.trains());
+        assertEquals(id, dispatcher.getId());
+        assertEquals(name, dispatcher.getName());
+        assertEquals(surname, dispatcher.getSurname());
+        assertEquals(phoneNumber, dispatcher.getPhoneNumber());
+        assertEquals(pesel, dispatcher.getPesel());
+        assertEquals(trains, dispatcher.getTrains());
     }
 }

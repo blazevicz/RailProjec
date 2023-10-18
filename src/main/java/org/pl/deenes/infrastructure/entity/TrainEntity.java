@@ -8,62 +8,45 @@ import java.util.Set;
 
 @Entity
 @Builder
-@Getter
-@Setter
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "trainKwr")
 @Table(name = "train")
 public class TrainEntity {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainEntity", fetch = FetchType.EAGER)
+    Set<TrainStatsEntity> trainStats;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "train_id")
-    Integer trainId;
-
+    private Integer trainId;
     @Column(name = "company_name")
-    String companyName;
-
+    private String companyName;
     @Column(name = "train_kwr")
-    Integer trainKwr;
-
+    private Integer trainKwr;
     @Column(name = "date_plan")
-    LocalDate datePlan;
-
+    private LocalDate datePlan;
     @Column(name = "road_stats")
-    Double roadStats;
-
+    private Double roadStats;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
-    DriverEntity driver;
-
+    private DriverEntity driver;
     @Column(name = "train_number")
-    Integer trainNumber;
-
+    private Integer trainNumber;
     @Column(name = "train_max_weight")
-    Integer trainMaxWeight;
-
+    private Integer trainMaxWeight;
     @Column(name = "train_max_length")
-    Integer trainMaxLength;
-
+    private Integer trainMaxLength;
     @Column(name = "start_station")
-    String startStation;
-
+    private String startStation;
     @Column(name = "end_station")
-    String endStation;
-
+    private String endStation;
     @Column(name = "train_type")
-    String trainType;
-
+    private String trainType;
     @Column(name = "locomotive_type")
-    String locomotiveType;
-
+    private String locomotiveType;
     @Column(name = "train_max_speed")
-    Integer trainMaxSpeed;
-
+    private Integer trainMaxSpeed;
     @Column(name = "brake_percent")
-    Integer brakePercent;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "trainEntity", fetch = FetchType.EAGER)
-    Set<TrainStatsEntity> trainStats;
+    private Integer brakePercent;
 }

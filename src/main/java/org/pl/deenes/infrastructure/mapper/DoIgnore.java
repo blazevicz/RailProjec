@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Qualifier // make sure that this is the MapStruct qualifier annotation
+@Qualifier
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.CLASS)
 public @interface DoIgnore {
