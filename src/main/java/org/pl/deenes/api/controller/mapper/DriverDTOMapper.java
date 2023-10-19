@@ -7,7 +7,6 @@ import org.pl.deenes.model.Driver;
 @Mapper(componentModel = "spring")
 public interface DriverDTOMapper {
     DriverDTO mapToDTO(Driver driver);
-
     Driver mapFromDTO(DriverDTO driverDTO);
 
 }

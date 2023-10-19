@@ -42,11 +42,6 @@ public class SpringConfiguration {
         return 0.0;
     }
 
-  /*  @Bean
-    public File file() {
-        return new File("src/main/resources/RJ_SKRJ_666401_464028_9.pdf");
-    }*/
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();

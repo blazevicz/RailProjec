@@ -1,7 +1,7 @@
 CREATE TABLE token
 (
     id         SERIAL PRIMARY KEY,
-    token      VARCHAR(255) UNIQUE,
+    token VARCHAR(255) UNIQUE,
     token_type VARCHAR(50),
     revoked    BOOLEAN,
     expired    BOOLEAN,

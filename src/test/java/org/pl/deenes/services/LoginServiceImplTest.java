@@ -45,9 +45,9 @@ class LoginServiceImplTest {
 
         UserDetails userDetails = loginService.loadUserByUsername("A");
 
-        Assertions.assertEquals(dispatcherEntity.name(), userDetails.getUsername());
-        Assertions.assertEquals(dispatcherEntity.password(), userDetails.getPassword());
-        Assertions.assertEquals(dispatcherEntity.active(), userDetails.isEnabled());
+        Assertions.assertEquals(dispatcherEntity.getName(), userDetails.getUsername());
+        Assertions.assertEquals(dispatcherEntity.getPassword(), userDetails.getPassword());
+        Assertions.assertEquals(dispatcherEntity.getActive(), userDetails.isEnabled());
     }
 
     @Test

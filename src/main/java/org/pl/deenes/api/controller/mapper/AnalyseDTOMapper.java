@@ -7,6 +7,5 @@ import org.pl.deenes.model.Analyse;
 @Mapper(componentModel = "spring")
 public interface AnalyseDTOMapper {
     AnalyseDTO mapToDTO(Analyse analyse);
-
     Analyse mapFromDTO(AnalyseDTO dto);
 }

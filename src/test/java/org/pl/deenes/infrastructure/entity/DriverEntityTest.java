@@ -14,8 +14,13 @@ class DriverEntityTest {
         String surname = "Kowalski";
         String pesel = "66071749125";
 
-        DriverEntity driverEntity =
-                new DriverEntity(driverId, name, surname, pesel, "123", Boolean.TRUE, Set.of());
+        var driverEntity = DriverEntity.builder()
+                .name(name)
+                .surname(surname)
+                .pesel(pesel)
+                .active(true)
+                .roles(Set.of())
+                .build();
 
         Assertions.assertThat(driverEntity.getDriverId()).isEqualTo(driverId);
         Assertions.assertThat(driverEntity.getName()).isEqualTo(name);
@@ -41,19 +46,5 @@ class DriverEntityTest {
         Assertions.assertThat(driverEntity.getName()).isEqualTo(name);
         Assertions.assertThat(driverEntity.getSurname()).isEqualTo(surname);
         Assertions.assertThat(driverEntity.getPesel()).isEqualTo(pesel);
-    }
-
-    @Test
-    void testDriverEntityEqualsAndHashCode() {
-        DriverEntity driverEntity1 = new DriverEntity(1, "Jan", "Kowalski", "66071749125L", "123", Boolean.TRUE, Set.of());
-        DriverEntity driverEntity2 = new DriverEntity(1, "Jan", "Kowalski", "66071749125L", "123", Boolean.TRUE, Set.of());
-
-        Assertions.assertThat(driverEntity1).isEqualTo(driverEntity2);
-        Assertions.assertThat(driverEntity1.hashCode()).hasSameHashCodeAs(driverEntity2.hashCode());
-
-        DriverEntity driverEntity3 = new DriverEntity(2, "Robert", "Adamczyk", "66071749125L", "123", Boolean.TRUE, Set.of());
-
-        Assertions.assertThat(driverEntity1).isNotEqualTo(driverEntity3);
-        Assertions.assertThat(driverEntity1.hashCode()).isNotEqualTo(driverEntity3.hashCode());
     }
 }

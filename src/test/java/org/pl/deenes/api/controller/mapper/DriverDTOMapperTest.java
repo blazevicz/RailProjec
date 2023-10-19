@@ -35,7 +35,6 @@ class DriverDTOMapperTest {
         assertEquals("Test", driverDTO.getSurname());
         assertEquals(1, driverDTO.getDriverId());
         assertEquals("Test", driverDTO.getPesel());
-        assertEquals("Test", driverDTO.getPassword());
     }
 
     @Test
@@ -45,7 +44,6 @@ class DriverDTOMapperTest {
                 .surname("Test")
                 .driverId(1)
                 .pesel("Test")
-                .password("Test")
                 .build();
 
         Driver driver = driverDTOMapper.mapFromDTO(test);

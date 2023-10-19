@@ -2,7 +2,6 @@ package org.pl.deenes.infrastructure.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.pl.deenes.api.controller.token.Token;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -29,8 +28,8 @@ public class DriverEntity implements UserDetails {
 
     @Column(name = "name")
     private String name;
-    @Column(name = "surname")
 
+    @Column(name = "surname")
     private String surname;
 
     @Column(name = "pesel")
@@ -43,9 +42,8 @@ public class DriverEntity implements UserDetails {
     private Boolean active;
 
     @OneToMany(mappedBy = "driverEntity")
-    private List<Token> tokens;
+    private List<TokenEntity> tokenEntities;
 
-    //byllo merge
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(
             name = "driver_role",
@@ -53,14 +51,12 @@ public class DriverEntity implements UserDetails {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private Set<RoleEntity> roles;
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority(role.getRole()))
                 .toList();
     }
-
     public String getUsername() {
         return surname;
     }
