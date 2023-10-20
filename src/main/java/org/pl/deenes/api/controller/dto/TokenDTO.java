@@ -6,7 +6,6 @@ import org.pl.deenes.model.TokenType;
 
 @Data
 public class TokenDTO {
-
     private Integer id;
     private String token;
     private TokenType tokenType = TokenType.BEARER;

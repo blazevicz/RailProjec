@@ -9,6 +9,7 @@ public class Token {
 
     private Integer id;
     private String token;
+    @Builder.Default
     private TokenType tokenType = TokenType.BEARER;
     private boolean revoked;
     private boolean expired;

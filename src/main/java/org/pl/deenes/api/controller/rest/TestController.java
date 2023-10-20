@@ -17,7 +17,7 @@ public class TestController {
     }
 
     @GetMapping("/session")
-    public ResponseEntity<String> sprawdzSesje(HttpServletRequest request) {
+    public ResponseEntity<String> sessionCheck(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
 
         if (session != null) {

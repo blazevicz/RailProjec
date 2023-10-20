@@ -57,6 +57,10 @@ public class SecurityCfg {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(a -> a
+                        .requestMatchers("/static/**").permitAll()
+                        .requestMatchers("/popper.min.js").permitAll()
+                        .requestMatchers("/error").permitAll()
+                        .requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/templates/**", "/fragments/**").permitAll()
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/login", "/error", "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE).hasAuthority(DISPATCHER)

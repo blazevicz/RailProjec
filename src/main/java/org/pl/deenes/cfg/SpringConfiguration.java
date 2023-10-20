@@ -16,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @RequiredArgsConstructor
+//@PropertySource("application-${spring.profiles.active}.yaml")
 public class SpringConfiguration {
 
     private final DriverRepository driverRepository;

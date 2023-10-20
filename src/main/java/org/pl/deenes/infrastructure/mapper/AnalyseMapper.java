@@ -4,7 +4,7 @@ import org.mapstruct.*;
 import org.pl.deenes.infrastructure.entity.AnalyseEntity;
 import org.pl.deenes.model.Analyse;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface AnalyseMapper {
     @Named("fromEntity")
     Analyse mapFromEntity(AnalyseEntity entity,

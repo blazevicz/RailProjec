@@ -24,6 +24,7 @@ public class TokenEntity {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "token_type")
+    @Builder.Default
     private TokenType tokenType = TokenType.BEARER;
 
     @Column(name = "revoked")

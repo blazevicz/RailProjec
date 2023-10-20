@@ -10,8 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Set;
-
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
@@ -28,7 +26,6 @@ public class AuthenticationService {
                 .password(passwordEncoder.encode(request.getPassword()))
                 .pesel(request.getPesel())
                 .active(request.getActive())
-                .roles(Set.of(Role.builder().role("DRIVER").build()))
                 .build();
         Driver save = driverRepository.save(driver);
         var jwtToken = jwtService.generateToken(driver);

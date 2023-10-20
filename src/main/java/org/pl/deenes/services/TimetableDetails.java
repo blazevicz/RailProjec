@@ -16,9 +16,13 @@ import java.util.*;
 @Builder
 @AllArgsConstructor
 public class TimetableDetails implements KilometersService {
+    @Builder.Default
     private List<List<String>> allKilometers = new ArrayList<>();
+    @Builder.Default
     private Set<Integer> kilometersAfterConvert = new HashSet<>();
+    @Builder.Default
     private List<Number> lineNumbers = new LinkedList<>();
+    @Builder.Default
     private List<String> stations = new ArrayList<>();
 
     public static boolean isNumeric(@NonNull String numberToCheck) {

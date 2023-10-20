@@ -27,7 +27,7 @@ public class SpringDocCfg {
 
     private Contact contact() {
         return new Contact()
-                .name("test");
-
+                .name("Damian")
+                .email("dddnsss//at//gmail.com");
     }
 }

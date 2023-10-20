@@ -29,8 +29,10 @@ public class AnalyseServiceImpl implements AnalyseService {
                 .brakePercent(Integer.parseInt(string.get(14)))
                 .trainMaxLength(Integer.parseInt(string.get(15)))
                 .trainType(splitTrainDetailsForAnalyse.get(0))
-                .trainNumber(Integer.parseInt(splitTrainDetailsForAnalyse.get(1).substring(0, splitTrainDetailsForAnalyse.get(1).length() - 2)))
-                .trainKwr(Integer.parseInt(splitTrainDetailsForAnalyse.get(2).replace("(", "").replace(")", "")))
+                .trainNumber(Integer.parseInt(splitTrainDetailsForAnalyse.get(1)
+                        .substring(0, splitTrainDetailsForAnalyse.get(1).length() - 2)))
+                .trainKwr(Integer.parseInt(splitTrainDetailsForAnalyse.get(2)
+                        .replace("(", "").replace(")", "")))
                 .startStation(relationAtoB[0].trim())
                 .endStation(relationAtoB[1].trim().replaceFirst(".$", "").trim())
                 .build();
@@ -44,7 +46,8 @@ public class AnalyseServiceImpl implements AnalyseService {
                 trainStatsService.mapWithLineNumberAndFirstLastKilometer(trainStats.getLineList());
         List<TrainStats> trainStatsList = trainStatsCreator(mapWithLineNumberAndFirstLastKilometer, stations);
 
-        Analyse analyse = buildAnalyse(relationFromText.string(), relationFromText.splitTrainDetailsForAnalyse(), relationFromText.relationAtoB());
+        Analyse analyse = buildAnalyse(relationFromText.string(), relationFromText.splitTrainDetailsForAnalyse(),
+                relationFromText.relationAtoB());
         analyse.setTrainStats(new ArrayList<>(trainStatsList));
         trainStatsList.forEach(analyse::addStat);
 
@@ -63,7 +66,8 @@ public class AnalyseServiceImpl implements AnalyseService {
         return new Result(string, splitTrainDetailsForAnalyse, relationAtoB);
     }
 
-    public List<TrainStats> trainStatsCreator(@NonNull Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer, List<String> stations) {
+    public List<TrainStats> trainStatsCreator(@NonNull Map<Integer, List<Double>> mapWithLineNumberAndFirstLastKilometer,
+                                              List<String> stations) {
         List<TrainStats> trainStatsList = new LinkedList<>();
 
         for (Map.Entry<Integer, List<Double>> integerListEntry : mapWithLineNumberAndFirstLastKilometer.entrySet()) {
@@ -87,7 +91,8 @@ public class AnalyseServiceImpl implements AnalyseService {
             if (this == o) return true;
             if (o == null || getClass() != o.getClass()) return false;
             Result result = (Result) o;
-            return Objects.equals(string, result.string) && Objects.equals(splitTrainDetailsForAnalyse, result.splitTrainDetailsForAnalyse) && Arrays.equals(relationAtoB, result.relationAtoB);
+            return Objects.equals(string, result.string) && Objects.equals(splitTrainDetailsForAnalyse,
+                    result.splitTrainDetailsForAnalyse) && Arrays.equals(relationAtoB, result.relationAtoB);
         }
 
         @Override

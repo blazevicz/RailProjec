@@ -2,12 +2,11 @@ api:
   osm:
     url: https://api.openstreetmap.org/
 server:
-  port: 8080
+  port: 80
 logging:
   level:
     org:
       springframework:
-        security: DEBUG
       hibernate:
         orm:
           jdbc:
