@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.rest;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/test")
+@Hidden
 public class TestController {
 
     @GetMapping
@@ -21,9 +23,9 @@ public class TestController {
         HttpSession session = request.getSession(false);
 
         if (session != null) {
-            return ResponseEntity.ok("Sesja istnieje.");
+            return ResponseEntity.ok("Session existing.");
         } else {
-            return ResponseEntity.ok("Sesja nie istnieje.");
+            return ResponseEntity.ok("Session not existing.");
         }
     }
 }

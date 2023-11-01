@@ -15,19 +15,22 @@ public class SpringDocCfg {
     public GroupedOpenApi groupedOpenApi() {
         return GroupedOpenApi.builder()
                 .group("default")
-                .pathsToMatch("/**").packagesToScan(TrainRestController.class.getPackageName()).build();
+                .pathsToMatch("/api/**")
+                .packagesToScan(TrainRestController.class.getPackageName())
+                .build();
     }
 
     @Bean
     public OpenAPI springDocOpenApi() {
         return new OpenAPI()
-                .components(new Components()).info(new Info()
-                        .title("Train driver helper").contact(contact()).version("0.01"));
+                .components(new Components())
+                .info(new Info().title("Train driver helper").contact(contact()).version("0.01"));
     }
 
     private Contact contact() {
         return new Contact()
                 .name("Damian")
+                .url("https://rail.dblazewicz.pl")
                 .email("dddnsss//at//gmail.com");
     }
 }

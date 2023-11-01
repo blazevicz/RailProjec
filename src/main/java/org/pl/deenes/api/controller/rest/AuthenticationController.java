@@ -1,5 +1,6 @@
 package org.pl.deenes.api.controller.rest;
 
+import io.swagger.v3.oas.annotations.Hidden;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.pl.deenes.model.AuthenticationRequest;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Hidden
 public class AuthenticationController {
 
     private final AuthenticationService authenticationService;
@@ -24,6 +26,7 @@ public class AuthenticationController {
     ) {
         return ResponseEntity.ok(authenticationService.register(request));
     }
+
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> auth(

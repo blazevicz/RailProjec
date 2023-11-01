@@ -30,9 +30,26 @@ public class SecurityCfg {
             "/api/auth/**",
             "/swagger-resources",
             "/swagger-resources/**",
-            "/swagger-ui/**",
+            //    "/swagger-ui/**",
             "/api/register",
-            "/swagger-ui.html"};
+            "/warnings/**",
+            "/static/**",
+            "/popper.min.js",
+            "/error",
+            "/styles/**",
+            "/",
+            "/assets/**",
+            "/css/**",
+            "/js/**",
+            "/static/assets/**",
+            "/static/css/**",
+            "/static/js/**",
+            "/images/**",
+            "/fonts/**",
+            "/templates/**",
+            "/fragments/**",
+            //  "/swagger-ui.html"
+    };
     private static final String DISPATCHER = "DISPATCHER";
     private static final String DRIVER = "DRIVER";
 
@@ -57,15 +74,9 @@ public class SecurityCfg {
         http
                 .csrf().disable()
                 .authorizeHttpRequests(a -> a
-                        .requestMatchers("/static/**").permitAll()
-                        .requestMatchers("/popper.min.js").permitAll()
-                        .requestMatchers("/error").permitAll()
-                        .requestMatchers("/styles/**", "/js/**", "/images/**", "/fonts/**", "/templates/**", "/fragments/**").permitAll()
                         .requestMatchers(WHITE_LIST_URL).permitAll()
                         .requestMatchers("/login", "/error", "/api/auth/**").permitAll()
                         .requestMatchers(HttpMethod.DELETE).hasAuthority(DISPATCHER)
-                        .requestMatchers("/warnings").hasAnyAuthority(DRIVER, DISPATCHER)
-                        .requestMatchers("/").hasAnyAuthority(DISPATCHER, DRIVER)
                         .requestMatchers("/drivers").hasAnyAuthority(DISPATCHER, DRIVER)
                         .requestMatchers("/dispatcher").hasAnyAuthority(DISPATCHER)
                         .requestMatchers("/trains/**").hasAnyAuthority(DISPATCHER, DRIVER)

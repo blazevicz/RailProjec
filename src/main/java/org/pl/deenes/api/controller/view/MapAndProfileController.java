@@ -32,6 +32,7 @@ public class MapAndProfileController {
     private final TerrainProfileDTOMapper terrainProfileDTOMapper;
     private final TrainRepository trainRepository;
     private final ApiService apiService;
+
     @GetMapping("/trains/{trainKwr}/profile")
     String trainDetails(@PathVariable Integer trainKwr, @NonNull Model model) {
 
@@ -44,15 +45,32 @@ public class MapAndProfileController {
 
         Set<TrainStats> trainStats = train.getTrainStats();
         log.warn(trainStats.toString());
-        List<List<Way>> listWithStationInfo1 = trainStats.stream().map(a -> apiService.findStationAndGetPosition(a.getStation())).toList();
-
-        List<Way> listWithStationInfo = listWithStationInfo1.stream()
+        List<Way> listWithStationInfo = trainStats.stream()
+                .map(a -> apiService.findStationAndGetPosition(a.getStation()))
                 .flatMap(List::stream)
+                .filter(a -> {
+                    assert a.getTags() != null;
+                    return a.getTags().values().size() > 2;
+                })
+                .filter(stationInfo ->
+                {
+                    assert stationInfo.getTags() != null;
+                    return !(stationInfo.getTags().get("ref") != null && stationInfo.getTags().get("ref").matches(".*[a-zA-Z].*"));
+                })
+                .filter(a -> {
+                            assert a.getTags() != null;
+                            return (a.getTags().size() > 1 || (a.getTags().size() == 1 && !a.getTags().containsKey("ref")));
+                        }
+                )
                 .toList();
+
+        List<Way> list = listWithStationInfo.stream()
+                .filter(a -> !(a.getTags().get("ref") == null || a.getTags().get("gauge") == null)).toList();
+
         log.warn(listWithStationInfo.toString());
 
         model.addAttribute("terrainProfiles", terrainProfileDTOList);
-        model.addAttribute("listWithStationInfo", listWithStationInfo);
+        model.addAttribute("listWithStationInfo", list);
         return "map_profile";
     }
 

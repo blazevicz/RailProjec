@@ -16,39 +16,31 @@
     <h1>Train Driver helper</h1>
 </div>
 
-<div class="container">
-    <div class="row mt-3">
-        <div class="col-md-4">
-            <a class="btn btn-secondary" role="button" th:href="@{/}">Go back to the main page</a>
-        </div>
-    </div>
+<div class="container mt-3">
+
     <form method="POST" th:action="@{/trains/add}" th:object="${pdfFile}">
-        <div class="container">
-            <br>
-            <br>
-            <div class="container">
-                <div class="row mt-3">
-                    <div class="col-md-4">
-                        <div class="col-md-6">
-                            <label for="pdfFile">No available trains? Select one from list:</label>
-                            <select id="pdfFile" name="pdfLink">
-                                <option th:each="pdfFile : ${pdfFiles}" th:text="${pdfFile}"
-                                        th:value="${pdfFile}"></option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row mt-3">
-                <div class="col-md-4">
-                    <input class="btn btn-success" type="submit" value="GO!">
-                </div>
-            </div>
+        <div class="container mt-3">
+            <table class="table table-bordered">
+                <tbody>
+                <tr>
+                    <td>
+                        <label for="pdfFile">No available trains? Select one from list:</label>
+                    </td>
+                    <td>
+                        <select class="form-control" id="pdfFile" name="pdfLink">
+                            <option th:each="pdfFile : ${pdfFiles}" th:text="${pdfFile}" th:value="${pdfFile}"></option>
+                        </select>
+                    </td>
+                    <td>
+                        <input class="btn btn-success" type="submit" value="GO!">
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </form>
-    <br>
-    <br>
 </div>
+
 <br>
 <h2>Our available trains:</h2>
 
@@ -60,7 +52,6 @@
             <th>company name</th>
             <th>date</th>
             <th>distance</th>
-            <th>driver</th>
             <th>details</th>
         </tr>
         </thead>
@@ -111,9 +102,15 @@
 <div class="container">
     <div class="row mt-3">
         <div class="col-md-4">
-            <a class="btn btn-warning" role="button" th:href="@{/warnings}">Show road warnings</a>
+            <a class="btn btn-warning" role="button" th:href="@{/warnings}">Show actual road warnings</a>
         </div>
-
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-4">
+                <a class="btn btn-danger" role="button" th:href="@{/}">Go back to the main page</a>
+            </div>
+        </div>
     </div>
 </div>
 <br>

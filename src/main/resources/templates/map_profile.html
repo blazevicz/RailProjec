@@ -74,20 +74,30 @@
         });
     };
 </script>
-
+<div class="row mt-3">
+    <div class="col-md-4">
+        <a class="btn btn-danger" role="button" th:href="@{/}">Go back to the main page</a>
+    </div>
+</div>
 <h2>Train details:</h2>
 <div class="container">
     <ul class="list-group">
         <li class="list-group-item" th:each="way : ${listWithStationInfo}">
-            <strong>Line info::</strong>
-            <span th:text="'Line number: ' + ${way.getTags().get('ref')}"></span><br>
-            <span th:text="'Gauge: ' + ${way.getTags().get('gauge')}"></span><br>
-            <span th:text="'Max speeed: ' + ${way.getTags().get('maxspeed')}"></span><br>
-            <span th:text="'Voltage: ' + ${way.getTags().get('voltage')}"></span><br>
-            <span th:href="'url: ' + ${way.getTags().get('url')}"></span><br>
+            <strong>Line info:</strong>
+            <span th:if="${way.getTags().get('ref') != null and not #strings.isEmpty(way.getTags().get('ref'))}"
+                  th:text="'Line number: ' + ${way.getTags().get('ref')}"></span><br>
+            <span th:if="${way.getTags().get('gauge') != null and not #strings.isEmpty(way.getTags().get('gauge'))}"
+                  th:text="'Gauge: ' + ${way.getTags().get('gauge')}"></span><br>
+            <span th:if="${way.getTags().get('maxspeed') != null and not #strings.isEmpty(way.getTags().get('maxspeed'))}"
+                  th:text="'Max speed: ' + ${way.getTags().get('maxspeed')}"></span><br>
+            <span th:if="${way.getTags().get('voltage') != null and not #strings.isEmpty(way.getTags().get('voltage'))}"
+                  th:text="'Voltage: ' + ${way.getTags().get('voltage')}"></span><br>
+            <span th:href="'url: ' + ${way.getTags().get('url')}"
+                  th:if="${way.getTags().get('url') != null and not #strings.isEmpty(way.getTags().get('url'))}"></span><br>
         </li>
     </ul>
 </div>
+
 
 </body>
 

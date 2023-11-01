@@ -15,7 +15,9 @@
     <h1>:(</h1>
     <b><span th:if="${errorMessage}" th:text="${errorMessage}">Error</span></b>
     <p>
-        <a class="btn btn-second" role="button" th:href="@{/}">Back to the main page</a>
+    <div class="row mt-3">
+        <a class="btn btn-danger" role="button" th:href="@{/}">Go back to the main page</a>
+    </div>
     </p>
 </div>
 </body>
