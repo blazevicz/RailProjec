@@ -36,6 +36,7 @@ class LoginServiceImplTest {
     @Test
     void loadUserByUsername() {
         Dispatcher dispatcherEntity = Dispatcher.builder()
+                .name("B")
                 .surname("A")
                 .password("asd")
                 .roles(Set.of(RoleEntity.builder().role("DISPATCHER").build()))
@@ -45,7 +46,7 @@ class LoginServiceImplTest {
 
         UserDetails userDetails = loginService.loadUserByUsername("A");
 
-        Assertions.assertEquals(dispatcherEntity.getName(), userDetails.getUsername());
+        Assertions.assertEquals(dispatcherEntity.getSurname(), userDetails.getUsername());
         Assertions.assertEquals(dispatcherEntity.getPassword(), userDetails.getPassword());
         Assertions.assertEquals(dispatcherEntity.getActive(), userDetails.isEnabled());
     }

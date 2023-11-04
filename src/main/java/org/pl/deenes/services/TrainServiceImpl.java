@@ -15,6 +15,7 @@ import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -33,10 +34,9 @@ public class TrainServiceImpl implements TrainService {
     private final LineRepository lineRepository;
 
     @Override
-    public Train trainCreate(String link) {
+    public Train trainCreate(String link) throws IOException {
         readKilometersServiceImpl.setFile(new File(link));
         TimetableDetails reader = readKilometersServiceImpl.read(link);
-
         reader.getAllRailwayLines();
         reader.giveAllKilometers();
         calculateKilometers.setTimetableDetails(reader);

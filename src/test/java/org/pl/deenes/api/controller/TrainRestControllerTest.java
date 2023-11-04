@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.exception.NotFound;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
 import org.pl.deenes.api.controller.rest.TrainRestController;
+import org.pl.deenes.cfg.JwtService;
+import org.pl.deenes.infrastructure.repositories.TokenRepository;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Train;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,6 +40,12 @@ class TrainRestControllerTest {
 
     @MockBean
     private TrainRepository trainRepository;
+
+    @MockBean
+    private JwtService jwtService;
+    @MockBean
+    private TokenRepository tokenRepository;
+
 
     @Test
     void shouldReturnTrainDetails() throws Exception {

@@ -4,6 +4,8 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.TerrainProfileDTO;
 import org.pl.deenes.api.controller.mapper.TerrainProfileDTOMapper;
+import org.pl.deenes.cfg.JwtService;
+import org.pl.deenes.infrastructure.repositories.TokenRepository;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.TerrainProfile;
 import org.pl.deenes.model.Train;
@@ -45,6 +47,10 @@ class MapAndProfileControllerTest {
 
     @MockBean
     private ApiService apiService;
+    @MockBean
+    private JwtService jwtService;
+    @MockBean
+    private TokenRepository tokenRepository;
 
     @Test
     void testTrainDetails() throws Exception {

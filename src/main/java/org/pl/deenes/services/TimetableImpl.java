@@ -12,12 +12,12 @@ import org.apache.pdfbox.text.PDFTextStripperByArea;
 import org.pl.deenes.expections.LoadingPdfException;
 import org.pl.deenes.model.Positions;
 import org.pl.deenes.services.interfaces.Timetable;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -38,10 +38,12 @@ public class TimetableImpl implements Timetable {
     private String companyName;
 
     @Override
-    public TimetableDetails read(String link) {
+    public TimetableDetails read(String link) throws IOException {
         TimetableDetails timetableDetails = new TimetableDetails();
+        File file1 = new ClassPathResource(link).getFile();
 
-        try (PDDocument loadPDF = PDDocument.load(Path.of(link).toFile())) {
+        // try (PDDocument loadPDF = PDDocument.load(Path.of(link).toFile())) {
+        try (PDDocument loadPDF = PDDocument.load(file1)) {
 
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();
             stripper.setSortByPosition(true);

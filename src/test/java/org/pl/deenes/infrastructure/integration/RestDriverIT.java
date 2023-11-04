@@ -7,10 +7,8 @@ import org.pl.deenes.api.controller.dto.TrainDTO;
 import static io.restassured.RestAssured.given;
 
 class RestDriverIT {
-
-
     @Test
-    public void shouldAddNewTrain() {
+    void shouldAddNewTrain() {
         TrainDTO trainDto = new TrainDTO();
 
         given()
@@ -19,9 +17,7 @@ class RestDriverIT {
                 .when()
                 .post("/analyse")
                 .then()
-                .statusCode(200) // Oczekiwany kod odpowiedzi HTTP 200 (OK)
-                .contentType(ContentType.JSON); // Oczekiwany typ zawartości odpowiedzi JSON
-        // .body("someProperty", equalTo("example_value")); // Oczekiwana wartość pola someProperty w odpowiedzi
+                .statusCode(200)
+                .contentType(ContentType.JSON); //
     }
-
 }

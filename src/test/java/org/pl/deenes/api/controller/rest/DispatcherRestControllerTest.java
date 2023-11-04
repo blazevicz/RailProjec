@@ -5,7 +5,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.DispatcherDTO;
 import org.pl.deenes.api.controller.mapper.DispatcherDTOMapper;
+import org.pl.deenes.cfg.JwtService;
 import org.pl.deenes.infrastructure.repositories.DispatcherRepository;
+import org.pl.deenes.infrastructure.repositories.TokenRepository;
 import org.pl.deenes.model.Dispatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -33,6 +35,10 @@ class DispatcherRestControllerTest {
     private DispatcherDTOMapper dispatcherDTOMapper;
     @MockBean
     private DispatcherRepository dispatcherRepository;
+    @MockBean
+    private TokenRepository tokenRepository;
+    @MockBean
+    private JwtService jwtService;
 
     @Test
     void allDispatchers() throws Exception {

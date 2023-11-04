@@ -15,6 +15,7 @@ class DriverEntityTest {
         String pesel = "66071749125";
 
         var driverEntity = DriverEntity.builder()
+                .driverId(driverId)
                 .name(name)
                 .surname(surname)
                 .pesel(pesel)

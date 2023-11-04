@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.RegionDTO;
 import org.pl.deenes.api.controller.mapper.RegionDTOMapper;
+import org.pl.deenes.cfg.JwtService;
 import org.pl.deenes.infrastructure.repositories.RegionRepository;
+import org.pl.deenes.infrastructure.repositories.TokenRepository;
 import org.pl.deenes.model.Region;
 import org.pl.deenes.services.WebScrapingRegionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,10 @@ class WarningsControllerTest {
     private final RegionDTOMapper regionDTOMapper;
     @MockBean
     private final WebScrapingRegionsService webScrapingRegionsService;
+    @MockBean
+    private JwtService jwtService;
+    @MockBean
+    private TokenRepository tokenRepository;
 
     private MockMvc mockMvc;
 

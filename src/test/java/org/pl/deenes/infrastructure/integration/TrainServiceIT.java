@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -41,7 +42,7 @@ class TrainServiceIT {
     private TrainServiceImpl trainService;
 
     @Test
-    void shouldCreateTrain() {
+    void shouldCreateTrain() throws IOException {
         String link = "src/test/resources/RJ_SKRJ_666401_464028_9.pdf";
         TimetableDetails timetableDetails = TimetableDetails.builder()
                 .allKilometers(List.of(List.of("1.1", "2.2")))

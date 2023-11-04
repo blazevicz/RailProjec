@@ -7,17 +7,18 @@ logging:
   level:
     org:
       springframework:
+        security: ERROR
       hibernate:
         orm:
           jdbc:
             bind: trace
-        stat: debug
-        cache: debug
-        SQL: debug
+        stat: info
+        cache: info
+        SQL: info
         type:
           descriptor:
             sql: trace
-    sql: debug
+    sql: info
 spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource

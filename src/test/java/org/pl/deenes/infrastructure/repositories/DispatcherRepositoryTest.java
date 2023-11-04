@@ -109,7 +109,7 @@ class DispatcherRepositoryTest {
                 .thenReturn(Dispatcher.builder()
                         .id(2)
                         .name("A")
-                        .surname("B")
+                        .surname("C")
                         .phoneNumber("661231749125L")
                         .password("asd")
                         .active(true)

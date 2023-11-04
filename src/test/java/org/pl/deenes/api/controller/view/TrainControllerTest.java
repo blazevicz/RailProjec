@@ -6,7 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.TrainDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
 import org.pl.deenes.api.controller.mapper.TrainDTOMapper;
+import org.pl.deenes.cfg.JwtService;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
+import org.pl.deenes.infrastructure.repositories.TokenRepository;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Driver;
 import org.pl.deenes.model.Train;
@@ -52,6 +54,10 @@ class TrainControllerTest {
 
     @MockBean
     private TrainService trainService;
+    @MockBean
+    private TokenRepository tokenRepository;
+    @MockBean
+    private JwtService jwtService;
 
 
     @Test

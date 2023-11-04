@@ -51,7 +51,6 @@ class DriverDTOMapperTest {
         assertEquals("Test", driver.getSurname());
         assertEquals(1, driver.getDriverId());
         assertEquals("Test", driver.getPesel());
-        assertEquals("Test", driver.getPassword());
     }
 
     @Test

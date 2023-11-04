@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.api.controller.dto.DriverDTO;
 import org.pl.deenes.api.controller.mapper.DriverDTOMapper;
+import org.pl.deenes.cfg.JwtService;
 import org.pl.deenes.infrastructure.repositories.DriverRepository;
+import org.pl.deenes.infrastructure.repositories.TokenRepository;
 import org.pl.deenes.model.Driver;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -37,6 +39,10 @@ class DriverRestControllerTest {
 
     @MockBean
     private DriverRepository driverRepository;
+    @MockBean
+    private TokenRepository tokenRepository;
+    @MockBean
+    private JwtService jwtService;
 
     @Test
     void allDrivers() throws Exception {

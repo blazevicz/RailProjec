@@ -9,6 +9,8 @@ import org.pl.deenes.services.interfaces.TrainService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
+
 @Slf4j
 @Service
 @AllArgsConstructor
@@ -19,7 +21,12 @@ public class ResultServiceImpl implements ResultService {
     @Override
     @Transactional
     public void runningMethod(String link) {
-        Train train = trainServiceImpl.trainCreate(link);
+        Train train = null;
+        try {
+            train = trainServiceImpl.trainCreate(link);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         trainDAO.save(train);
     }
 }

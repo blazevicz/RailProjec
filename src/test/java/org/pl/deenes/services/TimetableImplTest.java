@@ -7,8 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockedStatic;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.pl.deenes.expections.LoadingPdfException;
 
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -29,6 +29,6 @@ class TimetableImplTest {
             pdDocumentMockedStatic.when(()
                     -> PDDocument.load(Path.of(anyString()).toFile())).thenReturn(new PDDocument());
         }
-        assertThrows(LoadingPdfException.class, () -> timetable.read("path/to/pdf"));
+        assertThrows(FileNotFoundException.class, () -> timetable.read("path/to/pdf"));
     }
 }

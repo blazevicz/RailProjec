@@ -12,8 +12,8 @@ import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.infrastructure.repositories.TrainRepository;
 import org.pl.deenes.model.Driver;
 import org.pl.deenes.model.Train;
-import org.pl.deenes.services.ResultServiceImpl;
 import org.pl.deenes.services.interfaces.TrainService;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +21,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.net.MalformedURLException;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,7 +36,6 @@ public class TrainController {
     private final TrainDTOMapper trainMapper;
     private final TrainRepository trainRepository;
     private final DriverRepository driverRepository;
-    private final ResultServiceImpl resultService;
     private final TrainService trainService;
 
     @GetMapping(value = "/trains")
@@ -55,11 +55,9 @@ public class TrainController {
     }
 
     @PostMapping("/trains/add")
-    public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) throws MalformedURLException {
-        //  String s = "src/main/resources/pdfs/" + pdfLink;
-        //TODO: to fix
-        String link = "pdfs/" + pdfLink;
-        Train train = trainService.trainCreate(pdfLink);
+    public String uploadNewTrain(@RequestParam("pdfLink") String pdfLink) throws IOException {
+        File file = new ClassPathResource("/static/pdfs/").getFile();
+        Train train = trainService.trainCreate(file.getPath() + "/" + pdfLink);
         trainService.saveTrain(train);
 
         return "redirect:/trains";
