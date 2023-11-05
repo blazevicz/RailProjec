@@ -9,6 +9,8 @@ public interface DriverDAO {
 
     List<Driver> findAllDrivers();
     void delete(Integer driverId);
+
+    void delete(Driver driver);
     Driver save(Driver driver);
     Optional<Driver> findDriverById(Integer id);
 

@@ -48,6 +48,12 @@ public class DriverRepository implements DriverDAO {
     }
 
     @Override
+    public void delete(Driver driver) {
+        DriverEntity driverEntity = driverMapper.mapToEntity(driver);
+        driverJpaRepository.delete(driverEntity);
+    }
+
+    @Override
     public List<Driver> findAllDrivers() {
         return driverJpaRepository.findAll().stream()
                 .map(driverMapper::mapFromEntity)

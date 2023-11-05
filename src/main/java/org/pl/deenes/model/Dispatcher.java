@@ -13,7 +13,7 @@ import java.util.Set;
 
 @Builder
 @Data
-public class Dispatcher implements User, UserDetails {
+public class Dispatcher implements UserDetails {
 
     private Integer id;
     private String name;

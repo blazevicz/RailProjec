@@ -1,7 +1,6 @@
 package org.pl.deenes.infrastructure.integration;
 
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.pl.deenes.infrastructure.entity.TrainEntity;
@@ -17,12 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
-@Slf4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 class TrainRepositoryIT extends IntegrationReposIT {
 
     private final TrainJpaRepository trainRepository;
-
     private final ResultServiceImpl resultService;
     private final TrainMapper trainMapper;
     private final TrainStatsMapper trainStatsMapper;

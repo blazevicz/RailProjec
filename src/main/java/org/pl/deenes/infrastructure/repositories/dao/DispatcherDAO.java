@@ -7,7 +7,6 @@ import java.util.Optional;
 
 public interface DispatcherDAO {
     Dispatcher save(Dispatcher dispatcher);
-
     Optional<Dispatcher> findBySurname(String surname);
     List<Dispatcher> findAll();
 

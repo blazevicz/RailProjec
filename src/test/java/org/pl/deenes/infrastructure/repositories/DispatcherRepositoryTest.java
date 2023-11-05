@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.pl.deenes.infrastructure.entity.DispatcherEntity;
 import org.pl.deenes.infrastructure.mapper.DispatcherMapper;
@@ -64,15 +65,19 @@ class DispatcherRepositoryTest {
     @Test
     void findBySurname() {
         String surname = "Adamiak";
-        Dispatcher entity = Dispatcher.builder().build();
+        DispatcherEntity dispatcherEntity = new DispatcherEntity();
+        Dispatcher dispatcher = Dispatcher.builder().build();
 
-        when(dispatcherRepository.findBySurname(surname)).thenReturn(Optional.of(entity));
+        when(dispatcherJpaRepository.findBySurname(surname)).thenReturn(Optional.of(dispatcherEntity));
+        when(dispatcherMapper.mapFromEntity(dispatcherEntity)).thenReturn(dispatcher);
 
         Optional<Dispatcher> result = dispatcherRepository.findBySurname(surname);
 
-        assertEquals(Optional.of(entity), result);
-        verify(dispatcherJpaRepository, times(1)).findBySurname(surname);
+        assertEquals(Optional.of(dispatcher), result);
+        Mockito.verify(dispatcherJpaRepository, Mockito.times(1)).findBySurname(surname);
+        Mockito.verify(dispatcherMapper, Mockito.times(1)).mapFromEntity(dispatcherEntity);
     }
+
 
     @Test
     void findAll() {
@@ -110,7 +115,7 @@ class DispatcherRepositoryTest {
                         .id(2)
                         .name("A")
                         .surname("C")
-                        .phoneNumber("661231749125L")
+                        .phoneNumber("66271749125L")
                         .password("asd")
                         .active(true)
                         .roles(Collections.emptySet())
