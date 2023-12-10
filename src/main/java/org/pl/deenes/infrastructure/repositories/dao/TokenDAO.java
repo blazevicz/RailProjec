@@ -7,10 +7,7 @@ import java.util.Optional;
 
 public interface TokenDAO {
     Optional<Token> findByToken(String token);
-
     List<Token> findAllByDriverEntity_DriverIdAndExpiredIsFalseAndRevokedIsFalse(Integer id);
-
     Token save(Token token);
-
     List<Token> saveAll(List<Token> tokens);
 }

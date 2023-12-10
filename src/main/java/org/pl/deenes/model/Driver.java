@@ -27,7 +27,6 @@ public class Driver implements User, UserDetails {
 
     private Boolean active;
     private Set<Role> roles;
-    //private Set<RoleEntity> roles;
     private String password;
 
     @Override

@@ -20,7 +20,6 @@ class TimeTableIT extends IntegrationReposIT {
 
     @MockBean
     private TrainStatsServiceImpl trainStatsService;
-
     @Test
     @Disabled
     void shouldReadTimeTableFromPDF() throws IOException {

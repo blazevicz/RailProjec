@@ -42,7 +42,6 @@ public class TimetableImpl implements Timetable {
         TimetableDetails timetableDetails = new TimetableDetails();
         File file1 = new ClassPathResource(link).getFile();
 
-        // try (PDDocument loadPDF = PDDocument.load(Path.of(link).toFile())) {
         try (PDDocument loadPDF = PDDocument.load(file1)) {
 
             PDFTextStripperByArea stripper = new PDFTextStripperByArea();

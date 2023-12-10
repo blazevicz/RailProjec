@@ -3,7 +3,6 @@ package org.pl.deenes.services;
 
 import lombok.AllArgsConstructor;
 import org.pl.deenes.infrastructure.repositories.DispatcherRepository;
-import org.pl.deenes.infrastructure.repositories.DriverRepository;
 import org.pl.deenes.services.interfaces.LoginService;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -19,11 +18,7 @@ import java.util.List;
 public class LoginServiceImpl implements LoginService {
 
     private final DispatcherRepository dispatcherRepository;
-
-    private final DriverRepository driverRepository;
-
     //TODO: add drivers to users
-
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String surname) throws UsernameNotFoundException {
